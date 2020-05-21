@@ -10,7 +10,7 @@ make_pr() {
   git add -u
   git commit -m "Submodule update from Travis build $TRAVIS_BUILD_NUMBER"
   git remote add origin-pages https://${mdi_key}@github.com/MolSSI-MDI/MDI_lammps2.git > /dev/null 2>&1
-  git push --quiet --set-upstream origin-pages travis > /dev/null 2>&1
+  #git push --quiet --set-upstream origin-pages travis > /dev/null 2>&1
   #git push origin travis
   echo "Making a PR"
 }
