@@ -11,6 +11,13 @@ matrix:
       script:
         - echo "Script"
         - ./.travis/tutorial.sh
+      deploy:
+        provider: pages
+        skip_cleanup: true
+        github_token: $mdi_key  # Set in the settings page of your repository, as a secure variable
+        keep_history: true
+      on:
+        branch: master
     #- os: linux
     #  compiler: gcc
     #  env: 
