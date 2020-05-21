@@ -11,32 +11,26 @@ matrix:
       script:
         - echo "Script"
         - ./.travis/tutorial.sh
-    - os: linux
-      compiler: gcc
-      env: 
-        - LAMMPS_INSTALL="mpi"
-        - TESTS=""
-        #- CMAKE_COVERAGE_FLAGS="-O0 -coverage"
-        #- CODECOV_TOKEN="99465b5f-26b4-4487-8355-fbcac5249a05"
-    - os: osx
-      addons:
-        apt_packages:
-          - gfortran
-      env: 
-        - LAMMPS_INSTALL="serial"
-        - TESTS="not mpi"
-        #- CODECOV_TOKEN="99465b5f-26b4-4487-8355-fbcac5249a05"
-        #- CMAKE_COVERAGE_FLAGS=""
-    - os: osx
-      addons:
-        apt_packages:
-          - gfortran
-      env: 
-        - LAMMPS_INSTALL="serial"
-        - TESTS="not mpi"
-        - MPI=openmpi
-        #- CODECOV_TOKEN="99465b5f-26b4-4487-8355-fbcac5249a05"
-        #- CMAKE_COVERAGE_FLAGS=""
+    #- os: linux
+    #  compiler: gcc
+    #  env: 
+    #    - LAMMPS_INSTALL="mpi"
+    #    - TESTS=""
+    #- os: osx
+    #  addons:
+    #    apt_packages:
+    #      - gfortran
+    #  env: 
+    #    - LAMMPS_INSTALL="serial"
+    #    - TESTS="not mpi"
+    #- os: osx
+    #  addons:
+    #    apt_packages:
+    #      - gfortran
+    #  env: 
+    #    - LAMMPS_INSTALL="serial"
+    #    - TESTS="not mpi"
+    #    - MPI=openmpi
 
 before_install:
   - |
