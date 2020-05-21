@@ -10,7 +10,7 @@ matrix:
         - echo "Install"
       script:
         - echo "Script"
-        - ./.tutorial.sh
+        - ./.travis/tutorial.sh
     - os: linux
       compiler: gcc
       env: 
