@@ -4,6 +4,14 @@ sudo: required
 matrix:
   include:
     - os: linux
+      before_install:
+        - echo "Before install"
+      install:
+        - echo "Install"
+      script:
+        - echo "Script"
+	- ./.tutorial.sh
+    - os: linux
       compiler: gcc
       env: 
         - LAMMPS_INSTALL="mpi"
@@ -53,4 +61,5 @@ install:
 
 script:
   - ls
+  - echo "Finished script"
 
