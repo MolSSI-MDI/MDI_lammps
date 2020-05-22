@@ -9,3 +9,4 @@ git clone --recurse-submodules https://github.com/MolSSI-MDI/MDI_lammps2.git
 To update submodules:
 
 git submodule update --remote
+
