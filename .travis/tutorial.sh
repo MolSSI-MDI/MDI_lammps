@@ -5,10 +5,10 @@ echo "Tutorial"
 make_pr() {
   git config --global user.email "travis@travis-ci.com"
   git config --global user.name "Travis CI"
-  git checkout -b travis
-  git submodule update --remote
-  git add -u
-  git commit -m "Submodule update from Travis build $TRAVIS_BUILD_NUMBER"
+  #git checkout -b travis
+  #git submodule update --remote
+  #git add -u
+  #git commit -m "Submodule update from Travis build $TRAVIS_BUILD_NUMBER"
   echo ${mdi_key} > travis_key
   echo "Host github.com" > ~/.ssh/config
   echo "  IdentityFile  $(pwd)/travis_key" >> ~/.ssh/config
