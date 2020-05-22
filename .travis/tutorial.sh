@@ -15,7 +15,7 @@ make_pr() {
   #git add -u
   #git commit -m "Submodule update from Travis build $TRAVIS_BUILD_NUMBER"
   echo ${mdi_key} > travis_key
-  ssh-add travis_key
+  #ssh-add travis_key
   echo "================================================================="
   git status
   echo "================================================================="
