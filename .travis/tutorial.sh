@@ -14,7 +14,9 @@ make_pr() {
   #git submodule update --remote
   #git add -u
   #git commit -m "Submodule update from Travis build $TRAVIS_BUILD_NUMBER"
-  echo ${mdi_key} > travis_key
+  echo "-----BEGIN OPENSSH PRIVATE KEY-----" > travis_key
+  echo ${mdi_key} >> travis_key
+  echo "-----END OPENSSH PRIVATE KEY-----" >> travis_key
   #ssh-add travis_key
   echo "================================================================="
   git status
