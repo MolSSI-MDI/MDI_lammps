@@ -5,6 +5,7 @@ matrix:
   include:
     - os: linux
       before_install:
+        - git status
         - echo "Before install"
       install:
         - echo "Install"
