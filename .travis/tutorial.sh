@@ -29,9 +29,8 @@ make_pr() {
   echo "================================================================="
   git status
   echo "================================================================="
-  if ! git push -v ; then
-    _err "git push error"
-  fi
+  git pull
+  git push -v
   #git remote add origin-pages https://${mdi_key}@github.com/MolSSI-MDI/MDI_lammps2.git > /dev/null 2>&1
   #git push --quiet --set-upstream origin-pages travis > /dev/null 2>&1
   #git push origin travis
