@@ -9,7 +9,8 @@ make_pr() {
   echo "=================================================================1"
   git status
   echo "================================================================="
-  git checkout -b travis
+  git checkout ${TRAVIS_BRANCH}
+  #git checkout -b travis
   #git submodule update --remote
   #git add -u
   #git commit -m "Submodule update from Travis build $TRAVIS_BUILD_NUMBER"
