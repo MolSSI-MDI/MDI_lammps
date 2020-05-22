@@ -127,3 +127,10 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# Emacs temporary files
+*~
+
+# SSH keys
+mdi_key
+mdi_key.pub
