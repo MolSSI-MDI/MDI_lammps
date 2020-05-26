@@ -42,6 +42,9 @@ step_config() {
     #git push origin travis
 }
 
+# Obtain the currect working directory
+BASE_PATH=$(pwd)
+
 # Write out the MDI key
 echo "-----BEGIN OPENSSH PRIVATE KEY-----" > travis_key
 echo ${mdi_key} >> travis_key
@@ -85,6 +88,7 @@ else
     echo "Error: Unable to build engine"
     tutorial_error
 fi
+cd ${BASE_PATH}
 
 # Verify that the engine has been built / installed correctly
 if ./user/validate_build.sh ; then
@@ -95,6 +99,7 @@ else
     echo "Error: Unable to verify that engine was built."
     tutorial_error
 fi
+cd ${BASE_PATH}
 
 # Commit and push any changes
 git commit -m "Travis CI commit [ci skip]"
