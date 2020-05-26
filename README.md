@@ -10,3 +10,13 @@ To update submodules:
 
 git submodule update --remote
 
+## Overview of steps
+
+1. Configure repo
+2. Build engine
+3. Link to the MDI Library
+4. Implement minimalistic engine functionality
+5. Add support for more MDI commands
+6. Add support for the MDI Node System
+
+## Current Step
