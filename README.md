@@ -12,8 +12,8 @@ git submodule update --remote
 
 ## Overview of steps
 
-[comment]: Badges are downloaded from shields.io, i.e.:
-[comment]: curl https://img.shields.io/badge/-working-success --output .travis/badges/-working-success.svg
+[comment]: <> (Badges are downloaded from shields.io, i.e.:)
+[comment]: <> (curl https://img.shields.io/badge/-working-success --output .travis/badges/-working-success.svg)
 
 1. ![step1](.travis/badges/-working-success.svg) Configure repo
 2. ![step2](.travis/badges/-failing-red.svg) Build engine
