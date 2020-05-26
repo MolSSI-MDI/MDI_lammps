@@ -15,9 +15,9 @@ config_travis() {
   echo "  IdentityFile  $(pwd)/travis_key" >> ~/.ssh/config
   chmod 400 travis_key
 
-  # Switch the remote to ush ssh
-  git remote -v
-  git remote set-url origin git@github.com:MolSSI-MDI/MDI_lammps2.git
+  # Switch the remote to use ssh
+  #git remote -v
+  #git remote set-url origin git@github.com:MolSSI-MDI/MDI_lammps2.git
 
   echo "After change remote: "
   git remote -v
