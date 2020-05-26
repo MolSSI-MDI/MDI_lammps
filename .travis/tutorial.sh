@@ -17,6 +17,7 @@ step_config() {
     if git push -v > /dev/null 2>&1 ; then
         echo "Success: Able to push to remote."
         cp ./.travis/badges/-working-success.svg ./.travis/dynamic_badges/step_config.svg
+	git add ./.travis/dynamic_badges/step_config.svg
     else
         echo "Error: Unable to push to remote.  The repo has not been configured correctly."
         exit 1
@@ -64,3 +65,7 @@ if [ "$?" = "0" ]; then
 else
     echo "Travis configuration was NOT successful"
 fi
+
+# Commit and push any changes
+git commit -m "Travis CI commit [ci skip]"
+git push -v > /dev/null 2>&1
