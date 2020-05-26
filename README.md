@@ -16,6 +16,8 @@ curl https://img.shields.io/badge/-working-success --output .travis/badges/-work
 
 Test: ![stept](.travis/badges/-working-success) Configure repo
 
+Test2: ![stept2](https://github.com/MolSSI-MDI/MDI_lammps2/.travis/badges/-working-success) Configure repo
+
 1. ![step1](https://img.shields.io/badge/-working-success) Configure repo
 2. ![step2](https://img.shields.io/badge/-failing-red) Build engine
 3. ![step3](https://img.shields.io/badge/-failing-red) Link to the MDI Library
