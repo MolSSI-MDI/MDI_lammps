@@ -3,8 +3,6 @@
 # Exit if any command fails
 set -e
 
-echo "Tutorial"
-
 # Write out the MDI key
 echo "-----BEGIN OPENSSH PRIVATE KEY-----" > travis_key
 echo ${mdi_key} >> travis_key
@@ -22,14 +20,23 @@ git config --global user.name "Travis CI"
 
 echo "After change remote: "
 git checkout ${TRAVIS_BRANCH}
+
+# Set all of the step badges to "failed"
+cp ./.travis/badges/-failing-red.svg ./.travis/dynamic_badges/step_config.svg
+cp ./.travis/badges/-failing-red.svg ./.travis/dynamic_badges/step_engine_build.svg
+cp ./.travis/badges/-failing-red.svg ./.travis/dynamic_badges/step_mdi_commands.svg
+cp ./.travis/badges/-failing-red.svg ./.travis/dynamic_badges/step_mdi_link.svg
+cp ./.travis/badges/-failing-red.svg ./.travis/dynamic_badges/step_mdi_nodes.svg
+cp ./.travis/badges/-failing-red.svg ./.travis/dynamic_badges/step_min_engine.svg
+
 git remote -v
 echo "================================================================="
 git status
 echo "================================================================="
-git pull
-#git push -v
+#git pull
 if git push -v ; then
     echo "AAAAA PUSH WORKED"
+    cp ./.travis/badges/-working-success.svg ./.travis/dynamic_badges/step_config.svg
 else
     echo "BBBBB PUSH FAILED"
 fi
@@ -49,4 +56,3 @@ if [ "$?" = "0" ]; then
 else
     echo "Travis configuration was NOT successful"
 fi
-#git push -v
