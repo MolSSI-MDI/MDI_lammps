@@ -3,6 +3,17 @@
 # Exit if any command fails
 set -e
 
+reset_tutorial() {
+    cp ./.travis/badges/-failing-red.svg ./.travis/dynamic_badges/step_config.svg
+    cp ./.travis/badges/-failing-red.svg ./.travis/dynamic_badges/step_engine_build.svg
+    cp ./.travis/badges/-failing-red.svg ./.travis/dynamic_badges/step_mdi_commands.svg
+    cp ./.travis/badges/-failing-red.svg ./.travis/dynamic_badges/step_mdi_link.svg
+    cp ./.travis/badges/-failing-red.svg ./.travis/dynamic_badges/step_mdi_nodes.svg
+    cp ./.travis/badges/-failing-red.svg ./.travis/dynamic_badges/step_min_engine.svg
+    mkdir test
+    mkdir test
+}
+
 # Write out the MDI key
 echo "-----BEGIN OPENSSH PRIVATE KEY-----" > travis_key
 echo ${mdi_key} >> travis_key
@@ -22,12 +33,7 @@ echo "After change remote: "
 git checkout ${TRAVIS_BRANCH}
 
 # Set all of the step badges to "failed"
-cp ./.travis/badges/-failing-red.svg ./.travis/dynamic_badges/step_config.svg
-cp ./.travis/badges/-failing-red.svg ./.travis/dynamic_badges/step_engine_build.svg
-cp ./.travis/badges/-failing-red.svg ./.travis/dynamic_badges/step_mdi_commands.svg
-cp ./.travis/badges/-failing-red.svg ./.travis/dynamic_badges/step_mdi_link.svg
-cp ./.travis/badges/-failing-red.svg ./.travis/dynamic_badges/step_mdi_nodes.svg
-cp ./.travis/badges/-failing-red.svg ./.travis/dynamic_badges/step_min_engine.svg
+reset_tutorial
 
 git remote -v
 echo "================================================================="
