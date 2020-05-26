@@ -25,7 +25,11 @@ config_travis() {
   git status
   echo "================================================================="
   git pull
-  git push -v
+  if git push -v ; then
+      echo "AAAAA PUSH WORKED"
+  else
+      echo "BBBBB PUSH FAILED"
+  fi
   #git remote add origin-pages https://${mdi_key}@github.com/MolSSI-MDI/MDI_lammps2.git > /dev/null 2>&1
   #git push --quiet --set-upstream origin-pages travis > /dev/null 2>&1
   #git push origin travis
@@ -35,6 +39,7 @@ config_travis() {
 #git submodule update --remote
 
 config_travis
+git push -v
 #if config_travis ; then
 #    echo "Travis configuration was successful"
 #else
