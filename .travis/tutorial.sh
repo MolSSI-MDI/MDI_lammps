@@ -1,5 +1,8 @@
 #!/bin/sh
 
+# Exit if any command fails
+set -e
+
 echo "Tutorial"
 
 # Write out the MDI key
