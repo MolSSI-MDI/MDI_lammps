@@ -25,7 +25,8 @@ config_travis() {
   git status
   echo "================================================================="
   git pull
-  if git push -v ; then
+  git push -v
+  if [ "$?" = "0" ; then
       echo "AAAAA PUSH WORKED"
   else
       echo "BBBBB PUSH FAILED"
@@ -39,9 +40,9 @@ config_travis() {
 #git submodule update --remote
 
 config_travis
-git push -v
-#if config_travis ; then
-#    echo "Travis configuration was successful"
-#else
-#    echo "Travis configuration was NOT successful"
-#fi
+if [ "$?" = "0" ]; then
+    echo "Travis configuration was successful"
+else
+    echo "Travis configuration was NOT successful"
+fi
+#git push -v
