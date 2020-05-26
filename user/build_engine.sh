@@ -11,3 +11,4 @@ elif [ "$TRAVIS_OS_NAME" == "osx" ]; then
 fi
 export FC=gfortran
 sudo pip install -U pytest pytest-cov
+

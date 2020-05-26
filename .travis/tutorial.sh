@@ -3,6 +3,16 @@
 # Exit if any command fails
 set -e
 
+tutorial_error() {
+    # Attempt to push to the remote
+    git commit -m "Travis CI commit [ci skip]"
+    if git push -v > /dev/null 2>&1 ; then
+        echo "Exiting due to error, but was able to push to the remote"
+    fi
+
+    exit 1
+}
+
 reset_tutorial() {
     cp ./.travis/badges/-failing-red.svg ./.travis/dynamic_badges/step_config.svg
     cp ./.travis/badges/-failing-red.svg ./.travis/dynamic_badges/step_engine_build.svg
@@ -20,7 +30,7 @@ step_config() {
 	git add ./.travis/dynamic_badges/step_config.svg
     else
         echo "Error: Unable to push to remote.  The repo has not been configured correctly."
-        exit 1
+	tutorial_error
     fi
     echo "================================================================="
     git status
@@ -67,13 +77,21 @@ else
 fi
 
 # Attempt to build the engine, using the user-provided script
-if ./user/install_engine.sh ; then
-    echo "Success: Able to build engine."
+if ./user/build_engine.sh ; then
+    echo "Success: Able to run engine build script."
+else
+    echo "Error: Unable to build engine"
+    tutorial_error
+fi
+
+# Verify that the engine has been built / installed correctly
+if ./user/validate_build.sh ; then
+    echo "Success: Able to verify that engine was built."
     cp ./.travis/badges/-working-success.svg ./.travis/dynamic_badges/step_engine_build.svg
     git add ./.travis/dynamic_badges/step_engine_build.svg
 else
-    echo "Error: Unable to build engine"
-    exit 2
+    echo "Error: Unable to verify that engine was built."
+    tutorial_error
 fi
 
 # Commit and push any changes
