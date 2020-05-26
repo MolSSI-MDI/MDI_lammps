@@ -20,6 +20,8 @@ reset_tutorial() {
     cp ./.travis/badges/-failing-red.svg ./.travis/dynamic_badges/step_mdi_link.svg
     cp ./.travis/badges/-failing-red.svg ./.travis/dynamic_badges/step_mdi_nodes.svg
     cp ./.travis/badges/-failing-red.svg ./.travis/dynamic_badges/step_min_engine.svg
+
+    git add -u
 }
 
 step_config() {
