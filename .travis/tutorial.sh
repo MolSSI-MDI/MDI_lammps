@@ -67,7 +67,7 @@ else
 fi
 
 # Attempt to build the engine, using the user-provided script
-if ./user/before_install.sh ; then
+if ./user/install_engine.sh ; then
     echo "Success: Able to build engine."
     cp ./.travis/badges/-working-success.svg ./.travis/dynamic_badges/step_engine_build.svg
     git add ./.travis/dynamic_badges/step_engine_build.svg
