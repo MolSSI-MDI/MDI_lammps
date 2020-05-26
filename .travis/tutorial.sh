@@ -39,7 +39,7 @@ config_travis() {
 #git submodule update --remote
 
 config_travis
-git push -v
+#git push -v
 #if config_travis ; then
 #    echo "Travis configuration was successful"
 #else
