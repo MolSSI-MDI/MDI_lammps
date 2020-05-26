@@ -17,7 +17,7 @@ curl https://img.shields.io/badge/-working-success --output .travis/badges/-work
 Test: ![stept](.travis/badges/-working-success.svg) Configure repo ![stepf](.travis/badges/-failing-red.svg)
 
 1. ![step1](.travis/badges/-working-success.svg) Configure repo
-2. ![step2](.travis/badges/-failing-red.svg) Build engine
+2. ![step2](.travis/badges/-failing-resized.svg) Build engine
 3. ![step3](.travis/badges/-failing-red.svg) Link to the MDI Library
 4. ![step4](.travis/badges/-failing-red.svg) Implement minimalistic engine functionality
 5. ![step5](.travis/badges/-failing-red.svg) Add support for more MDI commands
