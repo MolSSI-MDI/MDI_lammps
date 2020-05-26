@@ -12,18 +12,9 @@ git submodule update --remote
 
 ## Overview of steps
 
-curl https://img.shields.io/badge/-working-success --output .travis/badges/-working-success
+curl https://img.shields.io/badge/-working-success --output .travis/badges/-working-success.svg
 
-Test: ![stept](.travis/badges/-working-success) Configure repo
-
-Test2: ![stept2](https://github.com/MolSSI-MDI/MDI_lammps2/.travis/badges/-working-success) Configure repo
-
-Test3: ![stept3](https://github.com/MolSSI-MDI/MDI_lammps2/blob/master/.travis/badges/-working-success) Configure repo
-
-Test4: ![stept4](.travis/badges/test.svg) Configure repo
-
-![Alt text](./.travis/badges/test.svg)
-<img src="./.travis/badges/test.svg">
+Test: ![stept](.travis/badges/-working-success.svg) Configure repo
 
 1. ![step1](https://img.shields.io/badge/-working-success) Configure repo
 2. ![step2](https://img.shields.io/badge/-failing-red) Build engine
