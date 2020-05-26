@@ -20,6 +20,11 @@ Test2: ![stept2](https://github.com/MolSSI-MDI/MDI_lammps2/.travis/badges/-worki
 
 Test3: ![stept3](https://github.com/MolSSI-MDI/MDI_lammps2/blob/master/.travis/badges/-working-success) Configure repo
 
+Test4: ![stept4](.travis/badges/test.svg) Configure repo
+
+![Alt text](./.travis/badges/test.svg)
+<img src="./.travis/badges/test.svg">
+
 1. ![step1](https://img.shields.io/badge/-working-success) Configure repo
 2. ![step2](https://img.shields.io/badge/-failing-red) Build engine
 3. ![step3](https://img.shields.io/badge/-failing-red) Link to the MDI Library
