@@ -15,12 +15,12 @@ git submodule update --remote
 [comment]: <> (Badges are downloaded from shields.io, i.e.:)
 [comment]: <> (curl https://img.shields.io/badge/-working-success --output .travis/badges/-working-success.svg)
 
-1. ![step1](.travis/badges/-working-success.svg) Configure repo
-2. ![step2](.travis/badges/-failing-red.svg) Build engine
-3. ![step3](.travis/badges/-failing-red.svg) Link to the MDI Library
-4. ![step4](.travis/badges/-failing-red.svg) Implement minimalistic engine functionality
-5. ![step5](.travis/badges/-failing-red.svg) Add support for more MDI commands
-6. ![step6](.travis/badges/-failing-red.svg) Add support for the MDI Node System
+1. ![step1](.travis/dynamic_badges/step_config.svg) Configure repo
+2. ![step2](.travis/dynamic_badges/step_engine_build.svg) Build engine
+3. ![step3](.travis/dynamic_badges/step_mdi_link.svg) Link to the MDI Library
+4. ![step4](.travis/dynamic_badges/step_min_engine.svg) Implement minimalistic engine functionality
+5. ![step5](.travis/dynamic_badges/step_mdi_commands.svg) Add support for more MDI commands
+6. ![step6](.travis/dynamic_badges/step_mdi_nodes.svg) Add support for the MDI Node System
 
 ## Current Step
 
