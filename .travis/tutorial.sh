@@ -16,10 +16,11 @@ step_config() {
     git remote -v
     #git pull
     if git push -v ; then
-	echo "AAAAA PUSH WORKED"
+	echo "Success: Able to push to remote."
 	cp ./.travis/badges/-working-success.svg ./.travis/dynamic_badges/step_config.svg
     else
-	echo "BBBBB PUSH FAILED"
+	echo "Error: Unable to push to remote.  The repo has not been configured correctly."
+	exit 1
     fi
     echo "================================================================="
     git status
