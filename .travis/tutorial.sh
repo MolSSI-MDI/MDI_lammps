@@ -34,4 +34,8 @@ config_travis() {
 
 #git submodule update --remote
 
-config_travis
+if config_travis ; then
+    echo "Travis configuration was successful"
+else
+    echo "Travis configuration was NOT successful"
+fi
