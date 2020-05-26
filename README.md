@@ -12,7 +12,7 @@ git submodule update --remote
 
 ## Overview of steps
 
-1. Configure repo
+1. ![step](https://img.shields.io/badge/-working-success) Configure repo
 2. Build engine
 3. Link to the MDI Library
 4. Implement minimalistic engine functionality
