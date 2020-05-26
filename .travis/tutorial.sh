@@ -14,7 +14,7 @@ reset_tutorial() {
 
 step_config() {
     git remote -v
-    if git push -v ; then
+    if git push -v > /dev/null 2>&1 ; then
 	echo "Success: Able to push to remote."
 	cp ./.travis/badges/-working-success.svg ./.travis/dynamic_badges/step_config.svg
     else
@@ -42,8 +42,8 @@ git config --global user.email "travis@travis-ci.com"
 git config --global user.name "Travis CI"
 
 # Switch the remote to use ssh
-git remote -v
-git remote set-url origin git@github.com:MolSSI-MDI/MDI_lammps2.git
+#git remote -v
+#git remote set-url origin git@github.com:MolSSI-MDI/MDI_lammps2.git
 git checkout ${TRAVIS_BRANCH}
 
 # Reset the tutorial
