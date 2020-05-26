@@ -27,8 +27,8 @@ echo "================================================================="
 git status
 echo "================================================================="
 git pull
-git push -v
-if [ "$?" = "0" ] ; then
+#git push -v
+if git push -v ; then
     echo "AAAAA PUSH WORKED"
 else
     echo "BBBBB PUSH FAILED"
