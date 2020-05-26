@@ -1,4 +1,4 @@
-ENGINE_EXECUTABLE=./lammps/src/lmp_mpi
+ENGINE_EXECUTABLE=./lammps/src/lmp_"${LAMMPS_INSTALL}"
 if test -f "$ENGINE_EXECUTABLE"; then
     echo "$ENGINE_EXECUTABLE exists"
 else
