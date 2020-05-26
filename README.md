@@ -12,6 +12,10 @@ git submodule update --remote
 
 ## Overview of steps
 
+curl https://img.shields.io/badge/-working-success --output .travis/badges/-working-success
+
+Test: ![stept](.travis/badges/-working-success) Configure repo
+
 1. ![step1](https://img.shields.io/badge/-working-success) Configure repo
 2. ![step2](https://img.shields.io/badge/-failing-red) Build engine
 3. ![step3](https://img.shields.io/badge/-failing-red) Link to the MDI Library
