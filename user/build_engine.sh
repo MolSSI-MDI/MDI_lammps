@@ -15,8 +15,8 @@ sudo pip install -U pytest pytest-cov
 
 # Obtain a clone of LAMMPS
 git clone https://github.com/MolSSI-MDI/lammps.git
-LAMMPS_INSTALL='serial'
-#LAMMPS_INSTALL='mpi'
+export LAMMPS_INSTALL='serial'
+#export LAMMPS_INSTALL='mpi'
 
 # Configure LAMMPS
 cd lammps
