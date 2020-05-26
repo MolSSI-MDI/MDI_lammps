@@ -14,9 +14,6 @@ reset_tutorial() {
 
 step_config() {
     git remote -v
-    echo "================================================================="
-    git status
-    echo "================================================================="
     #git pull
     if git push -v ; then
 	echo "AAAAA PUSH WORKED"
@@ -24,6 +21,9 @@ step_config() {
     else
 	echo "BBBBB PUSH FAILED"
     fi
+    echo "================================================================="
+    git status
+    echo "================================================================="
     #git remote add origin-pages https://${mdi_key}@github.com/MolSSI-MDI/MDI_lammps2.git > /dev/null 2>&1
     #git push --quiet --set-upstream origin-pages travis > /dev/null 2>&1
     #git push origin travis
@@ -42,8 +42,8 @@ git config --global user.email "travis@travis-ci.com"
 git config --global user.name "Travis CI"
 
 # Switch the remote to use ssh
-git remote -v
-git remote set-url origin git@github.com:MolSSI-MDI/MDI_lammps2.git
+#git remote -v
+#git remote set-url origin git@github.com:MolSSI-MDI/MDI_lammps2.git
 git checkout ${TRAVIS_BRANCH}
 
 # Reset the tutorial
