@@ -66,6 +66,16 @@ else
     echo "Travis configuration was NOT successful"
 fi
 
+# Attempt to build the engine, using the user-provided script
+if ./user/before_install.sh ; then
+    echo "Success: Able to build engine."
+    cp ./.travis/badges/-working-success.svg ./.travis/dynamic_badges/step_engine_build.svg
+    git add ./.travis/dynamic_badges/step_engine_build.svg
+else
+    echo "Error: Unable to build engine"
+    exit 2
+fi
+
 # Commit and push any changes
 git commit -m "Travis CI commit [ci skip]"
 git push -v > /dev/null 2>&1
