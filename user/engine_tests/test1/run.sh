@@ -1,6 +1,11 @@
 #location of required codes
 #LAMMPS_LOC=$(cat ../../../locations/LAMMPS)
-LAMMPS_LOC=../../../lammps/src/lmp_mdi
+#LAMMPS_LOC=../../../lammps/src/lmp_mdi
+LAMMPS_LOC=./lammps/src/lmp_mdi
+echo "IN run.sh:"
+pwd
+ls
+
 
 #set the number of threads
 #export OMP_NUM_THREADS=1
