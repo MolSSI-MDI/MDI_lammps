@@ -90,7 +90,8 @@ else
 fi
 
 # Attempt to build the engine, using the user-provided script
-if ./user/build_engine.sh ; then
+cd user
+if ./build_engine.sh ; then
     echo "Success: Able to run engine build script."
 else
     echo "Error: Unable to build engine"
@@ -100,7 +101,7 @@ cd ${BASE_PATH}
 
 # Verify that the engine has been built / installed correctly
 cd user
-if ./user/validate_build.sh ; then
+if ./validate_build.sh ; then
     echo "Success: Able to verify that the engine was built."
     cp ./.travis/badges/-working-success.svg ./.travis/dynamic_badges/step_engine_build.svg
     git add ./.travis/dynamic_badges/step_engine_build.svg
