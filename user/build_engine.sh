@@ -13,6 +13,9 @@ fi
 export FC=gfortran
 sudo pip install -U pytest pytest-cov
 
+mkdir testdir
+mkdir testdir
+
 # Obtain a clone of LAMMPS
 git clone https://github.com/MolSSI-MDI/lammps.git
 LAMMPS_INSTALL='serial'

@@ -45,7 +45,6 @@ step_config() {
 
 step_engine_test() {
     cd user/engine_tests/test1
-    #./run.sh
     bash -e run.sh
 }
 
@@ -91,7 +90,7 @@ fi
 
 # Attempt to build the engine, using the user-provided script
 cd user
-if ./build_engine.sh ; then
+if bash -e build_engine.sh ; then
     echo "Success: Able to run engine build script."
     cd ${BASE_PATH}
 else
@@ -102,7 +101,7 @@ fi
 
 # Verify that the engine has been built / installed correctly
 cd user
-if ./validate_build.sh ; then
+if bash -e validate_build.sh ; then
     echo "Success: Able to verify that the engine was built."
     cd ${BASE_PATH}
     cp ./.travis/badges/-working-success.svg ./.travis/dynamic_badges/step_engine_build.svg
