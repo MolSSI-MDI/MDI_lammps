@@ -26,7 +26,7 @@ make yes-standard
 make no-gpu
 make no-kim
 make no-kokkos
-make no-kspace
+#make no-kspace
 make no-latte
 make no-meam
 make no-mpiio

@@ -7,6 +7,8 @@ echo "USER PATH: "
 echo ${USER_PATH}
 echo "LAMMPS_LOC: "
 echo ${LAMMPS_LOC}
+echo "Checking for file: "
+ls ${LAMMPS_LOC}
 echo "Working directory: "
 pwd
 ls
