@@ -114,7 +114,6 @@ else
 fi
 
 # Verify that the engine test calculation can be run
-cd user
 if step_engine_test ; then
     echo "Success: Engine test(s) succeeded."
     cd ${BASE_PATH}
