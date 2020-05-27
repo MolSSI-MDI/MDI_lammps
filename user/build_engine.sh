@@ -44,3 +44,4 @@ cd ../../src
 # Build LAMMPS
 if test "${LAMMPS_INSTALL}" = 'serial'; then make mpi-stubs; fi
 make -j 4 "${LAMMPS_INSTALL}"
+cp lmp_"${LAMMPS_INSTALL}" lmp_mdi
