@@ -5,6 +5,7 @@ matrix:
   include:
     - os: linux
       before_install:
+        - sudo apt-get update
         - git status
         - echo "Before install"
       install:
