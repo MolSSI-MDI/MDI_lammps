@@ -6,7 +6,7 @@ echo "IN run.sh:"
 echo "USER PATH: "
 echo ${USER_PATH}
 echo "LAMMPS_LOC: "
-echo ${LAMMPS_PATH}
+echo ${LAMMPS_LOC}
 echo "Working directory: "
 pwd
 ls
@@ -19,3 +19,6 @@ ls
 #${LAMMPS_LOC} -mdi "-role ENGINE -name MM -method TCP -port 8021 -hostname localhost" -in lammps.in > lammps.out
 
 ${LAMMPS_LOC} -in lammps.in > lammps.out
+
+echo "Test output: "
+cat lammps.out
