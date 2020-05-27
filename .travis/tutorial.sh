@@ -147,6 +147,7 @@ if step_mdi_link ; then
     echo "Success: Engine is linked to the MDI Library."
     cd ${BASE_PATH}
     cp ./.travis/badges/-working-success.svg ./.travis/dynamic_badges/step_mdi_link.svg
+    git add ./.travis/dynamic_badges/step_mdi_link.svg
 else
     echo "Error: Engine is not linked to the MDI Library."
     cd ${BASE_PATH}
