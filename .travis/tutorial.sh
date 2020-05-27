@@ -43,6 +43,10 @@ step_config() {
     #git push origin travis
 }
 
+step_engine_test() {
+    ./user/engine_tests/test1/run.sh
+}
+
 # Obtain the currect working directory
 BASE_PATH=$(pwd)
 
@@ -93,14 +97,26 @@ cd ${BASE_PATH}
 
 # Verify that the engine has been built / installed correctly
 if ./user/validate_build.sh ; then
-    echo "Success: Able to verify that engine was built."
+    echo "Success: Able to verify that the engine was built."
     cp ./.travis/badges/-working-success.svg ./.travis/dynamic_badges/step_engine_build.svg
     git add ./.travis/dynamic_badges/step_engine_build.svg
 else
-    echo "Error: Unable to verify that engine was built."
+    echo "Error: Unable to verify that the engine was built."
     tutorial_error
 fi
 cd ${BASE_PATH}
+
+# Verify that the engine test calculation can be run
+if step_engine_test ; then
+    echo "Success: Engine test(s) succeeded."
+    cp ./.travis/badges/-working-success.svg ./.travis/dynamic_badges/step_engine_test.svg
+    git add ./.travis/dynamic_badges/step_engine_test.svg
+else
+    echo "Error: Engine test(s) failed."
+    tutorial_error
+fi
+cd ${BASE_PATH}
+
 
 # Commit and push any changes
 if git commit -m "Travis CI commit [ci skip]" ; then
