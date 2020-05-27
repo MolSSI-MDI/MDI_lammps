@@ -52,11 +52,18 @@ step_mdi_link() {
     # NOTE: This is temporary, and should be removed later
     ENGINE_EXECUTABLE=${BASE_PATH}/user/lammps/src/lmp_mdi
 
-    echo "CHECKING LINK =================================================="
-    echo "ldd: "
-    ldd ${ENGINE_EXECUTABLE}
-    echo "nm: "
-    nm ${ENGINE_EXECUTABLE} | grep "MDI_Init"
+    # Check if the library is linked dynamically
+    if ldd ${ENGINE_EXECUTABLE} | grep "libmdi." ; then
+	echo "The engine is using MDI as a dynamic library"
+	return 0
+    fi
+
+    # Check if the library is linked statically
+    if nm ${ENGINE_EXECUTABLE} | grep "MDI_Init" ; then
+	echo "The engine is using MDI as a static library"
+	return 0
+    fi
+    return 1
 }
 
 # Obtain the currect working directory
@@ -138,8 +145,11 @@ fi
 # Check if the engine is linked to the MDI Library
 if step_mdi_link ; then
     echo "Success: Engine is linked to the MDI Library."
+    cd ${BASE_PATH}
+    cp ./.travis/badges/-working-success.svg ./.travis/dynamic_badges/step_mdi_link.svg
 else
     echo "Error: Engine is not linked to the MDI Library."
+    cd ${BASE_PATH}
 fi
 
 
