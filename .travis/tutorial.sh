@@ -16,6 +16,7 @@ tutorial_error() {
 reset_tutorial() {
     cp ./.travis/badges/-failing-red.svg ./.travis/dynamic_badges/step_config.svg
     cp ./.travis/badges/-failing-red.svg ./.travis/dynamic_badges/step_engine_build.svg
+    cp ./.travis/badges/-failing-red.svg ./.travis/dynamic_badges/step_engine_test.svg
     cp ./.travis/badges/-failing-red.svg ./.travis/dynamic_badges/step_mdi_commands.svg
     cp ./.travis/badges/-failing-red.svg ./.travis/dynamic_badges/step_mdi_link.svg
     cp ./.travis/badges/-failing-red.svg ./.travis/dynamic_badges/step_mdi_nodes.svg
