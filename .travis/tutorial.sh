@@ -103,5 +103,8 @@ fi
 cd ${BASE_PATH}
 
 # Commit and push any changes
-git commit -m "Travis CI commit [ci skip]"
+if git commit -m "Travis CI commit [ci skip]" ; then
+    echo "Success: Committed final changes to repo"
+fi
 git push -v > /dev/null 2>&1
+
