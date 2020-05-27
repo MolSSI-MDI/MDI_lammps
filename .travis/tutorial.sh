@@ -48,6 +48,17 @@ step_engine_test() {
     bash -e run.sh
 }
 
+step_mdi_link() {
+    # NOTE: This is temporary, and should be removed later
+    ENGINE_EXECUTABLE=${BASE_PATH}/user/lammps/src/lmp_mdi
+
+    echo "CHECKING LINK =================================================="
+    echo "ldd: "
+    ldd ${ENGINE_EXECUTABLE}
+    echo "nm: "
+    nm ${ENGINE_EXECUTABLE} | grep "MDI_Init"
+}
+
 # Obtain the currect working directory
 BASE_PATH=$(pwd)
 export USER_PATH=$(pwd)/user
@@ -122,6 +133,13 @@ else
     echo "Error: Engine test(s) failed."
     cd ${BASE_PATH}
     tutorial_error
+fi
+
+# Check if the engine is linked to the MDI Library
+if step_mdi_link ; then
+    echo "Success: Engine is linked to the MDI Library."
+else
+    echo "Error: Engine is not linked to the MDI Library."
 fi
 
 
