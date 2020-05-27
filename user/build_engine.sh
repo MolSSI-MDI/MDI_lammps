@@ -1,6 +1,7 @@
 # Obtain dependencies
 if [ "$TRAVIS_OS_NAME" == "linux" ]; then
-    #sudo apt-get install gfortran
+    apt-get update
+    sudo apt-get install gfortran
     sudo apt-get install mpich libmpich-dev
     sudo pip install mpi4py
     sudo pip install numpy
