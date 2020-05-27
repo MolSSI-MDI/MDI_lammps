@@ -93,35 +93,38 @@ fi
 cd user
 if ./build_engine.sh ; then
     echo "Success: Able to run engine build script."
+    cd ${BASE_PATH}
 else
     echo "Error: Unable to build engine"
+    cd ${BASE_PATH}
     tutorial_error
 fi
-cd ${BASE_PATH}
 
 # Verify that the engine has been built / installed correctly
 cd user
 if ./validate_build.sh ; then
     echo "Success: Able to verify that the engine was built."
+    cd ${BASE_PATH}
     cp ./.travis/badges/-working-success.svg ./.travis/dynamic_badges/step_engine_build.svg
     git add ./.travis/dynamic_badges/step_engine_build.svg
 else
     echo "Error: Unable to verify that the engine was built."
+    cd ${BASE_PATH}
     tutorial_error
 fi
-cd ${BASE_PATH}
 
 # Verify that the engine test calculation can be run
 cd user
 if step_engine_test ; then
     echo "Success: Engine test(s) succeeded."
+    cd ${BASE_PATH}
     cp ./.travis/badges/-working-success.svg ./.travis/dynamic_badges/step_engine_test.svg
     git add ./.travis/dynamic_badges/step_engine_test.svg
 else
     echo "Error: Engine test(s) failed."
+    cd ${BASE_PATH}
     tutorial_error
 fi
-cd ${BASE_PATH}
 
 
 # Commit and push any changes
