@@ -99,6 +99,7 @@ fi
 cd ${BASE_PATH}
 
 # Verify that the engine has been built / installed correctly
+cd user
 if ./user/validate_build.sh ; then
     echo "Success: Able to verify that the engine was built."
     cp ./.travis/badges/-working-success.svg ./.travis/dynamic_badges/step_engine_build.svg
@@ -110,6 +111,7 @@ fi
 cd ${BASE_PATH}
 
 # Verify that the engine test calculation can be run
+cd user
 if step_engine_test ; then
     echo "Success: Engine test(s) succeeded."
     cp ./.travis/badges/-working-success.svg ./.travis/dynamic_badges/step_engine_test.svg
