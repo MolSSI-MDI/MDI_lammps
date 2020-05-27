@@ -45,8 +45,8 @@ step_config() {
 
 step_engine_test() {
     cd user/engine_tests/test1
-    #./user/engine_tests/test1/run.sh
-    ./run.sh
+    #./run.sh
+    bash -e run.sh
 }
 
 # Obtain the currect working directory
