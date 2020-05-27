@@ -44,11 +44,14 @@ step_config() {
 }
 
 step_engine_test() {
-    ./user/engine_tests/test1/run.sh
+    cd user/engine_tests/test1
+    #./user/engine_tests/test1/run.sh
+    ./run.sh
 }
 
 # Obtain the currect working directory
 BASE_PATH=$(pwd)
+export USER_PATH=$(pwd)/user
 
 # Write out the MDI key
 echo "-----BEGIN OPENSSH PRIVATE KEY-----" > travis_key
