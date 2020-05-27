@@ -38,7 +38,8 @@ make no-voronoi
 make no-user-qmmm
 make yes-user-mdi
 cd ../lib/mdi
-python Install.py -m gcc
+#python Install.py -m gcc
+make -f Makefile.gcc
 cd ../../src
   
 # Build LAMMPS
