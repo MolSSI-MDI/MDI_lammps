@@ -8,7 +8,7 @@ working_dir = "../../user/engine_tests/test1"
 os.system("cp -r " + str(working_dir) + " _work")
 os.chdir("./_work")
 
-engine_name = "/Users/tbarnes/Documents/mdi/lammps/src/lmp_mac"
+engine_name = "${USER_PATH}/lammps/src/lmp_mdi"
 
 #driver_proc = subprocess.Popen([driver_name, "-mdi", "-role DRIVER -name driver -method TCP -port 8021"],
 #                               stdout=subprocess.PIPE, stderr=subprocess.PIPE)
