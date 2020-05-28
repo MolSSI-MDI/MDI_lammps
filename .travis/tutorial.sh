@@ -66,6 +66,11 @@ step_mdi_link() {
     return 1
 }
 
+step_min_engine() {
+    cd ${BASE_PATH}/.travis/codes
+    python min_test.py
+}
+
 # Obtain the currect working directory
 BASE_PATH=$(pwd)
 export USER_PATH=$(pwd)/user
@@ -148,6 +153,17 @@ if step_mdi_link ; then
     cd ${BASE_PATH}
     cp ./.travis/badges/-working-success.svg ./.travis/dynamic_badges/step_mdi_link.svg
     git add ./.travis/dynamic_badges/step_mdi_link.svg
+else
+    echo "Error: Engine is not linked to the MDI Library."
+    cd ${BASE_PATH}
+fi
+
+# Check if the engine has minimalistic MDI functionality
+if step_min_engine ; then
+    echo "Success: Engine is linked to the MDI Library."
+    cd ${BASE_PATH}
+    #cp ./.travis/badges/-working-success.svg ./.travis/dynamic_badges/step_min_engine.svg
+    #git add ./.travis/dynamic_badges/step_min_engine.svg
 else
     echo "Error: Engine is not linked to the MDI Library."
     cd ${BASE_PATH}
