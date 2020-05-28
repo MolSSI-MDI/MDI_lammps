@@ -28,8 +28,8 @@ os.system("pwd")
 #engine_proc.communicate()
 
 # Launch the driver in the background
-driver_proc = subprocess.Popen([sys.executable, "./drivers/min_driver.py", "-mdi", "-role DRIVER -name driver -method TCP -port 8021"],
-                               stdout=subprocess.PIPE, stderr=subprocess.PIPE, cwd=build_dir)
+driver_proc = subprocess.Popen([sys.executable, "min_driver.py", "-mdi", "-role DRIVER -name driver -method TCP -port 8021"],
+                               stdout=subprocess.PIPE, stderr=subprocess.PIPE, cwd="./drivers")
 
 # Run LAMMPS as an engine
 os.system("${USER_PATH}/lammps/src/lmp_mdi -mdi \"-role ENGINE -name TESTCODE -method TCP -port 8021 -hostname localhost\" -in lammps.in > lammps.out")
