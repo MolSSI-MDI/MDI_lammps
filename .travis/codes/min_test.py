@@ -1,6 +1,7 @@
 #import mdi
 
 import os
+import sys
 import subprocess
 
 working_dir = "../../user/engine_tests/test1"

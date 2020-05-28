@@ -1,4 +1,3 @@
-import sys
 import mdi
 
 mdi.MDI_Init(sys.argv[2],mpi_world)
