@@ -9,9 +9,9 @@ matrix:
         - sudo apt-get update
 
         # Install conda
-        - sudo pip install conda
-        - sudo conda init
-        - sudo conda update conda --yes
+        #- sudo pip install conda
+        #- sudo conda init
+        #- sudo conda update conda --yes
 
         #- wget http://repo.continuum.io/miniconda/Miniconda-latest-Linux-x86_64.sh -O miniconda.sh
         #- chmod +x miniconda.sh
@@ -22,12 +22,13 @@ matrix:
         #- ls $HOME/miniconda/etc/profile.d
         #- conda update --yes conda
 
-        #- bash miniconda.sh -b -p $HOME/miniconda
-        #- source "$HOME/miniconda/etc/profile.d/conda.sh"
-        #- hash -r
-        #- conda config --set always_yes yes --set changeps1 no
-        #- conda update -q conda
-        #- conda info -a
+        - wget http://repo.continuum.io/miniconda/Miniconda-latest-Linux-x86_64.sh -O miniconda.sh
+        - sudo bash miniconda.sh -b -p $HOME/miniconda
+        - source "$HOME/miniconda/etc/profile.d/conda.sh"
+        - hash -r
+        - conda config --set always_yes yes --set changeps1 no
+        - conda update -q conda
+        - conda info -a
 
         # Install pymdi
         - conda install -c conda-forge pymdi
