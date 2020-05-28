@@ -13,9 +13,9 @@ matrix:
         - chmod +x miniconda.sh
         - ./miniconda.sh -b
         - export PATH=/home/travis/miniconda/bin:$PATH
-	- ls /home/travis/miniconda/bin
-	- ls $HOME/miniconda/etc/
-	- ls $HOME/miniconda/etc/profile.d
+        - ls /home/travis/miniconda/bin
+        - ls $HOME/miniconda/etc/
+        - ls $HOME/miniconda/etc/profile.d
         - conda update --yes conda
 
         #- bash miniconda.sh -b -p $HOME/miniconda
