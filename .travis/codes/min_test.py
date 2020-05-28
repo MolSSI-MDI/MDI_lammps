@@ -6,9 +6,6 @@ import subprocess
 
 working_dir = "../../user/engine_tests/test1"
 
-os.system("cp -r " + str(working_dir) + " _work")
-os.chdir("./_work")
-
 engine_name = "${USER_PATH}/lammps/src/lmp_mdi"
 
 os.system("ls ${USER_PATH}/lammps/src/lmp_mdi")
@@ -32,6 +29,8 @@ driver_proc = subprocess.Popen([sys.executable, "min_driver.py", "-mdi", "-role 
                                stdout=subprocess.PIPE, stderr=subprocess.PIPE, cwd="./drivers")
 
 # Run LAMMPS as an engine
+os.chdir("./_work")
+os.system("cp -r " + str(working_dir) + " _work")
 os.system("${USER_PATH}/lammps/src/lmp_mdi -mdi \"-role ENGINE -name TESTCODE -method TCP -port 8021 -hostname localhost\" -in lammps.in > lammps.out")
 
 driver_tup = driver_proc.communicate()
