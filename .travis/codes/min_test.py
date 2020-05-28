@@ -10,6 +10,11 @@ os.chdir("./_work")
 
 engine_name = "${USER_PATH}/lammps/src/lmp_mdi"
 
+os.system("ls ${USER_PATH}/lammps/src/lmp_mdi")
+os.system("echo $USER_PATH")
+os.system("echo $BASE_PATH")
+os.system("pwd")
+
 #driver_proc = subprocess.Popen([driver_name, "-mdi", "-role DRIVER -name driver -method TCP -port 8021"],
 #                               stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 #engine_proc = subprocess.Popen([engine_name, "-mdi", "-role ENGINE -name MM -method TCP -port 8021 -hostname localhost"])
