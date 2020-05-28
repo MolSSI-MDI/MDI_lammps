@@ -19,8 +19,10 @@ os.system("pwd")
 #                               stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 #engine_proc = subprocess.Popen([engine_name, "-mdi", "-role ENGINE -name MM -method TCP -port 8021 -hostname localhost"])
 #engine_proc = subprocess.Popen([engine_name, "-in", "lammps.in",">","lammps.out"])
-engine_proc = subprocess.Popen([engine_name, "-in", "lammps.in"])
+#engine_proc = subprocess.Popen([engine_name, "-in", "lammps.in"])
 #driver_tup = driver_proc.communicate()
-engine_proc.communicate()
+#engine_proc.communicate()
+
+os.system("${USER_PATH}/lammps/src/lmp_mdi -in lammps.in > lammps.out")
 
 print("Hello World!")
