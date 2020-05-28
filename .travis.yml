@@ -6,7 +6,7 @@ matrix:
     - os: linux
       before_install:
         - sudo apt-get update
-	- conda install -c conda-forge mdi
+        - conda install -c conda-forge mdi
         - git status
         - echo "Before install"
       install:

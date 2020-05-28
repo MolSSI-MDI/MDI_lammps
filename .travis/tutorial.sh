@@ -156,6 +156,7 @@ if step_mdi_link ; then
 else
     echo "Error: Engine is not linked to the MDI Library."
     cd ${BASE_PATH}
+    tutorial_error
 fi
 
 # Check if the engine has minimalistic MDI functionality
@@ -167,6 +168,7 @@ if step_min_engine ; then
 else
     echo "Error: Engine is not linked to the MDI Library."
     cd ${BASE_PATH}
+    tutorial_error
 fi
 
 
