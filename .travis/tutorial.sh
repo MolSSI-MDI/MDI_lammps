@@ -161,20 +161,20 @@ fi
 
 # Check if the engine has minimalistic MDI functionality
 if step_min_engine ; then
-    echo "Success: Engine is linked to the MDI Library."
+    echo "Success: Engine passed minimal MDI functionality test."
     cd ${BASE_PATH}
     #cp ./.travis/badges/-working-success.svg ./.travis/dynamic_badges/step_min_engine.svg
     #git add ./.travis/dynamic_badges/step_min_engine.svg
 else
-    echo "Error: Engine is not linked to the MDI Library."
+    echo "Error: Engine failed minimal MDI functionality test."
     cd ${BASE_PATH}
     tutorial_error
 fi
 
 
 # Commit and push any changes
+echo "Attempting to commit any changes"
 if git commit -m "Travis CI commit [ci skip]" ; then
     echo "Success: Committed final changes to repo"
+    git push -v > /dev/null 2>&1
 fi
-git push -v > /dev/null 2>&1
-
