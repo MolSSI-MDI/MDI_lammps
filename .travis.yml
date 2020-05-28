@@ -28,6 +28,7 @@ matrix:
         - ls $HOME/miniconda/bin
         - export PATH=$HOME/miniconda/bin:$PATH
         - which conda
+        - which python
         #- source "$HOME/miniconda/etc/profile.d/conda.sh"
         #- hash -r
         - conda config --set always_yes yes --set changeps1 no
