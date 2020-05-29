@@ -172,6 +172,18 @@ else
     tutorial_error
 fi
 
+# Check if the engine correctly errors upon receiving an unsupported command
+if step_unsupported ; then
+    echo "Error: Engine does not error out upon receiving an unsupported command."
+    cd ${BASE_PATH}
+    #cp ./.travis/badges/-working-success.svg ./.travis/dynamic_badges/step_unsupported.svg
+    #git add ./.travis/dynamic_badges/step_unsupported.svg
+else
+    echo "Success: Engine errors out upon receiving an unsupported command."
+    cd ${BASE_PATH}
+    tutorial_error
+fi
+
 
 # Commit and push any changes
 echo "Attempting to commit any changes"
