@@ -72,6 +72,11 @@ step_min_engine() {
     python min_test.py
 }
 
+step_unsupported() {
+    cd ${BASE_PATH}/.travis/codes
+    python unsupported_test.py
+}
+
 # Obtain the currect working directory
 BASE_PATH=$(pwd)
 export USER_PATH=$(pwd)/user
