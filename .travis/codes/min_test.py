@@ -34,3 +34,5 @@ print(str(driver_out))
 
 print("Driver error message: ")
 print(str(driver_err))
+
+assert driver_err == ""
