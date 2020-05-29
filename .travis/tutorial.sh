@@ -181,12 +181,12 @@ fi
 if step_unsupported ; then
     echo "Error: Engine does not error out upon receiving an unsupported command."
     cd ${BASE_PATH}
-    #cp ./.travis/badges/-working-success.svg ./.travis/dynamic_badges/step_unsupported.svg
-    #git add ./.travis/dynamic_badges/step_unsupported.svg
+    tutorial_error
 else
     echo "Success: Engine errors out upon receiving an unsupported command."
     cd ${BASE_PATH}
-    tutorial_error
+    cp ./.travis/badges/-working-success.svg ./.travis/dynamic_badges/step_unsupported.svg
+    git add ./.travis/dynamic_badges/step_unsupported.svg
 fi
 
 

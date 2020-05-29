@@ -6,7 +6,7 @@ mdi.MDI_Init(sys.argv[2], None)
 # Connect to the engine
 comm = mdi.MDI_Accept_Communicator()
 
-mdi.MDI_Send_Command("<NAME", comm)
+mdi.MDI_Send_Command("UNSUPPORTED", comm)
 name = mdi.MDI_Recv(mdi.MDI_NAME_LENGTH, mdi.MDI_CHAR, comm)
 
 print(" Engine name: " + str(name))
