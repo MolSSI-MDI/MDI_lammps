@@ -4,7 +4,7 @@ import os
 import sys
 import subprocess
 
-working_dir = "../../user/driver_tests/test1"
+working_dir = "../../user/mdi_tests/test1"
 
 engine_name = "${USER_PATH}/lammps/src/lmp_mdi"
 
