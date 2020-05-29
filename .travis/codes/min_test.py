@@ -1,8 +1,10 @@
-#import mdi
+import mdi
 
 import os
 import sys
 import subprocess
+
+print("MDI_INT: " + str(mdi.MDI_INT))
 
 working_dir = "../../user/mdi_tests/test1"
 
