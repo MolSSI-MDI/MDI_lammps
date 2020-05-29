@@ -20,8 +20,9 @@ git submodule update --remote
 3. ![step3](.travis/dynamic_badges/step_engine_test.svg) Add engine test(s)
 4. ![step4](.travis/dynamic_badges/step_mdi_link.svg) Link to the MDI Library
 5. ![step5](.travis/dynamic_badges/step_min_engine.svg) Implement minimalistic engine functionality
-6. ![step6](.travis/dynamic_badges/step_mdi_commands.svg) Add support for more MDI commands
-7. ![step7](.travis/dynamic_badges/step_mdi_nodes.svg) Add support for the MDI Node System
+6. ![step6](.travis/dynamic_badges/step_unsupported.svg) Error on unsupported commands
+7. ![step7](.travis/dynamic_badges/step_mdi_commands.svg) Add support for more MDI commands
+8. ![step8](.travis/dynamic_badges/step_mdi_nodes.svg) Add support for the MDI Node System
 
 ## Current Step
 

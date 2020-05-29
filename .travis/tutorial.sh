@@ -21,6 +21,7 @@ reset_tutorial() {
     cp ./.travis/badges/-failing-red.svg ./.travis/dynamic_badges/step_mdi_link.svg
     cp ./.travis/badges/-failing-red.svg ./.travis/dynamic_badges/step_mdi_nodes.svg
     cp ./.travis/badges/-failing-red.svg ./.travis/dynamic_badges/step_min_engine.svg
+    cp ./.travis/badges/-failing-red.svg ./.travis/dynamic_badges/step_unsupported.svg
 
     git add -u
 }
@@ -163,8 +164,8 @@ fi
 if step_min_engine ; then
     echo "Success: Engine passed minimal MDI functionality test."
     cd ${BASE_PATH}
-    #cp ./.travis/badges/-working-success.svg ./.travis/dynamic_badges/step_min_engine.svg
-    #git add ./.travis/dynamic_badges/step_min_engine.svg
+    cp ./.travis/badges/-working-success.svg ./.travis/dynamic_badges/step_min_engine.svg
+    git add ./.travis/dynamic_badges/step_min_engine.svg
 else
     echo "Error: Engine failed minimal MDI functionality test."
     cd ${BASE_PATH}
