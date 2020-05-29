@@ -74,7 +74,12 @@ step_min_engine() {
 
 step_unsupported() {
     cd ${BASE_PATH}/.travis/codes
-    python unsupported_test.py
+    if python unsupported_test.py ; then
+	echo "Error: Script unsupported_test.py ran to completion"
+	return 1
+    fi
+    echo "Success: Script unsupported_test.py threw an error"
+    return 0
 }
 
 # Obtain the currect working directory
@@ -179,14 +184,14 @@ fi
 
 # Check if the engine correctly errors upon receiving an unsupported command
 if step_unsupported ; then
-    echo "Error: Engine does not error out upon receiving an unsupported command."
-    cd ${BASE_PATH}
-    tutorial_error
-else
     echo "Success: Engine errors out upon receiving an unsupported command."
     cd ${BASE_PATH}
     cp ./.travis/badges/-working-success.svg ./.travis/dynamic_badges/step_unsupported.svg
     git add ./.travis/dynamic_badges/step_unsupported.svg
+else
+    echo "Error: Engine does not error out upon receiving an unsupported command."
+    cd ${BASE_PATH}
+    tutorial_error
 fi
 
 
