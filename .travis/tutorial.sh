@@ -14,6 +14,10 @@ tutorial_error() {
 }
 
 reset_tutorial() {
+    # Reset the README.md file
+    cp ./README.base ../README.md
+
+    # Reset the badges marking working / failing steps
     cp ./.travis/badges/-failing-red.svg ./.travis/dynamic_badges/step_config.svg
     cp ./.travis/badges/-failing-red.svg ./.travis/dynamic_badges/step_engine_build.svg
     cp ./.travis/badges/-failing-red.svg ./.travis/dynamic_badges/step_engine_test.svg
@@ -80,6 +84,21 @@ step_unsupported() {
     fi
     echo "Success: Script unsupported_test.py threw an error"
     return 0
+}
+
+step_mdi_commands() {
+    cd ${BASE_PATH}/.travis/codes
+    if python check_mdi_commands.py ; then
+        echo "Success: Able to determine which MDI commands are supported by this engine"
+
+	# Copy the new README.md file into position
+	cp README.temp ${BASE_PATH}/README.md
+	git add ${BASE_PATH}/README.md
+    else
+	echo "Error: Unable to determine which MDI commands are supported by this engine"
+	return 1
+    fi
+    
 }
 
 # Obtain the currect working directory
@@ -194,6 +213,17 @@ else
     tutorial_error
 fi
 
+# Write out the commands that are supported by this engine
+if step_mdi_commands ; then
+    echo "Success: Detected MDI commands."
+    cd ${BASE_PATH}
+    cp ./.travis/badges/-working-success.svg ./.travis/dynamic_badges/step_mdi_commands.svg
+    git add ./.travis/dynamic_badges/step_mdi_commands.svg
+else
+    echo "Error: Unable to detect MDI commands."
+    cd ${BASE_PATH}
+    tutorial_error
+fi
 
 # Commit and push any changes
 echo "Attempting to commit any changes"
@@ -201,3 +231,4 @@ if git commit -m "Travis CI commit [ci skip]" ; then
     echo "Success: Committed final changes to repo"
     git push -v > /dev/null 2>&1
 fi
+>
