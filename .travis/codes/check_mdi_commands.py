@@ -28,6 +28,14 @@ def write_supported_commands():
     for command in command_list:
         line = str(command) + " unsupported" + "\n"
         command_sec.append( line )
+
+    # Replace all ">" or "<" symbols with Markdown escape sequences
+    for iline in range(len(command_sec)):
+        line = command_sec[iline]
+        line = line.replace(">", "$\ge$")
+        line = line.replace("<", "$\le$")
+        command_sec[iline] = line
+    
     return command_sec
     
 # Read the README.md file

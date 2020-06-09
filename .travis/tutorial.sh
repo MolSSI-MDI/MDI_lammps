@@ -231,4 +231,3 @@ if git commit -m "Travis CI commit [ci skip]" ; then
     echo "Success: Committed final changes to repo"
     git push -v > /dev/null 2>&1
 fi
->

@@ -22,7 +22,6 @@ matrix:
 
         # Install pymdi
         - conda install -c conda-forge pymdi pyyaml
-        - python -c "import yaml"
 
         # Check Python version
         - which python
