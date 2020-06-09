@@ -24,6 +24,47 @@ git submodule update --remote
 7. ![step7](.travis/dynamic_badges/step_mdi_commands.svg) Add support for more MDI commands
 8. ![step8](.travis/dynamic_badges/step_mdi_nodes.svg) Add support for the MDI Node System
 
+[travis]: <> ( supported_commands )
+## Supported Commands
+
+@ unsupported
+<@ unsupported
+<CELL unsupported
+>CELL unsupported
+<CELL_DISPL unsupported
+>CELL_DISPL unsupported
+<CHARGES unsupported
+>CHARGES unsupported
+<COORDS unsupported
+>COORDS unsupported
+<DIMENSIONS unsupported
+<ELEC_MULT unsupported
+>ELEC_MULT unsupported
+<ELEMENTS unsupported
+<ENERGY unsupported
+EXIT unsupported
+>FORCES unsupported
+>+FORCES unsupported
+<FORCES unsupported
+INIT_MD unsupported
+INIT_OPTG unsupported
+<KE unsupported
+<KE_ELEC unsupported
+<KE_NUC unsupported
+<MASSES unsupported
+>MASSES unsupported
+<NAME unsupported
+<NATOMS unsupported
+<PE unsupported
+<PE_ELEC unsupported
+<PE_NUC unsupported
+<STRESS unsupported
+>STRESS unsupported
+<TOTCHARGE unsupported
+>TOTCHARGE unsupported
+<VELOCITIES unsupported
+>VELOCITIES unsupported
+
 ## Current Step
 
 ## Acknowledgements
