@@ -15,7 +15,7 @@ tutorial_error() {
 
 reset_tutorial() {
     # Reset the README.md file
-    cp ./README.base ../README.md
+    cp ./.travis/README.base ../README.md
 
     # Reset the badges marking working / failing steps
     cp ./.travis/badges/-failing-red.svg ./.travis/dynamic_badges/step_config.svg
