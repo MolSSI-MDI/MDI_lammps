@@ -32,8 +32,8 @@ def write_supported_commands():
     # Replace all ">" or "<" symbols with Markdown escape sequences
     for iline in range(len(command_sec)):
         line = command_sec[iline]
-        line = line.replace(">", "$\ge$")
-        line = line.replace("<", "$\le$")
+        line = line.replace(">", "&gt;")
+        line = line.replace("<", "&lt;")
         command_sec[iline] = line
     
     return command_sec
