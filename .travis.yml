@@ -21,7 +21,7 @@ matrix:
         - conda info -a
 
         # Install pymdi
-        - conda install -c conda-forge pymdi yaml
+        - conda install -c conda-forge pymdi pyyaml
 
         # Check Python version
         - which python
