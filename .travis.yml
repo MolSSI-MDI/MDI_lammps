@@ -1,4 +1,6 @@
 language: cpp
+python:
+  - "3.6"
 sudo: required
 
 matrix:
