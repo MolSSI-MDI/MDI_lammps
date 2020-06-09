@@ -21,13 +21,11 @@ matrix:
         - conda info -a
 
         # Install pymdi
-        - conda install -c conda-forge pymdi
+        - conda install -c conda-forge pymdi yaml
 
         # Check Python version
         - which python
         - python --version
-        - which python3
-        - python3 --version
 
         - git status
         - echo "Before install"
