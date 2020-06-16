@@ -15,7 +15,7 @@ while iarg < len(sys.argv):
             raise Exception("Argument to -mdi option not found")
         mdi.MDI_Init(sys.argv[iarg+1], None)
         iarg += 1
-    elif arg == "-command"
+    elif arg == "-command":
         # Set the command
         if len(sys.argv) <= iarg+1:
             raise Exception("Argument to -command option not found")
