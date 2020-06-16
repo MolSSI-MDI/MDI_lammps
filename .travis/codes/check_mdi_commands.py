@@ -3,6 +3,14 @@ import subprocess
 import sys
 import yaml
 
+def format_return(input_string):
+    my_string = input_string.decode('utf-8')
+
+    # remove any \r special characters, which sometimes are added on Windows
+    my_string = my_string.replace('\r','')
+
+    return my_string
+
 def insert_list( original_list, insert_list, pos ):
     for ielement in range(len(insert_list)):
         element = insert_list[ielement]
