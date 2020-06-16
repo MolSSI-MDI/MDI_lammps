@@ -87,6 +87,19 @@ if nreceive is not None:
         
 send_type = None
 if nsend is not None:
+    # Get the number of elements to send
+    nsend_split = re.split("\+|\-|\*\*|\*|\/\/|\/|\%| ",nsend)
+    for word in nsend_split:
+        if word[0] == '<':
+            # This is a command, so send it to the engine
+            # Assume that the command receives a single integer
+            mdi.MDI_Send_Command(word, comm)
+            value = mdi.MDI_Recv(1, mdi.MDI_INT, comm)
+            
+            nsend.replace(word, str(value), 1)
+    
+    send_num = pd.eval(nsend)
+    
     # Confirm that the receive type is valid
     if stype == "MDI_CHAR":
         send_type = mdi.MDI_CHAR
@@ -99,7 +112,8 @@ if nsend is not None:
     else:
         raise Exception("Invalid receive type")
 
-mdi.MDI_Send_Command("<NAME", comm)
+# Send the command to be tested
+mdi.MDI_Send_Command(command, comm)
 name = mdi.MDI_Recv(recv_num, recv_type, comm)
 
 print(" Engine name: " + str(name))
