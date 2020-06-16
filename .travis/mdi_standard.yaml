@@ -2,105 +2,137 @@ commands:
   "@":
     description: "Test"
   "<@":
-    datatype: MDI_CHAR
-    recv_size: MDI_NAME_LENGTH
+    recv:
+      datatype: MDI_CHAR
+      count: MDI_NAME_LENGTH
   "<CELL":
-    datatype: MDI_DOUBLE
-    recv_size: 9
+    recv:
+      datatype: MDI_DOUBLE
+      count: 9
   ">CELL":
-    datatype: MDI_DOUBLE
-    send_size: 9
+    send:
+      datatype: MDI_DOUBLE
+      count: 9
   "<CELL_DISPL":
-    datatype: MDI_DOUBLE
-    recv_size: 3
+    recv:
+      datatype: MDI_DOUBLE
+      count: 3
   ">CELL_DISPL":
-    datatype: MDI_DOUBLE
-    send_size: 3
+    send:
+      datatype: MDI_DOUBLE
+      count: 3
   "<CHARGES":
-    datatype: MDI_DOUBLE
-    recv_size: <NATOMS
+    recv:
+      datatype: MDI_DOUBLE
+      count: <NATOMS
   ">CHARGES":
-    datatype: MDI_DOUBLE
-    send_size: <NATOMS
+    send:
+      datatype: MDI_DOUBLE
+      count: <NATOMS
   "<COORDS":
-    datatype: MDI_DOUBLE
-    recv_size: 3 * <NATOMS
+    recv:
+      datatype: MDI_DOUBLE
+      count: 3 * <NATOMS
   ">COORDS":
-    datatype: MDI_DOUBLE
-    send_size: 3 * <NATOMS
+    send:
+      datatype: MDI_DOUBLE
+      count: 3 * <NATOMS
   "<DIMENSIONS":
-    datatype: MDI_INT
-    recv_size: 3
+    recv:
+      datatype: MDI_INT
+      count: 3
   "<ELEC_MULT":
-    datatype: MDI_INT
-    recv_size: 1
+    recv:
+      datatype: MDI_INT
+      count: 1
   ">ELEC_MULT":
-    datatype: MDI_INT
-    send_size: 1
+    send:
+      datatype: MDI_INT
+      count: 1
   "<ELEMENTS":
-    datatype: MDI_INT
-    recv_size: <NATOMS
+    recv:
+      datatype: MDI_INT
+      count: <NATOMS
   "<ENERGY":
-    datatype: MDI_DOUBLE
-    recv_size: 1
+    recv:
+      datatype: MDI_DOUBLE
+      count: 1
   "EXIT":
   ">FORCES":
-    datatype: MDI_DOUBLE
-    send_size: 3 * <NATOMS
+    send:
+      datatype: MDI_DOUBLE
+      count: 3 * <NATOMS
   ">+FORCES":
-    datatype: MDI_DOUBLE
-    send_size: 3 * <NATOMS
+    send:
+      datatype: MDI_DOUBLE
+      count: 3 * <NATOMS
   "<FORCES":
-    datatype: MDI_DOUBLE
-    recv_size: 3 * <NATOMS
+    recv:
+      datatype: MDI_DOUBLE
+      count: 3 * <NATOMS
   "INIT_MD":
   "INIT_OPTG":
   "<KE":
-    datatype: MDI_DOUBLE
-    recv_size: 1
+    recv:
+      datatype: MDI_DOUBLE
+      count: 1
   "<KE_ELEC":
-    datatype: MDI_DOUBLE
-    recv_size: 1
+    recv:
+      datatype: MDI_DOUBLE
+      count: 1
   "<KE_NUC":
-    datatype: MDI_DOUBLE
-    recv_size: 1
+    recv:
+      datatype: MDI_DOUBLE
+      count: 1
   "<MASSES":
-    datatype: MDI_DOUBLE
-    recv_size: <NATOMS
+    recv:
+      datatype: MDI_DOUBLE
+      count: <NATOMS
   ">MASSES":
-    datatype: MDI_DOUBLE
-    send_size: <NATOMS
+    send:
+      datatype: MDI_DOUBLE
+      count: <NATOMS
   "<NAME":
-    datatype: MDI_CHAR
-    recv_size: MDI_NAME_LENGTH
+    recv:
+      datatype: MDI_CHAR
+      count: MDI_NAME_LENGTH
   "<NATOMS":
-    description: "Hello World"
-    datatype: MDI_INT
-    recv_size: 1
+    recv:
+      datatype: MDI_INT
+      count: 1
   "<PE":
-    datatype: MDI_DOUBLE
-    recv_size: 1
+    recv:
+      datatype: MDI_DOUBLE
+      count: 1
   "<PE_ELEC":
-    datatype: MDI_DOUBLE
-    recv_size: 1
+    recv:
+      datatype: MDI_DOUBLE
+      count: 1
   "<PE_NUC":
-    datatype: MDI_DOUBLE
-    recv_size: 1
+    recv:
+      datatype: MDI_DOUBLE
+      count: 1
   "<STRESS":
-    datatype: MDI_DOUBLE
-    recv_size: 9
+    recv:
+      datatype: MDI_DOUBLE
+      count: 9
   ">STRESS":
-    datatype: MDI_DOUBLE
-    send_size: 9
+    send:
+      datatype: MDI_DOUBLE
+      count: 9
   "<TOTCHARGE":
-    datatype: MDI_DOUBLE
-    recv_size: 1
+    recv:
+      datatype: MDI_DOUBLE
+      count: 1
   ">TOTCHARGE":
-    datatype: MDI_DOUBLE
-    send_size: 1
+    send:
+      datatype: MDI_DOUBLE
+      count: 1
   "<VELOCITIES":
-    datatype: MDI_DOUBLE
-    recv_size: 3 * <NATOMS
+    recv:
+      datatype: MDI_DOUBLE
+      count: 3 * <NATOMS
   ">VELOCITIES":
-    datatype: MDI_DOUBLE
-    send_size: 3 * NATOMS
+    send:
+      datatype: MDI_DOUBLE
+      count: 3 * <NATOMS
