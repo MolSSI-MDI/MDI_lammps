@@ -35,6 +35,8 @@ while iarg < len(sys.argv):
         iarg += 1
     else:
         raise Exception("Unrecognized argument")
+
+    iarg += 1
         
 # Connect to the engine
 comm = mdi.MDI_Accept_Communicator()
