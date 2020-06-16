@@ -46,8 +46,8 @@ EXIT unsupported
 &gt;FORCES unsupported
 &gt;+FORCES unsupported
 &lt;FORCES unsupported
-INIT_MD unsupported
-INIT_OPTG unsupported
+@INIT_MD unsupported
+@INIT_OPTG unsupported
 &lt;KE unsupported
 &lt;KE_ELEC unsupported
 &lt;KE_NUC unsupported
