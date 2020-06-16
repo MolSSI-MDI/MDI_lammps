@@ -1,7 +1,8 @@
 import mdi
 from mdi import MDI_NAME_LENGTH, MDI_COMMAND_LENGTH
-import sys
 import pandas as pd
+import re
+import sys
 
 command = None
 nreceive = None
@@ -54,9 +55,22 @@ while iarg < len(sys.argv):
 
     iarg += 1
 
+# Connect to the engine
+comm = mdi.MDI_Accept_Communicator()
+
 recv_type = None
 if nreceive is not None:
     # Get the number of elements to receive
+    nreceive_split = re.split("\+|\-|\*\*|\*|\/\/|\/|\%| ",nreceive)
+    for word in nreceive_split:
+        if word[0] == '<':
+            # This is a command, so send it to the engine
+            # Assume that the command receives a single integer
+            mdi.MDI_Send_Command(word, comm)
+            value = mdi.MDI_Recv(1, mdi.MDI_INT, comm)
+            
+            nreceive.replace(word, str(value), 1)
+    
     recv_num = pd.eval(nreceive)
     
     # Confirm that the receive type is valid
@@ -84,9 +98,6 @@ if nsend is not None:
         send_type = mdi.MDI_BYTE
     else:
         raise Exception("Invalid receive type")
-
-# Connect to the engine
-comm = mdi.MDI_Accept_Communicator()
 
 mdi.MDI_Send_Command("<NAME", comm)
 name = mdi.MDI_Recv(recv_num, recv_type, comm)
