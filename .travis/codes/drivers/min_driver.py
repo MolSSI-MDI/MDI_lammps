@@ -131,5 +131,9 @@ if nsend is not None:
         raise Exception("Invalid send type")
     mdi.MDI_Send(data, send_num, send_type, comm)
 
+# Verify that the engine is still responsive
+mdi.MDI_Send_Command("<NAME", comm)
+mdi.MDI_Recv(mdi.MDI_NAME_LENGTH, mdi.MDI_CHAR, comm)
+
 mdi.MDI_Send_Command("EXIT", comm)
 print("    Completed testing command")
