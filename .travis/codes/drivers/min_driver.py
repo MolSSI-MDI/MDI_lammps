@@ -89,7 +89,7 @@ if nsend is not None:
 comm = mdi.MDI_Accept_Communicator()
 
 mdi.MDI_Send_Command("<NAME", comm)
-name = mdi.MDI_Recv(mdi.MDI_NAME_LENGTH, recv_type, comm)
+name = mdi.MDI_Recv(recv_num, recv_type, comm)
 
 print(" Engine name: " + str(name))
 
