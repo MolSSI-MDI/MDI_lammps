@@ -113,9 +113,11 @@ if nsend is not None:
         raise Exception("Invalid send type")
 
 # Send the command to be tested
+print(" Minimum driver is testing command: " + str(command))
 mdi.MDI_Send_Command(command, comm)
 if nreceive is not None:
-    name = mdi.MDI_Recv(recv_num, recv_type, comm)
+    recv_data = mdi.MDI_Recv(recv_num, recv_type, comm)
+    print("    Received: " + str(recv_data))
 if nsend is not None:
     if send_type == mdi.MDI_INT:
         data = [ 0 for i in range(send_num) ]
@@ -129,6 +131,5 @@ if nsend is not None:
         raise Exception("Invalid send type")
     mdi.MDI_Send(data, send_num, send_type, comm)
 
-print(" Engine name: " + str(name))
-
 mdi.MDI_Send_Command("EXIT", comm)
+print("    Completed testing command")
