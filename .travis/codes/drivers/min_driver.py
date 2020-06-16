@@ -110,11 +110,24 @@ if nsend is not None:
     elif stype == "MDI_BYTE":
         send_type = mdi.MDI_BYTE
     else:
-        raise Exception("Invalid receive type")
+        raise Exception("Invalid send type")
 
 # Send the command to be tested
 mdi.MDI_Send_Command(command, comm)
-name = mdi.MDI_Recv(recv_num, recv_type, comm)
+if nreceive is not None:
+    name = mdi.MDI_Recv(recv_num, recv_type, comm)
+if nsend is not None:
+    if send_type == mdi.MDI_INT:
+        data = [ 0 for i in range(send_num) ]
+    elif send_type == mdi.MDI_DOUBLE:
+        data = [ 0.0 for i in range(send_num) ]
+    elif send_type == mdi.MDI_CHAR:
+        data = ""
+        for i in range(send_num):
+            data += " "
+    else:
+        raise Exception("Invalid send type")
+    mdi.MDI_Send(data, send_num, send_type, comm)
 
 print(" Engine name: " + str(name))
 
