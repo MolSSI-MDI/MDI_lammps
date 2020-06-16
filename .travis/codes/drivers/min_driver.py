@@ -1,5 +1,7 @@
 import mdi
+from mdi import MDI_NAME_LENGTH, MDI_COMMAND_LENGTH
 import sys
+import pandas as pd
 
 command = None
 nreceive = None
@@ -54,6 +56,9 @@ while iarg < len(sys.argv):
 
 recv_type = None
 if nreceive is not None:
+    # Get the number of elements to receive
+    recv_num = pd.eval(nreceive)
+    
     # Confirm that the receive type is valid
     if rtype == "MDI_CHAR":
         recv_type = mdi.MDI_CHAR
