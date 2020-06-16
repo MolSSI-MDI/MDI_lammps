@@ -4,6 +4,9 @@ def insert_list( original_list, insert_list, pos ):
     for ielement in range(len(insert_list)):
         element = insert_list[ielement]
         original_list.insert( pos + ielement + 1, element )
+        
+def test_command( command ):
+    return False
 
 def write_supported_commands():
     # List of all commands in the MDI Standard
@@ -26,7 +29,12 @@ def write_supported_commands():
 
     # Write the list of supported commands
     for command in command_list:
-        line = str(command) + " unsupported" + "\n"
+        command_works = test_command( command )
+        if command_works:
+            command_status = "supported"
+        else:
+            command_status = "unsupported"
+        line = str(command) + " " + str(command_status) + "  \n"
         command_sec.append( line )
 
     # Replace all ">" or "<" symbols with Markdown escape sequences
