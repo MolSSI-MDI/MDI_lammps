@@ -58,6 +58,10 @@ while iarg < len(sys.argv):
 # Connect to the engine
 comm = mdi.MDI_Accept_Communicator()
 
+# Get the name of the engine, which will be checked and verified at the end
+mdi.MDI_Send_Command("<NAME", comm)
+initial_name = mdi.MDI_Recv(mdi.MDI_NAME_LENGTH, mdi.MDI_CHAR, comm)
+
 recv_type = None
 if nreceive is not None:
     # Get the number of elements to receive
@@ -133,7 +137,8 @@ if nsend is not None:
 
 # Verify that the engine is still responsive
 mdi.MDI_Send_Command("<NAME", comm)
-mdi.MDI_Recv(mdi.MDI_NAME_LENGTH, mdi.MDI_CHAR, comm)
+final_name = mdi.MDI_Recv(mdi.MDI_NAME_LENGTH, mdi.MDI_CHAR, comm)
+assert initial_name == final_name
 
 mdi.MDI_Send_Command("EXIT", comm)
 print("    Completed testing command")
