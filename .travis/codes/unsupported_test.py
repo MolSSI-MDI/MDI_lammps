@@ -16,7 +16,7 @@ working_dir = "../../user/mdi_tests/test1"
 engine_name = "${USER_PATH}/lammps/src/lmp_mdi"
 
 # Launch the driver in the background
-driver_proc = subprocess.Popen([sys.executable, "unsupported_driver.py", "-mdi", "-role DRIVER -name driver -method TCP -port 8021"],
+driver_proc = subprocess.Popen([sys.executable, "min_driver.py", "-command", "UNSUPPORTED", "-mdi", "-role DRIVER -name driver -method TCP -port 8021"],
                                stdout=subprocess.PIPE, stderr=subprocess.PIPE, cwd="./drivers")
 
 # Run LAMMPS as an engine
