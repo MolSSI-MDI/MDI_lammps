@@ -2,8 +2,8 @@ import mdi
 import sys
 
 command = None
-nreceive = 0
-nsend = 0
+nreceive = None
+nsend = None
 
 iarg = 1
 while iarg < len(sys.argv):
@@ -25,17 +25,17 @@ while iarg < len(sys.argv):
         # Set the number of elements to receive
         if len(sys.argv) <= iarg+1:
             raise Exception("Argument to -nreceive option not found")
-        nreceive = int( sys.argv[iarg+1] )
+        nreceive = sys.argv[iarg+1]
         iarg += 1
     elif arg == "-nsend":
         # Set the number of elements to send
         if len(sys.argv) <= iarg+1:
             raise Exception("Argument to -nsend option not found")
-        nsend = int( sys.argv[iarg+1] )
+        nsend = sys.argv[iarg+1]
         iarg += 1
     else:
         raise Exception("Unrecognized argument")
-
+        
 # Connect to the engine
 comm = mdi.MDI_Accept_Communicator()
 
