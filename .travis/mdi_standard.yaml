@@ -70,8 +70,8 @@ commands:
     recv:
       datatype: MDI_DOUBLE
       count: 3 * <NATOMS
-  "INIT_MD":
-  "INIT_OPTG":
+  "@INIT_MD":
+  "@INIT_OPTG":
   "<KE":
     recv:
       datatype: MDI_DOUBLE
