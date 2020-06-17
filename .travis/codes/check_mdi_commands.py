@@ -29,18 +29,18 @@ def test_command( command, nrecv, recv_type, nsend, send_type ):
        #                                "-mdi", mdi_driver_options],
        #                           stdout=subprocess.PIPE, stderr=subprocess.PIPE, cwd="./drivers")
        driver_proc = subprocess.Popen([sys.executable, "min_driver.py", "-command", command, 
-                                        "-nreceive", nrecv, "-rtype", recv_type, 
-                                        "-nsend", nsend, "-stype", send_type, 
+                                        "-nreceive", str(nrecv), "-rtype", str(recv_type), 
+                                        "-nsend", str(nsend), "-stype", str(send_type), 
                                         "-mdi", mdi_driver_options],
                                    stdout=subprocess.PIPE, stderr=subprocess.PIPE, cwd="./drivers")
     elif nrecv is not None:
         driver_proc = subprocess.Popen([sys.executable, "min_driver.py", "-command", command, 
-                                        "-nreceive", nrecv, "-rtype", recv_type, 
+                                        "-nreceive", str(nrecv), "-rtype", str(recv_type), 
                                         "-mdi", mdi_driver_options],
                                    stdout=subprocess.PIPE, stderr=subprocess.PIPE, cwd="./drivers")
     elif nsend is not None:
         driver_proc = subprocess.Popen([sys.executable, "min_driver.py", "-command", command, 
-                                        "-nsend", nsend, "-stype", send_type, 
+                                        "-nsend", str(nsend), "-stype", str(send_type), 
                                         "-mdi", mdi_driver_options],
                                    stdout=subprocess.PIPE, stderr=subprocess.PIPE, cwd="./drivers")
     else:
