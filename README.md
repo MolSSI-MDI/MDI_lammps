@@ -27,43 +27,43 @@ git submodule update --remote
 [travis]: <> ( supported_commands )
 ## Supported Commands
 
-@ supported  
+@ unsupported  
 &lt;@ supported  
 &lt;CELL supported  
-&gt;CELL supported  
-&lt;CELL_DISPL supported  
-&gt;CELL_DISPL supported  
-&lt;CHARGES supported  
-&gt;CHARGES supported  
-&lt;COORDS supported  
-&gt;COORDS supported  
-&lt;DIMENSIONS supported  
-&lt;ELEC_MULT supported  
-&gt;ELEC_MULT supported  
-&lt;ELEMENTS supported  
+&gt;CELL unsupported  
+&lt;CELL_DISPL unsupported  
+&gt;CELL_DISPL unsupported  
+&lt;CHARGES unsupported  
+&gt;CHARGES unsupported  
+&lt;COORDS unsupported  
+&gt;COORDS unsupported  
+&lt;DIMENSIONS unsupported  
+&lt;ELEC_MULT unsupported  
+&gt;ELEC_MULT unsupported  
+&lt;ELEMENTS unsupported  
 &lt;ENERGY supported  
-EXIT supported  
-&gt;FORCES supported  
-&gt;+FORCES supported  
-&lt;FORCES supported  
+EXIT unsupported  
+&gt;FORCES unsupported  
+&gt;+FORCES unsupported  
+&lt;FORCES unsupported  
 @INIT_MD supported  
-@INIT_OPTG supported  
-&lt;KE supported  
-&lt;KE_ELEC supported  
-&lt;KE_NUC supported  
-&lt;MASSES supported  
-&gt;MASSES supported  
+@INIT_OPTG unsupported  
+&lt;KE unsupported  
+&lt;KE_ELEC unsupported  
+&lt;KE_NUC unsupported  
+&lt;MASSES unsupported  
+&gt;MASSES unsupported  
 &lt;NAME supported  
 &lt;NATOMS supported  
-&lt;PE supported  
-&lt;PE_ELEC supported  
-&lt;PE_NUC supported  
-&lt;STRESS supported  
-&gt;STRESS supported  
-&lt;TOTCHARGE supported  
-&gt;TOTCHARGE supported  
-&lt;VELOCITIES supported  
-&gt;VELOCITIES supported  
+&lt;PE unsupported  
+&lt;PE_ELEC unsupported  
+&lt;PE_NUC unsupported  
+&lt;STRESS unsupported  
+&gt;STRESS unsupported  
+&lt;TOTCHARGE unsupported  
+&gt;TOTCHARGE unsupported  
+&lt;VELOCITIES unsupported  
+&gt;VELOCITIES unsupported  
 
 ## Current Step
 
