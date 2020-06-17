@@ -22,12 +22,8 @@ def test_command( command, nrecv, recv_type, nsend, send_type ):
 
     port_num = 8050 + n_tested_commands
     mdi_driver_options = "-role DRIVER -name driver -method TCP -port " + str(port_num)
-    print("    TEST: " + str(command) + " " + str(nrecv) + " " + str(recv_type) + " " + str(nsend) + " " + str(send_type))
+    print("   Driver Options: " + str(command) + " " + str(nrecv) + " " + str(recv_type) + " " + str(nsend) + " " + str(send_type))
     if nrecv is not None and nsend is not None:
-       #driver_proc = subprocess.Popen([sys.executable, "min_driver.py", "-command", "<NAME", 
-       #                                "-nreceive", "MDI_NAME_LENGTH", "-rtype", "MDI_CHAR", 
-       #                                "-mdi", mdi_driver_options],
-       #                           stdout=subprocess.PIPE, stderr=subprocess.PIPE, cwd="./drivers")
        driver_proc = subprocess.Popen([sys.executable, "min_driver.py", "-command", command, 
                                         "-nreceive", str(nrecv), "-rtype", str(recv_type), 
                                         "-nsend", str(nsend), "-stype", str(send_type), 
@@ -61,6 +57,9 @@ def test_command( command, nrecv, recv_type, nsend, send_type ):
     driver_tup = driver_proc.communicate()
     driver_out = format_return(driver_tup[0])
     driver_err = format_return(driver_tup[1])
+    
+    print("   Driver out: " + str(driver_out))
+    print("   Driver err: " + str(driver_err))
 
     if driver_err == "":
         return True
@@ -88,14 +87,13 @@ def write_supported_commands():
     command_sec.append( "\n" )
 
     # Write the list of supported commands
-    print("Command list: " + str(command_list))
     for command in command_list:
         nrecv = None
         recv_type = None
         nsend = None
         send_type = None
-        print("      Commands: " + str(commands))
-        print("         command: " + str(command))
+        print("---------------------------------------")
+        print("Testing command: " + str(command))
         if commands[command] is not None and 'recv' in commands[command].keys():
             nrecv = commands[command]['recv']['count']
             recv_type = commands[command]['recv']['datatype']
