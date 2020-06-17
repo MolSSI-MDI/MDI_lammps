@@ -33,7 +33,7 @@ git submodule update --remote
 &gt;CELL unsupported  
 &lt;CELL_DISPL unsupported  
 &gt;CELL_DISPL unsupported  
-&lt;CHARGES unsupported  
+&lt;CHARGES supported  
 &gt;CHARGES unsupported  
 &lt;COORDS unsupported  
 &gt;COORDS unsupported  
@@ -51,7 +51,7 @@ EXIT unsupported
 &lt;KE unsupported  
 &lt;KE_ELEC unsupported  
 &lt;KE_NUC unsupported  
-&lt;MASSES unsupported  
+&lt;MASSES supported  
 &gt;MASSES unsupported  
 &lt;NAME supported  
 &lt;NATOMS supported  
