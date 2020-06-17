@@ -22,10 +22,31 @@ def test_command( command, nrecv, recv_type, nsend, send_type ):
 
     port_num = 8050 + n_tested_commands
     mdi_driver_options = "-role DRIVER -name driver -method TCP -port " + str(port_num)
-    driver_proc = subprocess.Popen([sys.executable, "min_driver.py", "-command", "<NAME", 
-                                    "-nreceive", "MDI_NAME_LENGTH", "-rtype", "MDI_CHAR", 
-                                    "-mdi", mdi_driver_options],
-                               stdout=subprocess.PIPE, stderr=subprocess.PIPE, cwd="./drivers")
+    print("    TEST: " + str(command) + " " + str(nrecv) + " " + str(recv_type) + " " + str(nsend) + " " + str(send_type))
+    if nrecv is not None and nsend is not None:
+       #driver_proc = subprocess.Popen([sys.executable, "min_driver.py", "-command", "<NAME", 
+       #                                "-nreceive", "MDI_NAME_LENGTH", "-rtype", "MDI_CHAR", 
+       #                                "-mdi", mdi_driver_options],
+       #                           stdout=subprocess.PIPE, stderr=subprocess.PIPE, cwd="./drivers")
+       driver_proc = subprocess.Popen([sys.executable, "min_driver.py", "-command", command
+                                        "-nreceive", nrecv, "-rtype", recv_type, 
+                                        "-nsend", nsend, "-stype", send_type, 
+                                        "-mdi", mdi_driver_options],
+                                   stdout=subprocess.PIPE, stderr=subprocess.PIPE, cwd="./drivers")
+    elif nrecv is not None:
+        driver_proc = subprocess.Popen([sys.executable, "min_driver.py", "-command", command
+                                        "-nreceive", nrecv, "-rtype", recv_type, 
+                                        "-mdi", mdi_driver_options],
+                                   stdout=subprocess.PIPE, stderr=subprocess.PIPE, cwd="./drivers")
+    elif nsend is not None:
+        driver_proc = subprocess.Popen([sys.executable, "min_driver.py", "-command", command
+                                        "-nsend", nsend, "-stype", send_type, 
+                                        "-mdi", mdi_driver_options],
+                                   stdout=subprocess.PIPE, stderr=subprocess.PIPE, cwd="./drivers")
+    else:
+        driver_proc = subprocess.Popen([sys.executable, "min_driver.py", "-command", command
+                                        "-mdi", mdi_driver_options],
+                                   stdout=subprocess.PIPE, stderr=subprocess.PIPE, cwd="./drivers")
     
     # Run LAMMPS as an engine
     mdi_engine_options = "-role ENGINE -name TESTCODE -method TCP -hostname localhost -port " + str(port_num)
