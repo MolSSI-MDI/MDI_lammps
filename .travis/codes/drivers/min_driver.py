@@ -66,8 +66,10 @@ recv_type = None
 if nreceive is not None:
     # Get the number of elements to receive
     nreceive_split = re.split("\+|\-|\*\*|\*|\/\/|\/|\%| ",nreceive)
+    print("NRECV: " + str(nreceive_split))
     for word in nreceive_split:
         if word[0] == '<':
+            print("Found command in nreceive_split")
             # This is a command, so send it to the engine
             # Assume that the command receives a single integer
             mdi.MDI_Send_Command(word, comm)
@@ -93,6 +95,7 @@ send_type = None
 if nsend is not None:
     # Get the number of elements to send
     nsend_split = re.split("\+|\-|\*\*|\*|\/\/|\/|\%| ",nsend)
+    print("NSEND: " + str(nsend_split))
     for word in nsend_split:
         if word[0] == '<':
             # This is a command, so send it to the engine
