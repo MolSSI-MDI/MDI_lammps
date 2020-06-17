@@ -65,12 +65,14 @@ def write_supported_commands():
     command_sec.append( "\n" )
 
     # Write the list of supported commands
+    print("Command list: " + str(command_list))
     for command in command_list:
         nrecv = None
         recv_type = None
         nsend = None
         send_type = None
         print("      Commands: " + str(commands))
+        print("         command: " + str(command))
         if 'recv' in commands[command].keys():
             nrecv = commands[command]['recv']['count']
             recv_type = commands[command]['recv']['datatype']
