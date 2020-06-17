@@ -76,7 +76,7 @@ if nreceive is not None:
             value = mdi.MDI_Recv(1, mdi.MDI_INT, comm)
             print("count: " + str(value))
             
-            nreceive.replace(word, str(value), 1)
+            nreceive = nreceive.replace(word, str(value), 1)
             print("nreceive: " + str(nreceive))
     
     recv_num = pd.eval(nreceive)
@@ -105,7 +105,7 @@ if nsend is not None:
             mdi.MDI_Send_Command(word, comm)
             value = mdi.MDI_Recv(1, mdi.MDI_INT, comm)
             
-            nsend.replace(word, str(value), 1)
+            nsend = nsend.replace(word, str(value), 1)
     
     send_num = pd.eval(nsend)
     
