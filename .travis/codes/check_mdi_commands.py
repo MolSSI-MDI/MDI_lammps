@@ -28,23 +28,23 @@ def test_command( command, nrecv, recv_type, nsend, send_type ):
        #                                "-nreceive", "MDI_NAME_LENGTH", "-rtype", "MDI_CHAR", 
        #                                "-mdi", mdi_driver_options],
        #                           stdout=subprocess.PIPE, stderr=subprocess.PIPE, cwd="./drivers")
-       driver_proc = subprocess.Popen([sys.executable, "min_driver.py", "-command", command
+       driver_proc = subprocess.Popen([sys.executable, "min_driver.py", "-command", command, 
                                         "-nreceive", nrecv, "-rtype", recv_type, 
                                         "-nsend", nsend, "-stype", send_type, 
                                         "-mdi", mdi_driver_options],
                                    stdout=subprocess.PIPE, stderr=subprocess.PIPE, cwd="./drivers")
     elif nrecv is not None:
-        driver_proc = subprocess.Popen([sys.executable, "min_driver.py", "-command", command
+        driver_proc = subprocess.Popen([sys.executable, "min_driver.py", "-command", command, 
                                         "-nreceive", nrecv, "-rtype", recv_type, 
                                         "-mdi", mdi_driver_options],
                                    stdout=subprocess.PIPE, stderr=subprocess.PIPE, cwd="./drivers")
     elif nsend is not None:
-        driver_proc = subprocess.Popen([sys.executable, "min_driver.py", "-command", command
+        driver_proc = subprocess.Popen([sys.executable, "min_driver.py", "-command", command, 
                                         "-nsend", nsend, "-stype", send_type, 
                                         "-mdi", mdi_driver_options],
                                    stdout=subprocess.PIPE, stderr=subprocess.PIPE, cwd="./drivers")
     else:
-        driver_proc = subprocess.Popen([sys.executable, "min_driver.py", "-command", command
+        driver_proc = subprocess.Popen([sys.executable, "min_driver.py", "-command", command, 
                                         "-mdi", mdi_driver_options],
                                    stdout=subprocess.PIPE, stderr=subprocess.PIPE, cwd="./drivers")
     
