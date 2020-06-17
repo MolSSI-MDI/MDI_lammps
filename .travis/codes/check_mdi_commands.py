@@ -20,15 +20,20 @@ n_tested_commands = 0
 def test_command( command ):
     global n_tested_commands
 
-    driver_proc = subprocess.Popen([sys.executable, "min_driver.py", "-command", "<NAME", "-nreceive", "MDI_NAME_LENGTH", "-rtype", "MDI_CHAR", "-mdi", "-role DRIVER -name driver -method TCP -port 8021"],
+    #port_num = 8050 + n_tested_commands
+    port_num = 8021
+    mdi_options = "-role DRIVER -name driver -method TCP -port " + str(port_num)
+    driver_proc = subprocess.Popen([sys.executable, "min_driver.py", "-command", "<NAME", "-nreceive", "MDI_NAME_LENGTH", "-rtype", "MDI_CHAR", "-mdi", mdi_options],
                                stdout=subprocess.PIPE, stderr=subprocess.PIPE, cwd="./drivers")
     
     # Run LAMMPS as an engine
+    mdi_options = "-role ENGINE -name TESTCODE -method TCP -port 8021 -hostname localhost"
     working_dir = "../../user/mdi_tests/test1"
     os.system("rm -rf ./_work")
     os.system("cp -r " + str(working_dir) + " _work")
     os.chdir("./_work")
-    os.system("${USER_PATH}/lammps/src/lmp_mdi -mdi \"-role ENGINE -name TESTCODE -method TCP -port 8021 -hostname localhost\" -in lammps.in > lammps.out")
+    #os.system("${USER_PATH}/lammps/src/lmp_mdi -mdi \"-role ENGINE -name TESTCODE -method TCP -port 8021 -hostname localhost\" -in lammps.in > lammps.out")
+    os.system("${USER_PATH}/lammps/src/lmp_mdi -mdi \"" + str(mdi_options) + "\" -in lammps.in > lammps.out")
     os.chdir("../")
 
     # Convert the driver's output into a string
