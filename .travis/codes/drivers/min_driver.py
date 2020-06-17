@@ -74,8 +74,10 @@ if nreceive is not None:
             # Assume that the command receives a single integer
             mdi.MDI_Send_Command(word, comm)
             value = mdi.MDI_Recv(1, mdi.MDI_INT, comm)
+            print("count: " + str(value))
             
             nreceive.replace(word, str(value), 1)
+            print("nreceive: " + str(nreceive))
     
     recv_num = pd.eval(nreceive)
     
