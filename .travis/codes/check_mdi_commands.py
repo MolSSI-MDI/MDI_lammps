@@ -17,12 +17,14 @@ def insert_list( original_list, insert_list, pos ):
         original_list.insert( pos + ielement + 1, element )
 
 n_tested_commands = 0
-def test_command( command ):
+def test_command( command, nrecv, recv_type, nsend, send_type ):
     global n_tested_commands
 
     port_num = 8050 + n_tested_commands
     mdi_driver_options = "-role DRIVER -name driver -method TCP -port " + str(port_num)
-    driver_proc = subprocess.Popen([sys.executable, "min_driver.py", "-command", "<NAME", "-nreceive", "MDI_NAME_LENGTH", "-rtype", "MDI_CHAR", "-mdi", mdi_driver_options],
+    driver_proc = subprocess.Popen([sys.executable, "min_driver.py", "-command", "<NAME", 
+                                    "-nreceive", "MDI_NAME_LENGTH", "-rtype", "MDI_CHAR", 
+                                    "-mdi", mdi_driver_options],
                                stdout=subprocess.PIPE, stderr=subprocess.PIPE, cwd="./drivers")
     
     # Run LAMMPS as an engine
@@ -79,7 +81,7 @@ def write_supported_commands():
         if commands[command] is not None and 'send' in commands[command].keys():
             nsend = commands[command]['send']['count']
             send_type = commands[command]['send']['datatype']
-        command_works = test_command( command )
+        command_works = test_command( command, nrecv, recv_type, nsend, send_type )
         if command_works:
             command_status = "supported"
         else:
