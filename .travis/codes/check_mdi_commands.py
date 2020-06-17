@@ -69,10 +69,10 @@ def write_supported_commands():
         recv_type = None
         nsend = None
         send_type = None
-        if commands[command]['recv']:
+        if 'recv' in commands[command].keys():
             nrecv = commands[command]['recv']['count']
             recv_type = commands[command]['recv']['datatype']
-        if commands[command]['send']:
+        if 'send' in commands[command].keys():
             nsend = commands[command]['send']['count']
             send_type = commands[command]['send']['datatype']
         command_works = test_command( command )
