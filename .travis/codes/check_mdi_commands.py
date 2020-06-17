@@ -47,6 +47,7 @@ def test_command( command ):
 def write_supported_commands():
     # List of all commands in the MDI Standard
     command_list = []
+    commands = None
     
     with open(r'../mdi_standard.yaml') as standard_file:
         standard = yaml.load(standard_file, Loader=yaml.FullLoader)
@@ -69,6 +70,7 @@ def write_supported_commands():
         recv_type = None
         nsend = None
         send_type = None
+        print("      Commands: " + str(commands))
         if 'recv' in commands[command].keys():
             nrecv = commands[command]['recv']['count']
             recv_type = commands[command]['recv']['datatype']
