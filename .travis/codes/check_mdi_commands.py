@@ -65,6 +65,16 @@ def write_supported_commands():
 
     # Write the list of supported commands
     for command in command_list:
+        nrecv = None
+        recv_type = None
+        nsend = None
+        send_type = None
+        if commands[command]['recv']:
+            nrecv = commands[command]['recv']['count']
+            recv_type = commands[command]['recv']['datatype']
+        if commands[command]['send']:
+            nsend = commands[command]['send']['count']
+            send_type = commands[command]['send']['datatype']
         command_works = test_command( command )
         if command_works:
             command_status = "supported"
