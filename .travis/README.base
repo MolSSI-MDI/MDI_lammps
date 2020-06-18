@@ -26,11 +26,6 @@ git submodule update --remote
 
 [travis]: <> ( supported_commands )
 
-| Node  | DEFAULT |
-| ------------- | ------------- |
-| CELL  | supported  |
-| PE  | unsupported  |
-
 ## Current Step
 
 ## Acknowledgements
