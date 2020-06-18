@@ -27,43 +27,45 @@ git submodule update --remote
 [travis]: <> ( supported_commands )
 ## Supported Commands
 
-@ unsupported  
-&lt;@ supported  
-&lt;CELL supported  
-&gt;CELL unsupported  
-&lt;CELL_DISPL unsupported  
-&gt;CELL_DISPL unsupported  
-&lt;CHARGES supported  
-&gt;CHARGES unsupported  
-&lt;COORDS supported  
-&gt;COORDS supported  
-&lt;DIMENSIONS unsupported  
-&lt;ELEC_MULT unsupported  
-&gt;ELEC_MULT unsupported  
-&lt;ELEMENTS unsupported  
-&lt;ENERGY supported  
-EXIT unsupported  
-&gt;FORCES supported  
-&gt;+FORCES unsupported  
-&lt;FORCES supported  
-@INIT_MD supported  
-@INIT_OPTG unsupported  
-&lt;KE unsupported  
-&lt;KE_ELEC unsupported  
-&lt;KE_NUC unsupported  
-&lt;MASSES supported  
-&gt;MASSES unsupported  
-&lt;NAME supported  
-&lt;NATOMS supported  
-&lt;PE unsupported  
-&lt;PE_ELEC unsupported  
-&lt;PE_NUC unsupported  
-&lt;STRESS unsupported  
-&gt;STRESS unsupported  
-&lt;TOTCHARGE unsupported  
-&gt;TOTCHARGE unsupported  
-&lt;VELOCITIES unsupported  
-&gt;VELOCITIES unsupported  
+| | @DEFAULT |
+| ------------- | ------------- |
+| @ | unsupported  |
+| &lt;@ | supported  |
+| &lt;CELL | supported  |
+| &gt;CELL | unsupported  |
+| &lt;CELL_DISPL | unsupported  |
+| &gt;CELL_DISPL | unsupported  |
+| &lt;CHARGES | supported  |
+| &gt;CHARGES | unsupported  |
+| &lt;COORDS | supported  |
+| &gt;COORDS | supported  |
+| &lt;DIMENSIONS | unsupported  |
+| &lt;ELEC_MULT | unsupported  |
+| &gt;ELEC_MULT | unsupported  |
+| &lt;ELEMENTS | unsupported  |
+| &lt;ENERGY | supported  |
+| EXIT | unsupported  |
+| &gt;FORCES | supported  |
+| &gt;+FORCES | unsupported  |
+| &lt;FORCES | supported  |
+| @INIT_MD | supported  |
+| @INIT_OPTG | unsupported  |
+| &lt;KE | unsupported  |
+| &lt;KE_ELEC | unsupported  |
+| &lt;KE_NUC | unsupported  |
+| &lt;MASSES | supported  |
+| &gt;MASSES | unsupported  |
+| &lt;NAME | supported  |
+| &lt;NATOMS | supported  |
+| &lt;PE | unsupported  |
+| &lt;PE_ELEC | unsupported  |
+| &lt;PE_NUC | unsupported  |
+| &lt;STRESS | unsupported  |
+| &gt;STRESS | unsupported  |
+| &lt;TOTCHARGE | unsupported  |
+| &gt;TOTCHARGE | unsupported  |
+| &lt;VELOCITIES | unsupported  |
+| &gt;VELOCITIES | unsupported  |
 
 | Node  | DEFAULT |
 | ------------- | ------------- |
