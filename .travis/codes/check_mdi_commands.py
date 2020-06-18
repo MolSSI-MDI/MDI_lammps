@@ -85,6 +85,8 @@ def write_supported_commands():
     # Write the section header
     command_sec.append( "## Supported Commands\n" )
     command_sec.append( "\n" )
+    command_sec.append( "| | @DEFAULT |\n" )
+    command_sec.append( "| ------------- | ------------- |\n" )
 
     # Write the list of supported commands
     for command in command_list:
@@ -105,7 +107,7 @@ def write_supported_commands():
             command_status = "supported"
         else:
             command_status = "unsupported"
-        line = str(command) + " " + str(command_status) + "  \n"
+        line = "| " + str(command) + " | " + str(command_status) + "  |\n"
         command_sec.append( line )
 
     # Replace all ">" or "<" symbols with Markdown escape sequences
