@@ -67,11 +67,6 @@ git submodule update --remote
 | &lt;VELOCITIES | unsupported  |
 | &gt;VELOCITIES | unsupported  |
 
-| Node  | DEFAULT |
-| ------------- | ------------- |
-| CELL  | supported  |
-| PE  | unsupported  |
-
 ## Current Step
 
 ## Acknowledgements
