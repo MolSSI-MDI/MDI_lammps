@@ -104,7 +104,8 @@ def write_supported_commands():
             send_type = commands[command]['send']['datatype']
         command_works = test_command( command, nrecv, recv_type, nsend, send_type )
         if command_works:
-            command_status = "supported"
+            #command_status = "supported"
+            command_status = "![command](.travis/badges/box-brightgreen.svg)"
         else:
             command_status = "unsupported"
         line = "| " + str(command) + " | " + str(command_status) + "  |\n"
