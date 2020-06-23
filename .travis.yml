@@ -21,7 +21,7 @@ matrix:
         - conda info -a
 
         # Install pymdi
-        - conda install -c conda-forge pymdi pyyaml pandas
+        - conda install -c conda-forge pymdi pyyaml pandas python-graphviz
 
         # Check Python version
         - which python

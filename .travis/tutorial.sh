@@ -98,7 +98,22 @@ step_mdi_commands() {
 	echo "Error: Unable to determine which MDI commands are supported by this engine"
 	return 1
     fi
-    
+}
+
+step_mdi_nodes() {
+    cd ${BASE_PATH}/.travis/codes
+
+    if python check_mdi_nodes.py ; then
+        echo "Success: Able to determine which MDI nodes are supported by this engine"
+
+	# Copy the new README.md file into position
+	cp README.temp ${BASE_PATH}/README.md
+	git add ${BASE_PATH}/README.md
+        git add ${BASE_PATH}/.travis/graphs/node-report.gv.svg
+    else
+	echo "Error: Unable to determine which MDI nodes are supported by this engine"
+	return 1
+    fi
 }
 
 # Obtain the currect working directory
@@ -221,6 +236,18 @@ if step_mdi_commands ; then
     git add ./.travis/dynamic_badges/step_mdi_commands.svg
 else
     echo "Error: Unable to detect MDI commands."
+    cd ${BASE_PATH}
+    tutorial_error
+fi
+
+# Perform the node analysis
+if step_mdi_nodes ; then
+    echo "Success: Detected MDI nodes."
+    cd ${BASE_PATH}
+    cp ./.travis/badges/-working-success.svg ./.travis/dynamic_badges/step_mdi_nodes.svg
+    git add ./.travis/dynamic_badges/step_mdi_nodes.svg
+else
+    echo "Error: Unable to detect MDI nodes."
     cd ${BASE_PATH}
     tutorial_error
 fi
