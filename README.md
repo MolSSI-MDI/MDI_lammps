@@ -24,6 +24,10 @@ git submodule update --remote
 7. ![step7](.travis/dynamic_badges/step_mdi_commands.svg) Add support for more MDI commands
 8. ![step8](.travis/dynamic_badges/step_mdi_nodes.svg) Add support for the MDI Node System
 
+## Nodes
+
+![command](.travis/graphs/node-report.gv.svg)
+
 [travis]: <> ( supported_commands )
 ## Supported Commands
 
