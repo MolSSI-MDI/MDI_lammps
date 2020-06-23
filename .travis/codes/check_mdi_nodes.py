@@ -1,3 +1,5 @@
+import os
+import subprocess
 from graphviz import Digraph
 
 def format_return(input_string):
