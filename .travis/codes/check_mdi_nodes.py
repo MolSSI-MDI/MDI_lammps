@@ -26,15 +26,21 @@ def test_nodes():
     working_dir = "../../user/mdi_tests/test1"
     os.system("rm -rf ./_work")
     os.system("cp -r " + str(working_dir) + " _work")
-    os.chdir("./_work")
-    os.system("${USER_PATH}/lammps/src/lmp_mdi -mdi \"" + str(mdi_engine_options) + "\" -in lammps.in > lammps.out")
-    os.chdir("../")
+    #os.chdir("./_work")
+    #os.system("${USER_PATH}/lammps/src/lmp_mdi -mdi \"" + str(mdi_engine_options) + "\" -in lammps.in > lammps.out")
+    #os.chdir("../")
+    engine_proc = subprocess.Popen(["${USER_PATH}/lammps/src/lmp_mdi", 
+                                    "-mdi", mdi_driver_options, 
+                                    "-in", "lammps.in"], 
+                                    stdout=subprocess.PIPE, stderr=subprocess.PIPE, cwd="./_work")
 
     # Convert the driver's output into a string
     driver_tup = driver_proc.communicate()
     driver_out = format_return(driver_tup[0])
     driver_err = format_return(driver_tup[1])
 
+    engine_tup = engine_proc.communicate()
+    
     print("CHECK_MDI_NODES.PY")
     print("   Driver out: " + str(driver_out))
     print("   Driver err: " + str(driver_err))
