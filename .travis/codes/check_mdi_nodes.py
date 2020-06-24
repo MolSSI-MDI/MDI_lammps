@@ -42,10 +42,8 @@ def test_nodes():
     #                                stderr=subprocess.PIPE, 
     #                                cwd="./_work")
     
-    user_path = os.system("echo ${USER_PATH}")
-    engine_path = str(user_path) + "/lammps/src/lmp_mdi"
     print( "Environment: " + str(os.environ) )
-    engine_proc = subprocess.Popen(["echo", "${USER_PATH}/lammps/src/lmp_mdi"], 
+    engine_proc = subprocess.Popen(["echo", "$USER_PATH"], 
                                     shell=True, 
                                     env=dict(os.environ), 
                                     stdout=subprocess.PIPE, 
