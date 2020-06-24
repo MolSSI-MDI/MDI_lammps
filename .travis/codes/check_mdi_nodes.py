@@ -29,7 +29,9 @@ def test_nodes():
     #os.chdir("./_work")
     #os.system("${USER_PATH}/lammps/src/lmp_mdi -mdi \"" + str(mdi_engine_options) + "\" -in lammps.in > lammps.out")
     #os.chdir("../")
-    engine_proc = subprocess.Popen(["${USER_PATH}/lammps/src/lmp_mdi", 
+    user_path = os.system("echo ${USER_PATH}")
+    engine_path = str(user_path) + "/lammps/src/lmp_mdi"
+    engine_proc = subprocess.Popen([engine_path, 
                                     "-mdi", mdi_driver_options, 
                                     "-in", "lammps.in"], 
                                     stdout=subprocess.PIPE, stderr=subprocess.PIPE, cwd="./_work")
