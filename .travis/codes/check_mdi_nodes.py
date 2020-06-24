@@ -26,15 +26,26 @@ def test_nodes():
     working_dir = "../../user/mdi_tests/test1"
     os.system("rm -rf ./_work")
     os.system("cp -r " + str(working_dir) + " _work")
-    #os.chdir("./_work")
-    #os.system("${USER_PATH}/lammps/src/lmp_mdi -mdi \"" + str(mdi_engine_options) + "\" -in lammps.in > lammps.out")
-    #os.chdir("../")
+    os.chdir("./_work")
+    os.system("${USER_PATH}/lammps/src/lmp_mdi -mdi \"" + str(mdi_engine_options) + "\" -in lammps.in > lammps.out")
+    os.chdir("../")
+
+    #user_path = os.system("echo ${USER_PATH}")
+    #engine_path = str(user_path) + "/lammps/src/lmp_mdi"
+    #print( "Environment: " + str(os.environ) )
+    #engine_proc = subprocess.Popen(["${USER_PATH}/lammps/src/lmp_mdi", 
+    #                                "-mdi", mdi_driver_options, 
+    #                                "-in", "lammps.in"], 
+    #                                shell=True, 
+    #                                env=dict(os.environ), 
+    #                                stdout=subprocess.PIPE, 
+    #                                stderr=subprocess.PIPE, 
+    #                                cwd="./_work")
+    
     user_path = os.system("echo ${USER_PATH}")
     engine_path = str(user_path) + "/lammps/src/lmp_mdi"
     print( "Environment: " + str(os.environ) )
-    engine_proc = subprocess.Popen(["${USER_PATH}/lammps/src/lmp_mdi", 
-                                    "-mdi", mdi_driver_options, 
-                                    "-in", "lammps.in"], 
+    engine_proc = subprocess.Popen(["echo", "${USER_PATH}/lammps/src/lmp_mdi"], 
                                     shell=True, 
                                     env=dict(os.environ), 
                                     stdout=subprocess.PIPE, 
@@ -47,7 +58,11 @@ def test_nodes():
     driver_err = format_return(driver_tup[1])
 
     engine_tup = engine_proc.communicate()
-    
+    engine_out = format_return(engine_tup[0])
+    engine_err = format_return(engine_tup[1])
+    print("   Engine out: " + str(engine_out))
+    print("   Engine err: " + str(engine_err))
+
     print("CHECK_MDI_NODES.PY")
     print("   Driver out: " + str(driver_out))
     print("   Driver err: " + str(driver_err))
