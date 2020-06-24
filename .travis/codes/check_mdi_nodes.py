@@ -76,7 +76,7 @@ def find_nodes():
         commands = standard['commands']
         
         for command in commands.keys():
-            if command[0] == '@'
+            if command[0] == '@':
                 command_list.append( command )
 
     print("AAA: " + str(command_list))
