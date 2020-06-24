@@ -31,10 +31,12 @@ def test_nodes():
     #os.chdir("../")
     user_path = os.system("echo ${USER_PATH}")
     engine_path = str(user_path) + "/lammps/src/lmp_mdi"
+    print( "Environment: " + str(os.environ) )
     engine_proc = subprocess.Popen(["%USER_PATH%/lammps/src/lmp_mdi", 
                                     "-mdi", mdi_driver_options, 
                                     "-in", "lammps.in"], 
                                     shell=True, 
+                                    env=dict(os.environ), 
                                     stdout=subprocess.PIPE, 
                                     stderr=subprocess.PIPE, 
                                     cwd="./_work")
@@ -52,7 +54,7 @@ def test_nodes():
 
 
 
-test_nodes()
+vtest_nodes()
 
 dot = Digraph(comment='Node Report', format='svg')
 
