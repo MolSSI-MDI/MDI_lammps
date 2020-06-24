@@ -51,13 +51,17 @@ def test_nodes():
     print("NNodes: " + str(nnodes))
     nodes = [ mdi.MDI_Get_Node(inode, comm) for inode in range(nnodes) ]
     print("Nodes: " + str(nodes))
+    for node in nodes:
+        ncommands = mdi.MDI_Get_NCommands(node, comm)
+        commands = [ mdi.MDI_Get_Command(node, icommand, comm) for icommand in range(ncommands) ]
+        print("Commands: " + str(commands))
     mdi.MDI_Send_Command("EXIT", comm)
 
     engine_tup = engine_proc.communicate()
     engine_out = format_return(engine_tup[0])
     engine_err = format_return(engine_tup[1])
-    print("   Engine out: " + str(engine_out))
-    print("   Engine err: " + str(engine_err))
+    #print("   Engine out: " + str(engine_out))
+    #print("   Engine err: " + str(engine_err))
 
 
 
