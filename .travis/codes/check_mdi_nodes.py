@@ -66,6 +66,21 @@ def test_command( command, nrecv, recv_type, nsend, send_type ):
     else:
         return False
 
+def find_nodes():
+    # List of all node commands in the MDI Standard
+    command_list = []
+    commands = None
+    
+    with open(r'../mdi_standard.yaml') as standard_file:
+        standard = yaml.load(standard_file, Loader=yaml.FullLoader)
+        commands = standard['commands']
+        
+        for command in commands.keys():
+            if command[0] == '@'
+                command_list.append( command )
+
+    print("AAA: " + str(command_list))
+    
 def write_supported_commands():
     # List of all commands in the MDI Standard
     command_list = []
@@ -134,7 +149,7 @@ for iline in range(len(readme)):
 
         if instruction == "supported_commands":
             # Identify all supported nodes
-            #find_nodes()
+            find_nodes()
 
             # Need to insert a list of supported commands here
             command_sec = write_supported_commands()
