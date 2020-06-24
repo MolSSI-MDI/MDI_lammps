@@ -1,6 +1,7 @@
 import os
 import sys
 import subprocess
+import mdi
 from graphviz import Digraph
 
 def format_return(input_string):
@@ -24,29 +25,16 @@ def test_nodes():
     # Run LAMMPS as an engine
     mdi_engine_options = "-role ENGINE -name TESTCODE -method TCP -hostname localhost -port " + str(port_num)
     working_dir = "../../user/mdi_tests/test1"
+    user_path = os.environ['USER_PATH']
     os.system("rm -rf ./_work")
     os.system("cp -r " + str(working_dir) + " _work")
-    #os.chdir("./_work")
-    #os.system("${USER_PATH}/lammps/src/lmp_mdi -mdi \"" + str(mdi_engine_options) + "\" -in lammps.in > lammps.out")
-    #os.chdir("../")
-
-    user_path = os.environ['USER_PATH']
     engine_path = str(user_path) + "/lammps/src/lmp_mdi"
-    #print( "Environment: " + str(os.environ) )
-    print( "user_path: " + str(user_path) )
     engine_proc = subprocess.Popen([engine_path, 
                                     "-mdi", mdi_engine_options, 
                                     "-in", "lammps.in"], 
                                     stdout=subprocess.PIPE, 
                                     stderr=subprocess.PIPE, 
                                     cwd="./_work")
-    
-    #print( "Environment: " + str(os.environ) )
-    #os.environ['USER_PATH']
-    #engine_proc = subprocess.Popen(["echo", engine_path], 
-    #                                stdout=subprocess.PIPE, 
-    #                                stderr=subprocess.PIPE, 
-    #                                cwd="./_work")
 
     # Convert the driver's output into a string
     driver_tup = driver_proc.communicate()
