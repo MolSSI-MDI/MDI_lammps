@@ -17,10 +17,10 @@ def test_nodes():
     mdi_driver_options = "-role DRIVER -name driver -method TCP -port " + str(port_num)
 
     # Get the number of nodes
-    driver_proc = subprocess.Popen([sys.executable, "min_driver.py", "-command", "<NNODES", 
-                                    "-nreceive", "1", "-rtype", "MDI_INT", 
-                                    "-mdi", mdi_driver_options],
-                                   stdout=subprocess.PIPE, stderr=subprocess.PIPE, cwd="./drivers")
+    #driver_proc = subprocess.Popen([sys.executable, "min_driver.py", "-command", "<NNODES", 
+    #                                "-nreceive", "1", "-rtype", "MDI_INT", 
+    #                                "-mdi", mdi_driver_options],
+    #                               stdout=subprocess.PIPE, stderr=subprocess.PIPE, cwd="./drivers")
 
     # Run LAMMPS as an engine
     mdi_engine_options = "-role ENGINE -name TESTCODE -method TCP -hostname localhost -port " + str(port_num)
@@ -37,19 +37,25 @@ def test_nodes():
                                     cwd="./_work")
 
     # Convert the driver's output into a string
-    driver_tup = driver_proc.communicate()
-    driver_out = format_return(driver_tup[0])
-    driver_err = format_return(driver_tup[1])
+    #driver_tup = driver_proc.communicate()
+    #driver_out = format_return(driver_tup[0])
+    #driver_err = format_return(driver_tup[1])
+
+    #print("CHECK_MDI_NODES.PY")
+    #print("   Driver out: " + str(driver_out))
+    #print("   Driver err: " + str(driver_err))
+    
+    mdi.MDI_Init(mdi_driver_options, None)
+    comm = mdi.MDI_Accept_Communicator()
+    nnodes = mdi.MDI_Get_NNodes(comm)
+    print("NNodes: " + str(nnodes))
+    mdi.MDI_Send_Command("EXIT", comm)
 
     engine_tup = engine_proc.communicate()
     engine_out = format_return(engine_tup[0])
     engine_err = format_return(engine_tup[1])
     print("   Engine out: " + str(engine_out))
     print("   Engine err: " + str(engine_err))
-
-    print("CHECK_MDI_NODES.PY")
-    print("   Driver out: " + str(driver_out))
-    print("   Driver err: " + str(driver_err))
 
 
 
