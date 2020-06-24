@@ -34,7 +34,10 @@ def test_nodes():
     engine_proc = subprocess.Popen([engine_path, 
                                     "-mdi", mdi_driver_options, 
                                     "-in", "lammps.in"], 
-                                    stdout=subprocess.PIPE, stderr=subprocess.PIPE, cwd="./_work")
+                                    shell=True, 
+                                    stdout=subprocess.PIPE, 
+                                    stderr=subprocess.PIPE, 
+                                    cwd="./_work")
 
     # Convert the driver's output into a string
     driver_tup = driver_proc.communicate()
