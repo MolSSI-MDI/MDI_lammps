@@ -24,7 +24,7 @@ while iarg < len(sys.argv):
         # Set the command
         if len(sys.argv) <= iarg+1:
             raise Exception("Argument to -command option not found")
-        command = sys.argv[iarg+1]
+        command_input = sys.argv[iarg+1]
         iarg += 1
     elif arg == "-nreceive":
         # Set the number of elements to receive
@@ -121,9 +121,17 @@ if nsend is not None:
     else:
         raise Exception("Invalid send type")
 
-# Send the command to be tested
-print(" Minimum driver is testing command: " + str(command))
-mdi.MDI_Send_Command(command, comm)
+
+# Send all commands
+command_string = str(command_input)
+command_list = command_string.split()
+
+# Send the command(s) to be tested
+for command in command_list:
+    print(" Minimum driver is testing command: " + str(command))
+    mdi.MDI_Send_Command(command, comm)
+
+# Send or receive any data associated with the final command
 if nreceive is not None:
     recv_data = mdi.MDI_Recv(recv_num, recv_type, comm)
     print("    Received: " + str(recv_data))
