@@ -54,7 +54,7 @@ def test_nodes():
 
 
 
-vtest_nodes()
+test_nodes()
 
 dot = Digraph(comment='Node Report', format='svg')
 
