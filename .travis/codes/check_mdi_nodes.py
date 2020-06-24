@@ -49,6 +49,8 @@ def test_nodes():
     comm = mdi.MDI_Accept_Communicator()
     nnodes = mdi.MDI_Get_NNodes(comm)
     print("NNodes: " + str(nnodes))
+    nodes = [ mdi.MDI_Get_Node(inode, comm) for inode in range(nnodes) ]
+    print("Nodes: " + str(nodes))
     mdi.MDI_Send_Command("EXIT", comm)
 
     engine_tup = engine_proc.communicate()
