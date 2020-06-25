@@ -160,5 +160,11 @@ mdi.MDI_Send_Command("<NAME", comm)
 final_name = mdi.MDI_Recv(mdi.MDI_NAME_LENGTH, mdi.MDI_CHAR, comm)
 assert initial_name == final_name
 
+# Some nodes might not support the "EXIT" command, so write a file indicating success now
+# Write the received data to a file 
+f = open("min_driver.err", "w")
+f.write("0")
+f.close()
+
 mdi.MDI_Send_Command("EXIT", comm)
 print("    Completed testing command")
