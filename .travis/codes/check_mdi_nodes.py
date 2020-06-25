@@ -98,23 +98,30 @@ def find_nodes():
     
     # From the nodes that have currently been identified, attempt to use the "@" command to identify more nodes
     for node in node_paths.keys():
-        command = node_paths[node] + " @" + " <@"
-        print("CCC Node path test: " + str(command))
-        command_works = test_command( command, "MDI_COMMAND_LENGTH", "MDI_CHAR", None, None )
-        print("Working path: " + str(command))
+        for ii in range(20):
+            new_path = node_paths[node]
+            for jj in range(ii+1):
+                new_path += " @"
+            command = new_path + " <@"
+            print("CCC Node path test: " + str(command))
+            command_works = test_command( command, "MDI_COMMAND_LENGTH", "MDI_CHAR", None, None )
+            print("Working path: " + str(command))
         
-        # Read the name of the node
-        node_name = None
-        if os.path.isfile("./drivers/min_driver.dat"):
-            with open("./drivers/min_driver.dat", "r") as f:
-                node_name = f.read()
-        print("DDD Name of new node: " + str(node_name))
-        err_value = None
-        if os.path.isfile("./drivers/min_driver.err"):
-            with open("./drivers/min_driver.err", "r") as f:
-                err_value = f.read()
-        if err_value == "0":
-            print("EEE: Worked")
+            # Read the name of the node
+            node_name = None
+            if os.path.isfile("./drivers/min_driver.dat"):
+                with open("./drivers/min_driver.dat", "r") as f:
+                    node_name = f.read()
+            print("DDD Name of new node: " + str(node_name))
+            err_value = None
+            if os.path.isfile("./drivers/min_driver.err"):
+                with open("./drivers/min_driver.err", "r") as f:
+                    err_value = f.read()
+            if err_value == "0":
+                print("EEE: Worked")
+                
+            if not node_name in node_paths.keys():
+                node_paths[node_name] = new_path
     
     print("AAA: " + str(command_list))
     print("BBB: " + str(node_paths))
