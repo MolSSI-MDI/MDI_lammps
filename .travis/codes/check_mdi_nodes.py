@@ -79,6 +79,10 @@ def find_nodes():
             if command[0] == '@' and command != '@':
                 command_list.append( command )
 
+    for command in command_list:
+        command_works = test_command( command, None, None, None, None )
+        if command_works:
+            print("Working command: " + str(command))
     print("AAA: " + str(command_list))
     
 def write_supported_commands():
