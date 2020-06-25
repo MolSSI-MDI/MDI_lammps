@@ -23,6 +23,10 @@ n_tested_commands = 0
 def test_command( command, nrecv, recv_type, nsend, send_type ):
     global n_tested_commands
     print("Starting min_driver.py with command: " + str(command))
+    
+    # Remove any leftover files from previous runs of min_driver.py
+    os.system("rm ./driver/min_driver.dat")
+    os.system("rm ./driver/min_driver.err")
 
     port_num = 9050 + n_tested_commands
     mdi_driver_options = "-role DRIVER -name driver -method TCP -port " + str(port_num)
