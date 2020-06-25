@@ -95,9 +95,14 @@ def find_nodes():
     # From the nodes that have currently been identified, attempt to use the "@" command to identify more nodes
     for node in node_paths.keys():
         command = node_paths[node] + " @" + " <@"
-        print("Node path test: " + str(command))
+        print("CCC Node path test: " + str(command))
         command_works = test_command( command, "MDI_COMMAND_LENGTH", "MDI_CHAR", None, None )
         print("Working path: " + str(command))
+        
+        # Read the name of the node
+        f = open("./drivers/min_driver.dat", "r")
+        node_name = f.read()
+        print("DDD Name of new node: " + str(node_name))
     
     print("AAA: " + str(command_list))
     print("BBB: " + str(node_paths))
