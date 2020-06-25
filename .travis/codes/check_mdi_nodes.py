@@ -123,7 +123,7 @@ def find_nodes():
             if err_value == "0":
                 print("EEE: Worked")
                 
-            if not node_name in node_paths.keys():
+            if node_name is not None and not node_name in node_paths.keys():
                 node_paths[node_name] = new_path
     
     print("AAA: " + str(command_list))
