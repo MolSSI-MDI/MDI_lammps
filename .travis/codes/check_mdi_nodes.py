@@ -3,6 +3,9 @@ import subprocess
 import sys
 import yaml
 
+# Paths to enter each identified node
+node_paths = { "@DEFAULT": "" }
+
 def format_return(input_string):
     my_string = input_string.decode('utf-8')
 
@@ -67,6 +70,8 @@ def test_command( command, nrecv, recv_type, nsend, send_type ):
         return False
 
 def find_nodes():
+    global command_paths
+    
     # List of all node commands in the MDI Standard
     command_list = []
     commands = None
@@ -79,12 +84,22 @@ def find_nodes():
             if command[0] == '@' and command != '@':
                 command_list.append( command )
 
+    # Check which of the MDI Standard commands work from the @DEFAULT node
     for command in command_list:
         command_works = test_command( command, None, None, None, None )
         if command_works:
             print("Working command: " + str(command))
-    print("AAA: " + str(command_list))
+            command_paths[command] = command
     
+    # From the nodes that have currently been identified, attempt to use the "@" command to identify more nodes
+    for node in node_paths.keys():
+        command = node_paths[node] + " @" + " <@"
+        command_works = test_command( command_paths, "MDI_COMMAND_LENGTH", "MDI_CHAR", None, None )
+        print("Working path: " + str(command))
+    
+    print("AAA: " + str(command_list))
+    print("BBB: " + str(command_paths))
+
 def write_supported_commands():
     # List of all commands in the MDI Standard
     command_list = []
