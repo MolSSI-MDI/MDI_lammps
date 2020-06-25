@@ -135,6 +135,11 @@ for command in command_list:
 if nreceive is not None:
     recv_data = mdi.MDI_Recv(recv_num, recv_type, comm)
     print("    Received: " + str(recv_data))
+    
+    # Write the received data to a file 
+    f = open("min_driver.dat", "w")
+    f.write(str(recv_data))
+    f.close()
 if nsend is not None:
     if send_type == mdi.MDI_INT:
         data = [ 0 for i in range(send_num) ]
