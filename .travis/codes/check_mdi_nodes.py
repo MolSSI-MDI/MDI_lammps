@@ -142,6 +142,9 @@ def write_supported_commands():
             values = commands[command]
             command_list.append( command )
 
+    # Identify all supported nodes, and find a path to them
+    find_nodes()
+    
     # Write the README.md section that lists all supported commands
     command_sec = []
 
@@ -165,7 +168,10 @@ def write_supported_commands():
         if commands[command] is not None and 'send' in commands[command].keys():
             nsend = commands[command]['send']['count']
             send_type = commands[command]['send']['datatype']
-        command_works = test_command( command, nrecv, recv_type, nsend, send_type )
+        
+        command_with_path = node_paths["@DEFAULT"] + command
+        command_works = test_command( command_with_path, nrecv, recv_type, nsend, send_type )
+        
         if command_works:
             # Display a bright green box
             command_status = "![command](.travis/badges/box-brightgreen.svg)"
@@ -196,9 +202,6 @@ for iline in range(len(readme)):
         instruction = sline[3]
 
         if instruction == "supported_commands":
-            # Identify all supported nodes
-            find_nodes()
-
             # Need to insert a list of supported commands here
             command_sec = write_supported_commands()
             insert_list( readme, command_sec, iline )
