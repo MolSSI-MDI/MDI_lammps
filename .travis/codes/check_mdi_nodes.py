@@ -98,7 +98,7 @@ def find_nodes():
     
     # From the nodes that have currently been identified, attempt to use the "@" command to identify more nodes
     original_nodes = []
-    for node in node_paths.keys()
+    for node in node_paths.keys():
         original_nodes.append(node)
     for node in original_nodes:
         for ii in range(20):
