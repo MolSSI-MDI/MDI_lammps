@@ -22,6 +22,7 @@ def insert_list( original_list, insert_list, pos ):
 n_tested_commands = 0
 def test_command( command, nrecv, recv_type, nsend, send_type ):
     global n_tested_commands
+    print("Starting min_driver.py with command: " + str(command))
 
     port_num = 9050 + n_tested_commands
     mdi_driver_options = "-role DRIVER -name driver -method TCP -port " + str(port_num)
@@ -94,6 +95,7 @@ def find_nodes():
     # From the nodes that have currently been identified, attempt to use the "@" command to identify more nodes
     for node in node_paths.keys():
         command = node_paths[node] + " @" + " <@"
+        print("Node path test: " + str(command))
         command_works = test_command( command, "MDI_COMMAND_LENGTH", "MDI_CHAR", None, None )
         print("Working path: " + str(command))
     
