@@ -130,6 +130,8 @@ def find_nodes():
     print("BBB: " + str(node_paths))
 
 def write_supported_commands():
+    global node_paths
+    
     # List of all commands in the MDI Standard
     command_list = []
     commands = None
@@ -151,8 +153,16 @@ def write_supported_commands():
     # Write the section header
     command_sec.append( "## Supported Commands\n" )
     command_sec.append( "\n" )
-    command_sec.append( "| | @DEFAULT |\n" )
-    command_sec.append( "| ------------- | ------------- |\n" )
+    header_line = "| "
+    for node in node_paths.keys():
+        header_line += "| " + str(node) + " "
+    header_line += "|\n"
+    command_sec.append( header_line )
+    header_line = "| ------------- "
+    for node in node_paths.keys():
+        header_line += "| ------------- "
+    header_line += "|\n"
+    command_sec.append( header_line )
 
     # Write the list of supported commands
     for command in command_list:
@@ -178,7 +188,12 @@ def write_supported_commands():
         else:
             # Display a light gray box
             command_status = "![command](.travis/badges/box-lightgray.svg)"
-        line = "| " + str(command) + " | " + str(command_status) + "  |\n"
+        
+        #line = "| " + str(command) + " | " + str(command_status) + "  |\n"
+        line = "| " + str(command) + " "
+        for node in node_paths.keys():
+            line += "| " + str(command_status) + " "
+        line += "|\n"
         command_sec.append( line )
 
     # Replace all ">" or "<" symbols with Markdown escape sequences
