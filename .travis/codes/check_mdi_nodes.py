@@ -103,6 +103,10 @@ def find_nodes():
         f = open("./drivers/min_driver.dat", "r")
         node_name = f.read()
         print("DDD Name of new node: " + str(node_name))
+        f = open("./drivers/min_driver.err", "r")
+        err_value = f.read()
+        if err_value == "0":
+            print("EEE: Worked")
     
     print("AAA: " + str(command_list))
     print("BBB: " + str(node_paths))
