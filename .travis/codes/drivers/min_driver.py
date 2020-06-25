@@ -123,8 +123,10 @@ if nsend is not None:
 
 
 # Send all commands
+print("   Command input: " + str(command_input))
 command_string = str(command_input)
 command_list = command_string.split()
+print("   Command list: " + str(command_list))
 
 # Send the command(s) to be tested
 for command in command_list:
