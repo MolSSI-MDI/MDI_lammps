@@ -70,7 +70,7 @@ def test_command( command, nrecv, recv_type, nsend, send_type ):
         return False
 
 def find_nodes():
-    global command_paths
+    global node_paths
     
     # List of all node commands in the MDI Standard
     command_list = []
@@ -89,16 +89,16 @@ def find_nodes():
         command_works = test_command( command, None, None, None, None )
         if command_works:
             print("Working command: " + str(command))
-            command_paths[command] = command
+            node_paths[command] = command
     
     # From the nodes that have currently been identified, attempt to use the "@" command to identify more nodes
     for node in node_paths.keys():
         command = node_paths[node] + " @" + " <@"
-        command_works = test_command( command_paths, "MDI_COMMAND_LENGTH", "MDI_CHAR", None, None )
+        command_works = test_command( command, "MDI_COMMAND_LENGTH", "MDI_CHAR", None, None )
         print("Working path: " + str(command))
     
     print("AAA: " + str(command_list))
-    print("BBB: " + str(command_paths))
+    print("BBB: " + str(node_paths))
 
 def write_supported_commands():
     # List of all commands in the MDI Standard
