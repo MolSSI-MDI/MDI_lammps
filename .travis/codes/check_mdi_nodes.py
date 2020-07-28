@@ -183,6 +183,7 @@ def write_supported_commands():
         line = "| " + str(command) + " "
         for node in node_paths.keys():
             command_with_path = node_paths[node] + command
+            print("FFF: " + str(command_with_path))
             command_works = test_command( command_with_path, nrecv, recv_type, nsend, send_type )
         
             if command_works:
