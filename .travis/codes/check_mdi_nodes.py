@@ -179,19 +179,19 @@ def write_supported_commands():
             nsend = commands[command]['send']['count']
             send_type = commands[command]['send']['datatype']
         
-        command_with_path = node_paths["@DEFAULT"] + command
-        command_works = test_command( command_with_path, nrecv, recv_type, nsend, send_type )
-        
-        if command_works:
-            # Display a bright green box
-            command_status = "![command](.travis/badges/box-brightgreen.svg)"
-        else:
-            # Display a light gray box
-            command_status = "![command](.travis/badges/box-lightgray.svg)"
-        
         #line = "| " + str(command) + " | " + str(command_status) + "  |\n"
         line = "| " + str(command) + " "
         for node in node_paths.keys():
+            command_with_path = node_paths["@DEFAULT"] + command
+            command_works = test_command( command_with_path, nrecv, recv_type, nsend, send_type )
+        
+            if command_works:
+                # Display a bright green box
+                command_status = "![command](.travis/badges/box-brightgreen.svg)"
+            else:
+                # Display a light gray box
+                command_status = "![command](.travis/badges/box-lightgray.svg)"
+
             line += "| " + str(command_status) + " "
         line += "|\n"
         command_sec.append( line )
