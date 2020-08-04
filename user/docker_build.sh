@@ -6,7 +6,10 @@
 #    mpich \
 #    libmpich-dev
 apt-get update && apt-get install -y \
-    gfortran
+    gfortran \
+    git \
+    pip \
+    make
 
 pip install mpi4py
 pip install numpy
