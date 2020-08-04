@@ -2,6 +2,8 @@ language: cpp
 python:
   - "3.6"
 sudo: required
+services:
+  - docker
 
 matrix:
   include:
@@ -34,33 +36,6 @@ matrix:
       script:
         - echo "Script"
         - ./.travis/tutorial.sh
-    #  deploy:
-    #    provider: pages
-    #    skip_cleanup: true
-    #    github_token: $mdi_key  # Set in the settings page of your repository, as a secure variable
-    #    keep_history: true
-    #  on:
-    #    branch: master
-    #- os: linux
-    #  compiler: gcc
-    #  env: 
-    #    - LAMMPS_INSTALL="mpi"
-    #    - TESTS=""
-    #- os: osx
-    #  addons:
-    #    apt_packages:
-    #      - gfortran
-    #  env: 
-    #    - LAMMPS_INSTALL="serial"
-    #    - TESTS="not mpi"
-    #- os: osx
-    #  addons:
-    #    apt_packages:
-    #      - gfortran
-    #  env: 
-    #    - LAMMPS_INSTALL="serial"
-    #    - TESTS="not mpi"
-    #    - MPI=openmpi
 
 before_install:
   - |
@@ -81,9 +56,5 @@ before_install:
 install:
   - BASE_PATH=$(pwd)
   - echo ${BASE_PATH}
-  
 
-script:
-  - ls
-  - echo "Finished script"
 
