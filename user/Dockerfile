@@ -1,4 +1,4 @@
-FROM ubuntu:12.04
+FROM python:3
 
 # set the working directory
 WORKDIR /usr/src/docker_image

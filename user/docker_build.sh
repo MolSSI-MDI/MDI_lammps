@@ -8,7 +8,6 @@
 apt-get update && apt-get install -y \
     gfortran \
     git \
-    pip \
     make
 
 pip install mpi4py
