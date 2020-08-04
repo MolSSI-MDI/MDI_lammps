@@ -12,6 +12,7 @@ apt-get update && apt-get install -y \
 
 pip install mpi4py
 pip install numpy
+pip install cmake
 
 export FC=gfortran
 pip install -U pytest pytest-cov
