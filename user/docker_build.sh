@@ -1,16 +1,18 @@
 # Obtain dependencies
 #sudo apt-get install gfortran
 #sudo apt-get install mpich libmpich-dev
+#apt-get update && apt-get install -y \
+#    gfortran \
+#    mpich \
+#    libmpich-dev
 apt-get update && apt-get install -y \
-    gfortran \
-    mpich \
-    libmpich-dev
+    gfortran
 
-sudo pip install mpi4py
-sudo pip install numpy
+pip install mpi4py
+pip install numpy
 
 export FC=gfortran
-sudo pip install -U pytest pytest-cov
+pip install -U pytest pytest-cov
 
 # Obtain a clone of LAMMPS
 git clone https://github.com/MolSSI-MDI/lammps.git

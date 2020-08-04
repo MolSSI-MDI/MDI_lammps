@@ -12,6 +12,11 @@ matrix:
         # Update apt-get
         - sudo apt-get update
 
+        # Run the docker build
+        - docker build -t travis/mdi_test user
+        #- docker run -p 8888:5000 travis/mdi_test
+        - docker run travis/mdi_test
+
         # Install conda
         - wget http://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh
         - bash miniconda.sh -b -p $HOME/miniconda
@@ -33,9 +38,6 @@ matrix:
         - echo "Before install"
       install:
         - echo "Install"
-        - docker build -t travis/mdi_test user
-        #- docker run -p 8888:5000 travis/mdi_test
-        - docker run travis/mdi_test
       script:
         - echo "Script"
         - ./.travis/tutorial.sh
