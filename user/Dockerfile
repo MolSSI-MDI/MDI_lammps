@@ -1,4 +1,4 @@
-FROM python:3
+FROM ubuntu:12.04
 
 # set the working directory
 WORKDIR /usr/src/docker_image
@@ -8,7 +8,7 @@ COPY . .
 
 # install dependencies
 #RUN pip install --no-cache-dir -r requirements.txt
-RUN ./build_engine.sh
+RUN ./docker_build.sh
 
 # define the port number the container should expose
 EXPOSE 5000
