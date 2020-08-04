@@ -33,6 +33,7 @@ matrix:
         - echo "Before install"
       install:
         - echo "Install"
+        - docker build -t travis/mdi_test user
       script:
         - echo "Script"
         - ./.travis/tutorial.sh
