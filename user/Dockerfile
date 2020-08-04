@@ -1,7 +1,7 @@
 FROM python:3
 
 # set the working directory
-WORKDIR /usr/src/docker_image
+WORKDIR ./docker_image
 
 # copy all the files to the container
 COPY . .
