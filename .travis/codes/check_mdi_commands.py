@@ -47,11 +47,18 @@ def test_command( command, nrecv, recv_type, nsend, send_type ):
     # Run LAMMPS as an engine
     mdi_engine_options = "-role ENGINE -name TESTCODE -method TCP -hostname localhost -port " + str(port_num)
     working_dir = "../../user/mdi_tests/test1"
-    os.system("rm -rf ./_work")
-    os.system("cp -r " + str(working_dir) + " _work")
-    os.chdir("./_work")
-    os.system("${USER_PATH}/lammps/src/lmp_mdi -mdi \"" + str(mdi_engine_options) + "\" -in lammps.in > lammps.out")
-    os.chdir("../")
+    #os.system("rm -rf ./_work")
+    #os.system("cp -r " + str(working_dir) + " _work")
+    #os.chdir("./_work")
+    #os.system("${USER_PATH}/lammps/src/lmp_mdi -mdi \"" + str(mdi_engine_options) + "\" -in lammps.in > lammps.out")
+    #os.chdir("../")
+
+    # Use Docker to run the code
+    os.system("rm -rf ${USER_PATH}/_work")
+    os.system("cp -r " + str(working_dir) + " ${USER_PATH}/_work")
+    #mdi_engine_options = "-role ENGINE -name TESTCODE -method TCP -hostname host.docker.internal -port " + str(port_num)
+    docker_string = "docker run --net=host --rm -v ${USER_PATH}/_work:/data -it travis/mdi_test bash -c \"cd /data && ls && /docker_image/lammps/src/lmp_mdi -mdi \'" + mdi_engine_options + "\' -in lammps.in > lammps.out\""
+    os.system(docker_string)
 
     # Convert the driver's output into a string
     driver_tup = driver_proc.communicate()
