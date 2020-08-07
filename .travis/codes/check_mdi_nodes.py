@@ -63,7 +63,8 @@ def test_command( command, nrecv, recv_type, nsend, send_type ):
     os.system("rm -rf ${USER_PATH}/_work")
     os.system("cp -r " + str(working_dir) + " ${USER_PATH}/_work")
     #os.chdir("./_work")
-    docker_string = "docker run --net=host --rm -v ${USER_PATH}/mdi_tests/test1:/data -it travis/mdi_test bash -c \"cd /data && ls && /docker_image/lammps/src/lmp_mdi -mdi \'" + mdi_engine_options + "\' -in lammps.in > lammps.out\""
+    mdi_engine_options = "-role ENGINE -name TESTCODE -method TCP -hostname host.docker.internal -port " + str(port_num)
+    docker_string = "docker run --net=host --rm -v ${USER_PATH}/_work:/data -it travis/mdi_test bash -c \"cd /data && ls && /docker_image/lammps/src/lmp_mdi -mdi \'" + mdi_engine_options + "\' -in lammps.in > lammps.out\""
     #os.chdir("../")
 
     # Convert the driver's output into a string
