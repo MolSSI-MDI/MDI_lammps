@@ -13,16 +13,22 @@ def format_return(input_string):
 
 working_dir = "../../user/mdi_tests/test1"
 
-engine_name = "${USER_PATH}/lammps/src/lmp_mdi"
-
 # Launch the driver in the background
 driver_proc = subprocess.Popen([sys.executable, "min_driver.py", "-command", "<NAME", "-nreceive", "MDI_NAME_LENGTH", "-rtype", "MDI_CHAR", "-mdi", "-role DRIVER -name driver -method TCP -port 8021"],
                                stdout=subprocess.PIPE, stderr=subprocess.PIPE, cwd="./drivers")
 
 # Run LAMMPS as an engine
-os.system("cp -r " + str(working_dir) + " _work")
-os.chdir("./_work")
-os.system("${USER_PATH}/lammps/src/lmp_mdi -mdi \"-role ENGINE -name TESTCODE -method TCP -port 8021 -hostname localhost\" -in lammps.in > lammps.out")
+#os.system("cp -r " + str(working_dir) + " _work")
+#os.chdir("./_work")
+#os.system("${USER_PATH}/lammps/src/lmp_mdi -mdi \"-role ENGINE -name TESTCODE -method TCP -port 8021 -hostname localhost\" -in lammps.in > lammps.out")
+
+# Use Docker to run the code
+os.system("rm -rf ${USER_PATH}/_work")
+os.system("cp -r " + str(working_dir) + " ${USER_PATH}/_work")
+mdi_engine_options = "-role ENGINE -name TESTCODE -method TCP -hostname localhost -port 8021"
+docker_string = "docker run --net=host --rm -v ${USER_PATH}/_work:/data -it travis/mdi_test bash -c \"cd /data && ls && /docker_image/lammps/src/lmp_mdi -mdi \'" + mdi_engine_options + "\' -in lammps.in > lammps.out\""
+os.system(docker_string)
+
 
 # Convert the driver's output into a string
 driver_tup = driver_proc.communicate()
