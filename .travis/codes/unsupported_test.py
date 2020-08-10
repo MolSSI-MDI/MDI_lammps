@@ -20,9 +20,17 @@ driver_proc = subprocess.Popen([sys.executable, "min_driver.py", "-command", "UN
                                stdout=subprocess.PIPE, stderr=subprocess.PIPE, cwd="./drivers")
 
 # Run LAMMPS as an engine
-os.system("cp -r " + str(working_dir) + " _work")
-os.chdir("./_work")
-os.system("${USER_PATH}/lammps/src/lmp_mdi -mdi \"-role ENGINE -name TESTCODE -method TCP -port 8021 -hostname localhost\" -in lammps.in > lammps.out")
+#os.system("cp -r " + str(working_dir) + " _work")
+#os.chdir("./_work")
+#os.system("${USER_PATH}/lammps/src/lmp_mdi -mdi \"-role ENGINE -name TESTCODE -method TCP -port 8021 -hostname localhost\" -in lammps.in > lammps.out")
+
+# Use Docker to run the engine
+os.system("rm -rf ${USER_PATH}/_work")
+os.system("cp -r " + str(working_dir) + " ${USER_PATH}/_work")
+mdi_engine_options = "-role ENGINE -name TESTCODE -method TCP -hostname localhost -port 8021"
+docker_string = "docker run --net=host --rm -v ${USER_PATH}/_work:/data -it travis/mdi_test bash -c \"cd /data && ls && /docker_image/lammps/src/lmp_mdi -mdi \'" + mdi_engine_options + "\' -in lammps.in > lammps.out\""
+os.system(docker_string)
+
 
 # Convert the driver's output into a string
 driver_tup = driver_proc.communicate()
