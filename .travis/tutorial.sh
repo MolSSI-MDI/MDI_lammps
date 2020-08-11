@@ -58,13 +58,15 @@ step_mdi_link() {
     ENGINE_EXECUTABLE=${BASE_PATH}/user/lammps/src/lmp_mdi
 
     # Check if the library is linked dynamically
-    if ldd ${ENGINE_EXECUTABLE} | grep "libmdi." ; then
+    #if ldd ${ENGINE_EXECUTABLE} | grep "libmdi." ; then
+    if docker run --rm travis/mdi_test ldd /lammps/src/lmp_mdi | grep "libmdi." ; then
 	echo "The engine is using MDI as a dynamic library"
 	return 0
     fi
 
     # Check if the library is linked statically
-    if nm ${ENGINE_EXECUTABLE} | grep "MDI_Init" ; then
+    #if nm ${ENGINE_EXECUTABLE} | grep "MDI_Init" ; then
+    if docker run --rm travis/mdi_test nm /lammps/src/lmp_mdi | grep "MDI_Init" ; then
 	echo "The engine is using MDI as a static library"
 	return 0
     fi
