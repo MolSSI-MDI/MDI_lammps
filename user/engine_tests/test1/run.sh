@@ -1,7 +1,6 @@
 #location of required codes
-#LAMMPS_LOC=$(cat ../../../locations/LAMMPS)
-#LAMMPS_LOC=../../../lammps/src/lmp_mdi
-LAMMPS_LOC="${USER_PATH}/lammps/src/lmp_mdi"
+#LAMMPS_LOC="${USER_PATH}/lammps/src/lmp_mdi"
+LAMMPS_LOC="/docker_image/lammps/src/lmp_mdi"
 echo "IN run.sh:"
 echo "USER PATH: "
 echo ${USER_PATH}
@@ -19,8 +18,8 @@ ls
 
 #launch LAMMPS
 #${LAMMPS_LOC} -mdi "-role ENGINE -name MM -method TCP -port 8021 -hostname localhost" -in lammps.in > lammps.out
-
-${LAMMPS_LOC} -in lammps.in > lammps.out
+#${LAMMPS_LOC} -in lammps.in > lammps.out
+docker run --rm travis/mdi_test ${LAMMPS_LOC} -in lammps.in > lammps.out
 
 echo "Test output: "
 cat lammps.out
