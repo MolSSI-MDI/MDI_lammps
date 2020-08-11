@@ -159,15 +159,15 @@ else
 fi
 
 # Attempt to build the engine, using the user-provided script
-cd user
-if bash -e build_engine.sh ; then
-    echo "Success: Able to run engine build script."
-    cd ${BASE_PATH}
-else
-    echo "Error: Unable to build engine"
-    cd ${BASE_PATH}
-    tutorial_error
-fi
+#cd user
+#if bash -e build_engine.sh ; then
+#    echo "Success: Able to run engine build script."
+#    cd ${BASE_PATH}
+#else
+#    echo "Error: Unable to build engine"
+#    cd ${BASE_PATH}
+#    tutorial_error
+#fi
 
 # Verify that the engine has been built / installed correctly
 cd user
