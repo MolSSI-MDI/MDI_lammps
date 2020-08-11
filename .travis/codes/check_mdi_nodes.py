@@ -2,6 +2,7 @@ import os
 import subprocess
 import sys
 import yaml
+from graphviz import Digraph
 
 # Paths to enter each identified node
 node_paths = { "@DEFAULT": "" }
@@ -212,6 +213,23 @@ def write_supported_commands():
         command_sec[iline] = line
     
     return command_sec
+
+def node_graph():
+    dot = Digraph(comment='Node Report', format='svg')
+    dot.node('@DEFAULT', '@DEFAULT')
+    dot.node('@INIT_MD', '@INIT_MD')
+    dot.node('@INIT_OPTG', '@INIT_OPTG')
+    dot.node('@INIT_MC', '@INIT_MC')
+    dot.node('@INIT_MD_', '@PRE-FORCES\n@FORCES\n@COORDS')
+    dot.node('@INIT_OPTG_', '@PRE-FORCES\n@FORCES\n@COORDS')
+
+    dot.edge('@DEFAULT', '@INIT_MD')
+    dot.edge('@DEFAULT', '@INIT_OPTG')
+    dot.edge('@DEFAULT', '@INIT_MC')
+    dot.edge('@INIT_MD', '@INIT_MD_')
+    dot.edge('@INIT_OPTG', '@INIT_OPTG_')
+
+    dot.render('../graphs/node-report.gv')
     
 # Read the README.md file
 with open(r'../README.base') as file:
@@ -232,3 +250,6 @@ for iline in range(len(readme)):
 # Write the updates to the README file
 with open('./README.temp', 'w') as file:
     file.writelines( readme )
+
+# Create the node graph
+node_graph()
