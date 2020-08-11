@@ -7,6 +7,9 @@ from graphviz import Digraph
 # Paths to enter each identified node
 node_paths = { "@DEFAULT": "" }
 
+# Paths associated with the edges for the node graph
+node_edge_paths = []
+
 def format_return(input_string):
     my_string = input_string.decode('utf-8')
 
@@ -84,6 +87,7 @@ def test_command( command, nrecv, recv_type, nsend, send_type ):
 
 def find_nodes():
     global node_paths
+    global node_edge_paths
     
     # List of all node commands in the MDI Standard
     command_list = []
@@ -133,6 +137,8 @@ def find_nodes():
                 
             if node_name is not None and not node_name in node_paths.keys():
                 node_paths[node_name] = new_path
+
+                node_edge_paths.append( (node_name, new_path) )
     
     print("AAA: " + str(command_list))
     print("BBB: " + str(node_paths))
@@ -215,19 +221,24 @@ def write_supported_commands():
     return command_sec
 
 def node_graph():
-    dot = Digraph(comment='Node Report', format='svg')
-    dot.node('@DEFAULT', '@DEFAULT')
-    dot.node('@INIT_MD', '@INIT_MD')
-    dot.node('@INIT_OPTG', '@INIT_OPTG')
-    dot.node('@INIT_MC', '@INIT_MC')
-    dot.node('@INIT_MD_', '@PRE-FORCES\n@FORCES\n@COORDS')
-    dot.node('@INIT_OPTG_', '@PRE-FORCES\n@FORCES\n@COORDS')
+    global node_edge_paths
 
-    dot.edge('@DEFAULT', '@INIT_MD')
-    dot.edge('@DEFAULT', '@INIT_OPTG')
-    dot.edge('@DEFAULT', '@INIT_MC')
-    dot.edge('@INIT_MD', '@INIT_MD_')
-    dot.edge('@INIT_OPTG', '@INIT_OPTG_')
+    dot = Digraph(comment='Node Report', format='svg')
+    #dot.node('@DEFAULT', '@DEFAULT')
+    #dot.node('@INIT_MD', '@INIT_MD')
+    #dot.node('@INIT_OPTG', '@INIT_OPTG')
+    #dot.node('@INIT_MC', '@INIT_MC')
+    #dot.node('@INIT_MD_', '@PRE-FORCES\n@FORCES\n@COORDS')
+    #dot.node('@INIT_OPTG_', '@PRE-FORCES\n@FORCES\n@COORDS')
+
+    #dot.edge('@DEFAULT', '@INIT_MD')
+    #dot.edge('@DEFAULT', '@INIT_OPTG')
+    #dot.edge('@DEFAULT', '@INIT_MC')
+    #dot.edge('@INIT_MD', '@INIT_MD_')
+    #dot.edge('@INIT_OPTG', '@INIT_OPTG_')
+
+    for edge_path in node_edge_paths:
+        dot.node( edge_path[0], edge_path[0] )
 
     dot.render('../graphs/node-report.gv')
     
