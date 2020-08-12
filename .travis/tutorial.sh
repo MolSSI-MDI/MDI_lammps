@@ -171,16 +171,16 @@ fi
 #fi
 
 # Verify that the engine has been built / installed correctly
-cd user
+#cd user
 #if bash -e validate_build.sh ; then
 if python MDI_Mechanic/scripts/validate_build.py ; then
     echo "Success: Able to verify that the engine was built."
-    cd ${BASE_PATH}
+    #cd ${BASE_PATH}
     cp ./.travis/badges/-working-success.svg ./.travis/dynamic_badges/step_engine_build.svg
     git add ./.travis/dynamic_badges/step_engine_build.svg
 else
     echo "Error: Unable to verify that the engine was built."
-    cd ${BASE_PATH}
+    #cd ${BASE_PATH}
     tutorial_error
 fi
 
