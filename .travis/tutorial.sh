@@ -49,8 +49,9 @@ step_config() {
 }
 
 step_engine_test() {
-    cd user/engine_tests/test1
-    bash -e run.sh
+    #cd user/engine_tests/test1
+    #bash -e run.sh
+    python MDI_Mechanic/scripts/engine_tests.py
 }
 
 step_mdi_link() {
