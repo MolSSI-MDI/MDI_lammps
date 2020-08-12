@@ -9,4 +9,6 @@ top_dir = os.getcwd() + "/../../"
 
 # Run the engine test script
 bash_command = "docker run --net=host --rm -v " + str(top_dir) + ":/repo -it travis/mdi_test bash -c \"cd /repo/user && ./validate_build.sh\""
-return os.system(bash_command)
+ret = os.system(bash_command)
+if ret != 0:
+    raise Exception("Build validation script returned non-zero value.")

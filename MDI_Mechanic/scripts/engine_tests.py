@@ -8,5 +8,7 @@ os.chdir(file_path)
 top_dir = os.getcwd() + "/../../"
 
 # Run the engine test script
-bash_command = "docker run --net=host --rm -v " + str(top_dir) + ":/repo -it travis/mdi_test bash -c \"cd /repo/user/engine_tests/test1 && ./test2.sh\""
-return os.system(bash_command)
+bash_command = "docker run --net=host --rm -v " + str(top_dir) + ":/repo -it travis/mdi_test bash -c \"cd /repo/user/engine_tests/test1 && ./run.sh\""
+ret = os.system(bash_command)
+if ret != 0:
+    raise Exception("Engine test script returned non-zero value.")
