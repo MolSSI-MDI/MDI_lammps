@@ -9,4 +9,4 @@ top_dir = os.getcwd() + "/../../"
 
 # Run the engine test script
 bash_command = "docker run --net=host --rm -v " + str(top_dir) + ":/repo -it travis/mdi_test bash -c \"cd /repo/user && ./validate_build.sh\""
-os.system(bash_command)
+return os.system(bash_command)
