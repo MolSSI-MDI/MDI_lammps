@@ -7,6 +7,8 @@ echo "USER PATH: "
 echo ${USER_PATH}
 echo "LAMMPS_LOC: "
 echo ${LAMMPS_LOC}
+echo "MDI_OPTIONS: "
+echo ${MDI_OPTIONS}
 echo "Checking for file: "
 ls ${LAMMPS_LOC}
 echo "Working directory: "
@@ -18,7 +20,8 @@ ls
 #export OMP_NUM_THREADS=1
 
 #launch LAMMPS
-${LAMMPS_LOC} -mdi "-role ENGINE -name MM -method TCP -port 8021 -hostname localhost" -in lammps.in > lammps.out
+#${LAMMPS_LOC} -mdi "-role ENGINE -name MM -method TCP -port 8021 -hostname localhost" -in lammps.in > lammps.out
+${LAMMPS_LOC} -mdi ${MDI_OPTIONS} -in lammps.in > lammps.out
 
 echo "Test output: "
 cat lammps.out
