@@ -49,12 +49,12 @@ step_engine_test() {
 }
 
 step_min_engine() {
-    cd ${BASE_PATH}/.travis/codes
+    cd ${BASE_PATH}/MDI_Mechanic/scripts
     python min_test.py
 }
 
 step_unsupported() {
-    cd ${BASE_PATH}/.travis/codes
+    cd ${BASE_PATH}/MDI_Mechanic/scripts
     if python unsupported_test.py ; then
 	echo "Error: Script unsupported_test.py ran to completion"
 	return 1
@@ -64,7 +64,7 @@ step_unsupported() {
 }
 
 step_mdi_commands() {
-    cd ${BASE_PATH}/.travis/codes
+    cd ${BASE_PATH}/MDI_Mechanic/scripts
     if python check_mdi_commands.py ; then
         echo "Success: Able to determine which MDI commands are supported by this engine"
 
@@ -78,7 +78,7 @@ step_mdi_commands() {
 }
 
 step_mdi_nodes() {
-    cd ${BASE_PATH}/.travis/codes
+    cd ${BASE_PATH}/MDI_Mechanic/scripts
 
     if python check_mdi_nodes.py ; then
         echo "Success: Able to determine which MDI nodes are supported by this engine"
