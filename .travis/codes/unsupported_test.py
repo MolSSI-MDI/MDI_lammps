@@ -17,13 +17,6 @@ def format_return(input_string):
 driver_proc = subprocess.Popen([sys.executable, "min_driver.py", "-command", "UNSUPPORTED", "-mdi", "-role DRIVER -name driver -method TCP -port 8021"],
                                stdout=subprocess.PIPE, stderr=subprocess.PIPE, cwd="./drivers")
 
-# Use Docker to run the engine
-#os.system("rm -rf ${USER_PATH}/_work")
-#os.system("cp -r " + str(working_dir) + " ${USER_PATH}/_work")
-#mdi_engine_options = "-role ENGINE -name TESTCODE -method TCP -hostname localhost -port 8021"
-#docker_string = "docker run --net=host --rm -v ${USER_PATH}/_work:/data -it travis/mdi_test bash -c \"cd /data && ls && /docker_image/lammps/src/lmp_mdi -mdi \'" + mdi_engine_options + "\' -in lammps.in > lammps.out\""
-#os.system(docker_string)
-
 # Run the engine, using Docker
 mdi_engine_options = "-role ENGINE -name TESTCODE -method TCP -hostname localhost -port 8021"
 working_dir = str(base_path) + "/user/mdi_tests/test1"

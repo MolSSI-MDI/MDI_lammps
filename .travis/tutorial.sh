@@ -22,7 +22,6 @@ reset_tutorial() {
     cp ./.travis/badges/-failing-red.svg ./.travis/dynamic_badges/step_engine_build.svg
     cp ./.travis/badges/-failing-red.svg ./.travis/dynamic_badges/step_engine_test.svg
     cp ./.travis/badges/-failing-red.svg ./.travis/dynamic_badges/step_mdi_commands.svg
-    #cp ./.travis/badges/-failing-red.svg ./.travis/dynamic_badges/step_mdi_link.svg
     cp ./.travis/badges/-failing-red.svg ./.travis/dynamic_badges/step_mdi_nodes.svg
     cp ./.travis/badges/-failing-red.svg ./.travis/dynamic_badges/step_min_engine.svg
     cp ./.travis/badges/-failing-red.svg ./.travis/dynamic_badges/step_unsupported.svg
@@ -43,36 +42,11 @@ step_config() {
     echo "================================================================="
     git status
     echo "================================================================="
-    #git remote add origin-pages https://${mdi_key}@github.com/MolSSI-MDI/MDI_lammps2.git > /dev/null 2>&1
-    #git push --quiet --set-upstream origin-pages travis > /dev/null 2>&1
-    #git push origin travis
 }
 
 step_engine_test() {
-    #cd user/engine_tests/test1
-    #bash -e run.sh
     python MDI_Mechanic/scripts/engine_tests.py
 }
-
-#step_mdi_link() {
-#    # NOTE: This is temporary, and should be removed later
-#    ENGINE_EXECUTABLE=${BASE_PATH}/user/lammps/src/lmp_mdi
-#
-#    # Check if the library is linked dynamically
-#    #if ldd ${ENGINE_EXECUTABLE} | grep "libmdi." ; then
-#    if docker run --rm travis/mdi_test ldd /docker_image/lammps/src/lmp_mdi | grep "libmdi." ; then
-#	echo "The engine is using MDI as a dynamic library"
-#	return 0
-#    fi
-#
-#    # Check if the library is linked statically
-#    #if nm ${ENGINE_EXECUTABLE} | grep "MDI_Init" ; then
-#    if docker run --rm travis/mdi_test nm /docker_image/lammps/src/lmp_mdi | grep "MDI_Init" ; then
-#	echo "The engine is using MDI as a static library"
-#	return 0
-#    fi
-#    return 1
-#}
 
 step_min_engine() {
     cd ${BASE_PATH}/.travis/codes
@@ -195,18 +169,6 @@ else
     cd ${BASE_PATH}
     tutorial_error
 fi
-
-# Check if the engine is linked to the MDI Library
-#if step_mdi_link ; then
-#    echo "Success: Engine is linked to the MDI Library."
-#    cd ${BASE_PATH}
-#    cp ./.travis/badges/-working-success.svg ./.travis/dynamic_badges/step_mdi_link.svg
-#    git add ./.travis/dynamic_badges/step_mdi_link.svg
-#else
-#    echo "Error: Engine is not linked to the MDI Library."
-#    cd ${BASE_PATH}
-#    tutorial_error
-#fi
 
 # Check if the engine has minimalistic MDI functionality
 if step_min_engine ; then
