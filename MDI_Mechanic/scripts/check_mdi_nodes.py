@@ -250,7 +250,7 @@ def node_graph():
     for edge_path in node_edge_paths:
         dot.node( edge_path[0], edge_path[0] )
 
-    dot.render('../graphs/node-report.gv')
+    dot.render(str(base_path) + '.travis/graphs/node-report.gv')
     
 # Read the README.md file
 with open(r'../README.base') as file:
