@@ -9,6 +9,12 @@ file_path = os.path.dirname(os.path.realpath(__file__))
 # Path to the top-level directory
 base_path = file_path + "/../.."
 
+# Platform-specific hostname
+if sys.platform == "darwin":
+    hostname = "host.docker.internal"
+else:
+    hostname = "localhost"
+
 def format_return(input_string):
     my_string = input_string.decode('utf-8')
 
@@ -22,7 +28,7 @@ driver_proc = subprocess.Popen([sys.executable, "min_driver.py", "-command", "<N
                                stdout=subprocess.PIPE, stderr=subprocess.PIPE, cwd="./drivers")
 
 # Run the engine, using Docker
-mdi_engine_options = "-role ENGINE -name TESTCODE -method TCP -hostname localhost -port 8021"
+mdi_engine_options = "-role ENGINE -name TESTCODE -method TCP -hostname " + str(hostname) +" -port 8021"
 working_dir = str(base_path) + "/user/mdi_tests/test1"
 os.system("rm -rf " + str(base_path) + "/.travis/_work")
 os.system("cp -r " + str(working_dir) + " " + str(base_path) + "/.travis/_work")
