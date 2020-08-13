@@ -68,11 +68,12 @@ def test_command( command, nrecv, recv_type, nsend, send_type ):
     # Use Docker to run the engine
     os.system("rm -rf ${USER_PATH}/_work")
     #os.system("MDI_OPTIONS=\"" + str(mdi_engine_options) + "\"" )
-    os.environ["MDI_OPTIONS"] = str(mdi_engine_options)
+    #os.environ["MDI_OPTIONS"] = str(mdi_engine_options)
     os.system("cp -r " + str(working_dir) + " ${USER_PATH}/_work")
     #mdi_engine_options = "-role ENGINE -name TESTCODE -method TCP -hostname host.docker.internal -port " + str(port_num)
     #docker_string = "docker run --net=host --rm -v ${USER_PATH}/_work:/data -it travis/mdi_test bash -c \"cd /data && ls && /docker_image/lammps/src/lmp_mdi -mdi \'" + mdi_engine_options + "\' -in lammps.in > lammps.out\""
     docker_string = "docker run --net=host --rm -v ${USER_PATH}/_work:/data -it travis/mdi_test bash -c \"cd /data && ls && ./run.sh\""
+    docker_string = "docker run --net=host --rm -v ${USER_PATH}/_work:/data -it travis/mdi_test bash -c \"cd /data && ls && MDI_OPTIONS=\'" + str(mdi_options) + "\' && ./run.sh\""
     os.system(docker_string)
 
     # Convert the driver's output into a string
