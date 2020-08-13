@@ -9,6 +9,14 @@ file_path = os.path.dirname(os.path.realpath(__file__))
 # Path to the top-level directory
 base_path = file_path + "/../.."
 
+# Platform-specific hostname
+if sys.platform == "darwin":
+    hostname = "host.docker.internal"
+else:
+    hostname = "localhost"
+
+
+
 def format_return(input_string):
     my_string = input_string.decode('utf-8')
 
@@ -25,6 +33,7 @@ def insert_list( original_list, insert_list, pos ):
 n_tested_commands = 0
 def test_command( command, nrecv, recv_type, nsend, send_type ):
     global n_tested_commands
+    global hostname
 
     port_num = 8050 + n_tested_commands
     mdi_driver_options = "-role DRIVER -name driver -method TCP -port " + str(port_num)
@@ -51,7 +60,7 @@ def test_command( command, nrecv, recv_type, nsend, send_type ):
                                    stdout=subprocess.PIPE, stderr=subprocess.PIPE, cwd="./drivers")
     
     # Run the engine, using Docker
-    mdi_engine_options = "-role ENGINE -name TESTCODE -method TCP -hostname localhost -port " + str(port_num)
+    mdi_engine_options = "-role ENGINE -name TESTCODE -method TCP -hostname " + str(hostname) + " -port " + str(port_num)
     working_dir = str(base_path) + "/user/mdi_tests/test1"
     os.system("rm -rf " + str(base_path) + "/.travis/_work")
     os.system("cp -r " + str(working_dir) + " " + str(base_path) + "/.travis/_work")

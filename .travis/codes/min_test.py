@@ -15,6 +15,8 @@ if sys.platform == "darwin":
 else:
     hostname = "localhost"
 
+
+
 def format_return(input_string):
     my_string = input_string.decode('utf-8')
 

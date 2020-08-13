@@ -10,6 +10,15 @@ file_path = os.path.dirname(os.path.realpath(__file__))
 # Path to the top-level directory
 base_path = file_path + "/../.."
 
+# Platform-specific hostname
+if sys.platform == "darwin":
+    hostname = "host.docker.internal"
+else:
+    hostname = "localhost"
+
+
+
+
 # Paths to enter each identified node
 node_paths = { "@DEFAULT": "" }
 
@@ -33,6 +42,7 @@ n_tested_commands = 0
 def test_command( command, nrecv, recv_type, nsend, send_type ):
     global n_tested_commands
     global base_path
+    global hostname
     print("Starting min_driver.py with command: " + str(command))
     
     # Remove any leftover files from previous runs of min_driver.py
@@ -64,7 +74,7 @@ def test_command( command, nrecv, recv_type, nsend, send_type ):
                                    stdout=subprocess.PIPE, stderr=subprocess.PIPE, cwd="./drivers")
     
     # Run the engine, using Docker
-    mdi_engine_options = "-role ENGINE -name TESTCODE -method TCP -hostname localhost -port " + str(port_num)
+    mdi_engine_options = "-role ENGINE -name TESTCODE -method TCP -hostname " + str(hostname) + " -port " + str(port_num)
     working_dir = str(base_path) + "/user/mdi_tests/test1"
     os.system("rm -rf " + str(base_path) + "/.travis/_work")
     os.system("cp -r " + str(working_dir) + " " + str(base_path) + "/.travis/_work")
