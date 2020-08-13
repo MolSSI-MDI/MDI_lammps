@@ -59,9 +59,9 @@ def test_command( command, nrecv, recv_type, nsend, send_type ):
     # Run the engine, using Docker
     mdi_engine_options = "-role ENGINE -name TESTCODE -method TCP -hostname localhost -port " + str(port_num)
     working_dir = "../../user/mdi_tests/test1"
-    os.system("rm -rf ${USER_PATH}/_work")
-    os.system("cp -r " + str(working_dir) + " ${USER_PATH}/_work")
-    docker_string = "docker run --net=host --rm -v ${USER_PATH}/_work:/data -it travis/mdi_test bash -c \"cd /data && ls && export MDI_OPTIONS=\'" + str(mdi_engine_options) + "\' && ./run.sh\""
+    os.system("rm -rf ${BASE_PATH}/.travis/_work")
+    os.system("cp -r " + str(working_dir) + " ${BASE_PATH}/.travis/_work")
+    docker_string = "docker run --net=host --rm -v ${BASE_PATH}:/repo -it travis/mdi_test bash -c \"cd /repo/.travis/_work && ls && export MDI_OPTIONS=\'" + str(mdi_engine_options) + "\' && ./run.sh\""
     os.system(docker_string)
 
     # Convert the driver's output into a string
