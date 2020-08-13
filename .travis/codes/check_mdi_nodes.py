@@ -56,23 +56,11 @@ def test_command( command, nrecv, recv_type, nsend, send_type ):
                                         "-mdi", mdi_driver_options],
                                    stdout=subprocess.PIPE, stderr=subprocess.PIPE, cwd="./drivers")
     
-    # Run LAMMPS as an engine
+    # Run the engine, using Docker
     mdi_engine_options = "-role ENGINE -name TESTCODE -method TCP -hostname localhost -port " + str(port_num)
     working_dir = "../../user/mdi_tests/test1"
-    #os.system("rm -rf ./_work")
-    #os.system("cp -r " + str(working_dir) + " _work")
-    #os.chdir("./_work")
-    #os.system("${USER_PATH}/lammps/src/lmp_mdi -mdi \"" + str(mdi_engine_options) + "\" -in lammps.in > lammps.out")
-    #os.chdir("../")
-
-    # Use Docker to run the engine
     os.system("rm -rf ${USER_PATH}/_work")
-    #os.system("MDI_OPTIONS=\"" + str(mdi_engine_options) + "\"" )
-    #os.environ["MDI_OPTIONS"] = str(mdi_engine_options)
     os.system("cp -r " + str(working_dir) + " ${USER_PATH}/_work")
-    #mdi_engine_options = "-role ENGINE -name TESTCODE -method TCP -hostname host.docker.internal -port " + str(port_num)
-    #docker_string = "docker run --net=host --rm -v ${USER_PATH}/_work:/data -it travis/mdi_test bash -c \"cd /data && ls && /docker_image/lammps/src/lmp_mdi -mdi \'" + mdi_engine_options + "\' -in lammps.in > lammps.out\""
-    docker_string = "docker run --net=host --rm -v ${USER_PATH}/_work:/data -it travis/mdi_test bash -c \"cd /data && ls && ./run.sh\""
     docker_string = "docker run --net=host --rm -v ${USER_PATH}/_work:/data -it travis/mdi_test bash -c \"cd /data && ls && export MDI_OPTIONS=\'" + str(mdi_engine_options) + "\' && ./run.sh\""
     os.system(docker_string)
 
@@ -84,6 +72,7 @@ def test_command( command, nrecv, recv_type, nsend, send_type ):
     print("   Driver out: " + str(driver_out))
     print("   Driver err: " + str(driver_err))
 
+    n_tested_commands += 1
     if driver_err == "":
         return True
     else:
