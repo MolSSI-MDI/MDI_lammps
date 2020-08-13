@@ -15,7 +15,7 @@ tutorial_error() {
 
 reset_tutorial() {
     # Reset the README.md file
-    cp ./.travis/README.base ../README.md
+    cp ${BASE_PATH}/MDI_Mechanic/README.base ${BASE_PATH}/README.md
 
     # Reset the badges marking working / failing steps
     cp ./.travis/badges/-failing-red.svg ./.travis/dynamic_badges/step_config.svg
@@ -69,7 +69,7 @@ step_mdi_commands() {
         echo "Success: Able to determine which MDI commands are supported by this engine"
 
 	# Copy the new README.md file into position
-	cp README.temp ${BASE_PATH}/README.md
+	cp ${BASE_PATH}/MDI_Mechanic/README.temp ${BASE_PATH}/README.md
 	git add ${BASE_PATH}/README.md
     else
 	echo "Error: Unable to determine which MDI commands are supported by this engine"
@@ -84,7 +84,7 @@ step_mdi_nodes() {
         echo "Success: Able to determine which MDI nodes are supported by this engine"
 
 	# Copy the new README.md file into position
-	cp README.temp ${BASE_PATH}/README.md
+	cp ${BASE_PATH}/MDI_Mechanic/README.temp ${BASE_PATH}/README.md
 	git add ${BASE_PATH}/README.md
         git add ${BASE_PATH}/.travis/graphs/node-report.gv.svg
     else
