@@ -269,7 +269,7 @@ for iline in range(len(readme)):
             insert_list( readme, command_sec, iline )
 
 # Write the updates to the README file
-with open('./README.temp', 'w') as file:
+with open(str(base_path) + '/MDI_Mechanic/README.temp', 'w') as file:
     file.writelines( readme )
 
 # Create the node graph
