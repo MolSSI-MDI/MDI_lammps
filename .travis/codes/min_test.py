@@ -29,14 +29,6 @@ os.system("cp -r " + str(working_dir) + " " + str(base_path) + "/.travis/_work")
 docker_string = "docker run --net=host --rm -v " + str(base_path) + ":/repo -it travis/mdi_test bash -c \"cd /repo/.travis/_work && ls && export MDI_OPTIONS=\'" + str(mdi_engine_options) + "\' && ./run.sh\""
 os.system(docker_string)
 
-# Use Docker to run the code
-#os.system("rm -rf ${USER_PATH}/_work")
-#os.system("cp -r " + str(working_dir) + " ${USER_PATH}/_work")
-#mdi_engine_options = "-role ENGINE -name TESTCODE -method TCP -hostname localhost -port 8021"
-#docker_string = "docker run --net=host --rm -v ${USER_PATH}/_work:/data -it travis/mdi_test bash -c \"cd /data && ls && /docker_image/lammps/src/lmp_mdi -mdi \'" + mdi_engine_options + "\' -in lammps.in > lammps.out\""
-#os.system(docker_string)
-
-
 # Convert the driver's output into a string
 driver_tup = driver_proc.communicate()
 driver_out = format_return(driver_tup[0])
