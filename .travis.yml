@@ -40,7 +40,7 @@ matrix:
         - echo "Install"
       script:
         - echo "Script"
-        - ./.travis/tutorial.sh
+        - ./MDI_Mechanic/tutorial.sh
 
 before_install:
   - |
