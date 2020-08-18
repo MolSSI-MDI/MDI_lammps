@@ -15,7 +15,8 @@ matrix:
         # Run the docker build
         - docker build -t travis/mdi_test user
         #- docker run -p 8888:5000 travis/mdi_test
-        - docker run --rm travis/mdi_test
+        #- docker run --rm travis/mdi_test
+        - python user/install_engine.py
 
         # Install conda
         - wget http://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh

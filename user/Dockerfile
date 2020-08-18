@@ -8,7 +8,7 @@ COPY . .
 
 # install dependencies
 #RUN pip install --no-cache-dir -r requirements.txt
-RUN ./docker_build.sh
+RUN ./docker_before_install.sh
 
 # define the port number the container should expose
 EXPOSE 5000

@@ -1,6 +1,7 @@
 #location of required codes
 #LAMMPS_LOC="${USER_PATH}/lammps/src/lmp_mdi"
-LAMMPS_LOC="/docker_image/lammps/src/lmp_mdi"
+#LAMMPS_LOC="/docker_image/lammps/src/lmp_mdi"
+LAMMPS_LOC="/repo/user/build/lammps/src/lmp_mdi"
 echo "IN run.sh:"
 echo "USER PATH: "
 echo ${USER_PATH}
