@@ -41,6 +41,7 @@ matrix:
         - echo "Install"
       script:
         - echo "Script"
+        - ./MDI_Mechanic/scripts/bash/configure_travis.sh
         - ./MDI_Mechanic/tutorial.sh
 
 before_install:
