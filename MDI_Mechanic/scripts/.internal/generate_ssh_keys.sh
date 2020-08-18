@@ -28,7 +28,7 @@ part1() {
   echo ""
 
   while true; do
-    read -p "Are you confident that this terminal window cannot be seen by anyone you don\'t trust? [y or n]" yn
+    read -p "Are you confident that this terminal window cannot be seen by anyone you don't trust? [y or n]" yn
     case $yn in
         [Yy] ) part2; break;;
         [Nn] ) break;;
