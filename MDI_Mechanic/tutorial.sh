@@ -17,9 +17,9 @@ reset_tutorial() {
     # Create the necessary directories
     if [ -d ${BASE_PATH}/report ]; then rm -Rf ${BASE_PATH}/report; fi
     mkdir -p ${BASE_PATH}/report
-    mkdir -p ${BASE_PATH}/badges
-    mkdir -p ${BASE_PATH}/dynamic_badges
-    mkdir -p ${BASE_PATH}/graphs
+    mkdir -p ${BASE_PATH}/report/badges
+    mkdir -p ${BASE_PATH}/report/dynamic_badges
+    mkdir -p ${BASE_PATH}/report/graphs
 
     # Reset the README.md file
     cp ${BASE_PATH}/MDI_Mechanic/README.base ${BASE_PATH}/README.md
