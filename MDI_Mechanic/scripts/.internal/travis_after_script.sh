@@ -9,12 +9,11 @@ git commit -m "Travis CI commit [ci skip]" || true
 git push -v > /dev/null 2>&1
 
 echo "Finished pushing the updated report."
-echo ${MDI_REPORT_STATUS}
 
-if [ ${MDI_REPORT_STATUS}==0 ] ; then
-    echo "Success. The report has been pushed."
+if [ ${MDI_REPORT_STATUS} == 0 ] ; then
+    echo "The MDI interface is working."
     exit 0
 else
-    echo "The report script failed, but the update has been successfully pushed."
+    echo "The MDI interface is failing."
     exit 1
 fi
