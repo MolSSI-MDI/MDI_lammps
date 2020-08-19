@@ -3,9 +3,9 @@
 # Exit if any command fails
 set -e
 
-git add ./README.md
-git add ./report
-git commit -m "Travis CI commit [ci skip]"
+git add ./README.md || true
+git add ./report || true
+git commit -m "Travis CI commit [ci skip]" || true
 git push -v > /dev/null 2>&1
 
 echo "Finished pushing the updated report."
