@@ -62,11 +62,11 @@ step_min_engine() {
 }
 
 step_unsupported() {
-    return 1
+    tutorial_error
     cd ${BASE_PATH}/MDI_Mechanic/scripts
     if python unsupported_test.py ; then
 	echo "Error: Script unsupported_test.py ran to completion"
-	return 1
+	tutorial_error
     fi
     echo "Success: Script unsupported_test.py threw an error"
     return 0
