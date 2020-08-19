@@ -94,7 +94,7 @@ step_mdi_nodes() {
 	# Copy the new README.md file into position
 	cp ${BASE_PATH}/MDI_Mechanic/README.temp ${BASE_PATH}/README.md
 	git add ${BASE_PATH}/README.md
-        git add ${BASE_PATH}/report/graphs/node-report.gv.svg
+        #git add ${BASE_PATH}/report/graphs/node-report.gv.svg
     else
 	echo "Error: Unable to determine which MDI nodes are supported by this engine"
 	return 1
