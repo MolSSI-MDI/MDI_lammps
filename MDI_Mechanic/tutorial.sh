@@ -4,16 +4,6 @@
 set -e
 
 tutorial_error() {
-    # Git add all files associated with the documentation
-    #git add ${BASE_PATH}/README.md
-    #git add ${BASE_PATH}/report
-
-    # Attempt to push to the remote
-    #git commit -m "Travis CI commit [ci skip]"
-    #if git push -v > /dev/null 2>&1 ; then
-    #    echo "Exiting due to error, but was able to push to the remote"
-    #fi
-
     exit 1
 }
 
@@ -29,7 +19,7 @@ reset_tutorial() {
     cp ${BASE_PATH}/MDI_Mechanic/README.base ${BASE_PATH}/README.md
 
     # Reset the badges marking working / failing steps
-    cp ${BASE_PATH}/MDI_Mechanic/badges/-failing-red.svg ${BASE_PATH}/report/dynamic_badges/step_config.svg
+    #cp ${BASE_PATH}/MDI_Mechanic/badges/-failing-red.svg ${BASE_PATH}/report/dynamic_badges/step_config.svg
     cp ${BASE_PATH}/MDI_Mechanic/badges/-failing-red.svg ${BASE_PATH}/report/dynamic_badges/step_engine_build.svg
     cp ${BASE_PATH}/MDI_Mechanic/badges/-failing-red.svg ${BASE_PATH}/report/dynamic_badges/step_engine_test.svg
     cp ${BASE_PATH}/MDI_Mechanic/badges/-failing-red.svg ${BASE_PATH}/report/dynamic_badges/step_mdi_commands.svg
@@ -38,19 +28,19 @@ reset_tutorial() {
     cp ${BASE_PATH}/MDI_Mechanic/badges/-failing-red.svg ${BASE_PATH}/report/dynamic_badges/step_unsupported.svg
 }
 
-step_config() {
-    git remote -v
-    if git push -v > /dev/null 2>&1 ; then
-        echo "Success: Able to push to remote."
-        cp ${BASE_PATH}/MDI_Mechanic/badges/-working-success.svg ${BASE_PATH}/report/dynamic_badges/step_config.svg
-    else
-        echo "Error: Unable to push to remote.  The repo has not been configured correctly."
-	tutorial_error
-    fi
-    echo "================================================================="
-    git status
-    echo "================================================================="
-}
+#step_config() {
+#    git remote -v
+#    if git push -v > /dev/null 2>&1 ; then
+#        echo "Success: Able to push to remote."
+#        cp ${BASE_PATH}/MDI_Mechanic/badges/-working-success.svg ${BASE_PATH}/report/dynamic_badges/step_config.svg
+#    else
+#        echo "Error: Unable to push to remote.  The repo has not been configured correctly."
+#	tutorial_error
+#    fi
+#    echo "================================================================="
+#    git status
+#    echo "================================================================="
+#}
 
 step_engine_test() {
     python MDI_Mechanic/scripts/engine_tests.py
@@ -106,7 +96,7 @@ export USER_PATH=$(pwd)/user
 reset_tutorial
 
 # Test whether the repo has been correctly configured
-step_config
+#step_config
 
 config_travis() {
   echo "Making a PR"
@@ -199,12 +189,3 @@ else
     cd ${BASE_PATH}
     tutorial_error
 fi
-
-# Commit and push any changes
-#git add ${BASE_PATH}/README.md
-#git add ${BASE_PATH}/report
-#echo "Attempting to commit any changes"
-#if git commit -m "Travis CI commit [ci skip]" ; then
-#    echo "Success: Committed final changes to repo"
-#    git push -v > /dev/null 2>&1
-#fi

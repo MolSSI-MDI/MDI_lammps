@@ -39,9 +39,10 @@ matrix:
         - echo "Before install"
       install:
         - echo "Install"
+      before_script:
+        - ./MDI_Mechanic/scripts/.internal/configure_travis.sh
       script:
         - echo "Script"
-        - ./MDI_Mechanic/scripts/.internal/configure_travis.sh
         - |
           if ./MDI_Mechanic/tutorial.sh ; then
             echo "Report script succeeded."

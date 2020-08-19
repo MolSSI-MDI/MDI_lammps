@@ -19,3 +19,10 @@ git config --global user.name "Travis CI"
 git remote -v
 git remote set-url origin git@github.com:MolSSI-MDI/MDI_lammps2.git
 git checkout ${TRAVIS_BRANCH}
+
+# Confirm that Travis can push
+git remote -v
+git push -v > /dev/null 2>&1
+
+# Add the configuration success badge to the report
+cp ./MDI_Mechanic/badges/-working-success.svg ./report/dynamic_badges/step_config.svg
