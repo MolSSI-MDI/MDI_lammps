@@ -51,12 +51,13 @@ matrix:
             echo "Report script failed."
             export MDI_REPORT_STATUS=1
           fi
-      after_script:
+
         # Push any changes to the report
         #- git add ./README.md
         #- git add ./report
         #- git commit -m "Travis CI commit [ci skip]"
         #- git push -v > /dev/null 2>&1
+        - echo ${MDI_REPORT_STATUS}
         - ./MDI_Mechanic/scripts/.internal/travis_after_script.sh
 
 
