@@ -15,7 +15,7 @@ tutorial_error() {
 
 reset_tutorial() {
     # Create the necessary directories
-    rm -r ${BASE_PATH}/report
+    if [ -d ${BASE_PATH}/report ]; then rm -Rf ${BASE_PATH}/report; fi
     mkdir -p ${BASE_PATH}/report
     mkdir -p ${BASE_PATH}/badges
     mkdir -p ${BASE_PATH}/dynamic_badges
