@@ -8,6 +8,9 @@ git add ./report
 git commit -m "Travis CI commit [ci skip]"
 git push -v > /dev/null 2>&1
 
+echo "Finished pushing the updated report."
+echo ${MDI_REPORT_STATUS}
+
 if [ ${MDI_REPORT_STATUS}==0 ] ; then
     echo "Success. The report has been pushed."
     exit 0
