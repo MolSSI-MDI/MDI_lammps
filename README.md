@@ -6,6 +6,16 @@ To clone with submodules:
 
 git clone --recurse-submodules https://github.com/MolSSI-MDI/MDI_lammps2.git
 
+To view the README.md offline, do:
+
+pip install grip
+
+Then in the top directory, do:
+
+grip
+
+This will launch a local server, which can be accessed at the address printed off.
+
 To update submodules:
 
 git submodule update --remote
