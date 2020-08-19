@@ -212,10 +212,10 @@ def write_supported_commands():
         
             if command_works:
                 # Display a bright green box
-                command_status = "![command](.travis/badges/box-brightgreen.svg)"
+                command_status = "![command](report/badges/box-brightgreen.svg)"
             else:
                 # Display a light gray box
-                command_status = "![command](.travis/badges/box-lightgray.svg)"
+                command_status = "![command](report/badges/box-lightgray.svg)"
 
             line += "| " + str(command_status) + " "
         line += "|\n"
@@ -250,7 +250,7 @@ def node_graph():
     for edge_path in node_edge_paths:
         dot.node( edge_path[0], edge_path[0] )
 
-    dot.render(str(base_path) + '.travis/graphs/node-report.gv')
+    dot.render(str(base_path) + 'report/graphs/node-report.gv')
     
 # Read the README.md file
 with open(r'../README.base') as file:

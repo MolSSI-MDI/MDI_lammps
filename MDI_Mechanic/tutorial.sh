@@ -14,27 +14,35 @@ tutorial_error() {
 }
 
 reset_tutorial() {
+    # Create the necessary directories
+    rm -r ${BASE_PATH}/report
+    mkdir -p ${BASE_PATH}/report
+    mkdir -p ${BASE_PATH}/badges
+    mkdir -p ${BASE_PATH}/dynamic_badges
+    mkdir -p ${BASE_PATH}/graphs
+
     # Reset the README.md file
     cp ${BASE_PATH}/MDI_Mechanic/README.base ${BASE_PATH}/README.md
 
     # Reset the badges marking working / failing steps
-    cp ${BASE_PATH}/MDI_Mechanic/badges/-failing-red.svg ${BASE_PATH}/.travis/dynamic_badges/step_config.svg
-    cp ${BASE_PATH}/MDI_Mechanic/badges/-failing-red.svg ${BASE_PATH}/.travis/dynamic_badges/step_engine_build.svg
-    cp ${BASE_PATH}/MDI_Mechanic/badges/-failing-red.svg ${BASE_PATH}/.travis/dynamic_badges/step_engine_test.svg
-    cp ${BASE_PATH}/MDI_Mechanic/badges/-failing-red.svg ${BASE_PATH}/.travis/dynamic_badges/step_mdi_commands.svg
-    cp ${BASE_PATH}/MDI_Mechanic/badges/-failing-red.svg ${BASE_PATH}/.travis/dynamic_badges/step_mdi_nodes.svg
-    cp ${BASE_PATH}/MDI_Mechanic/badges/-failing-red.svg ${BASE_PATH}/.travis/dynamic_badges/step_min_engine.svg
-    cp ${BASE_PATH}/MDI_Mechanic/badges/-failing-red.svg ${BASE_PATH}/.travis/dynamic_badges/step_unsupported.svg
+    cp ${BASE_PATH}/MDI_Mechanic/badges/-failing-red.svg ${BASE_PATH}/report/dynamic_badges/step_config.svg
+    cp ${BASE_PATH}/MDI_Mechanic/badges/-failing-red.svg ${BASE_PATH}/report/dynamic_badges/step_engine_build.svg
+    cp ${BASE_PATH}/MDI_Mechanic/badges/-failing-red.svg ${BASE_PATH}/report/dynamic_badges/step_engine_test.svg
+    cp ${BASE_PATH}/MDI_Mechanic/badges/-failing-red.svg ${BASE_PATH}/report/dynamic_badges/step_mdi_commands.svg
+    cp ${BASE_PATH}/MDI_Mechanic/badges/-failing-red.svg ${BASE_PATH}/report/dynamic_badges/step_mdi_nodes.svg
+    cp ${BASE_PATH}/MDI_Mechanic/badges/-failing-red.svg ${BASE_PATH}/report/dynamic_badges/step_min_engine.svg
+    cp ${BASE_PATH}/MDI_Mechanic/badges/-failing-red.svg ${BASE_PATH}/report/dynamic_badges/step_unsupported.svg
 
     git add -u
+    git add ${BASE_PATH}/report
 }
 
 step_config() {
     git remote -v
     if git push -v > /dev/null 2>&1 ; then
         echo "Success: Able to push to remote."
-        cp ${BASE_PATH}/MDI_Mechanic/badges/-working-success.svg ${BASE_PATH}/.travis/dynamic_badges/step_config.svg
-	git add ${BASE_PATH}/.travis/dynamic_badges/step_config.svg
+        cp ${BASE_PATH}/MDI_Mechanic/badges/-working-success.svg ${BASE_PATH}/report/dynamic_badges/step_config.svg
+	git add ${BASE_PATH}/report/dynamic_badges/step_config.svg
     else
         echo "Error: Unable to push to remote.  The repo has not been configured correctly."
 	tutorial_error
@@ -86,7 +94,7 @@ step_mdi_nodes() {
 	# Copy the new README.md file into position
 	cp ${BASE_PATH}/MDI_Mechanic/README.temp ${BASE_PATH}/README.md
 	git add ${BASE_PATH}/README.md
-        git add ${BASE_PATH}/.travis/graphs/node-report.gv.svg
+        git add ${BASE_PATH}/report/graphs/node-report.gv.svg
     else
 	echo "Error: Unable to determine which MDI nodes are supported by this engine"
 	return 1
@@ -133,8 +141,8 @@ fi
 if python MDI_Mechanic/scripts/validate_build.py ; then
     echo "Success: Able to verify that the engine was built."
     #cd ${BASE_PATH}
-    cp ${BASE_PATH}/MDI_Mechanic/badges/-working-success.svg ${BASE_PATH}/.travis/dynamic_badges/step_engine_build.svg
-    git add ${BASE_PATH}/.travis/dynamic_badges/step_engine_build.svg
+    cp ${BASE_PATH}/MDI_Mechanic/badges/-working-success.svg ${BASE_PATH}/report/dynamic_badges/step_engine_build.svg
+    git add ${BASE_PATH}/report/dynamic_badges/step_engine_build.svg
 else
     echo "Error: Unable to verify that the engine was built."
     #cd ${BASE_PATH}
@@ -145,8 +153,8 @@ fi
 if step_engine_test ; then
     echo "Success: Engine test(s) succeeded."
     cd ${BASE_PATH}
-    cp ${BASE_PATH}/MDI_Mechanic/badges/-working-success.svg ${BASE_PATH}/.travis/dynamic_badges/step_engine_test.svg
-    git add ${BASE_PATH}/.travis/dynamic_badges/step_engine_test.svg
+    cp ${BASE_PATH}/MDI_Mechanic/badges/-working-success.svg ${BASE_PATH}/report/dynamic_badges/step_engine_test.svg
+    git add ${BASE_PATH}/report/dynamic_badges/step_engine_test.svg
 else
     echo "Error: Engine test(s) failed."
     cd ${BASE_PATH}
@@ -157,8 +165,8 @@ fi
 if step_min_engine ; then
     echo "Success: Engine passed minimal MDI functionality test."
     cd ${BASE_PATH}
-    cp ${BASE_PATH}/MDI_Mechanic/badges/-working-success.svg ${BASE_PATH}/.travis/dynamic_badges/step_min_engine.svg
-    git add ${BASE_PATH}/.travis/dynamic_badges/step_min_engine.svg
+    cp ${BASE_PATH}/MDI_Mechanic/badges/-working-success.svg ${BASE_PATH}/report/dynamic_badges/step_min_engine.svg
+    git add ${BASE_PATH}/report/dynamic_badges/step_min_engine.svg
 else
     echo "Error: Engine failed minimal MDI functionality test."
     cd ${BASE_PATH}
@@ -169,8 +177,8 @@ fi
 if step_unsupported ; then
     echo "Success: Engine errors out upon receiving an unsupported command."
     cd ${BASE_PATH}
-    cp ${BASE_PATH}/MDI_Mechanic/badges/-working-success.svg ${BASE_PATH}/.travis/dynamic_badges/step_unsupported.svg
-    git add ${BASE_PATH}/.travis/dynamic_badges/step_unsupported.svg
+    cp ${BASE_PATH}/MDI_Mechanic/badges/-working-success.svg ${BASE_PATH}/report/dynamic_badges/step_unsupported.svg
+    git add ${BASE_PATH}/report/dynamic_badges/step_unsupported.svg
 else
     echo "Error: Engine does not error out upon receiving an unsupported command."
     cd ${BASE_PATH}
@@ -181,8 +189,8 @@ fi
 if step_mdi_commands ; then
     echo "Success: Detected MDI commands."
     cd ${BASE_PATH}
-    cp ${BASE_PATH}/MDI_Mechanic/badges/-working-success.svg ${BASE_PATH}/.travis/dynamic_badges/step_mdi_commands.svg
-    git add ${BASE_PATH}/.travis/dynamic_badges/step_mdi_commands.svg
+    cp ${BASE_PATH}/MDI_Mechanic/badges/-working-success.svg ${BASE_PATH}/report/dynamic_badges/step_mdi_commands.svg
+    git add ${BASE_PATH}/report/dynamic_badges/step_mdi_commands.svg
 else
     echo "Error: Unable to detect MDI commands."
     cd ${BASE_PATH}
@@ -193,8 +201,8 @@ fi
 if step_mdi_nodes ; then
     echo "Success: Detected MDI nodes."
     cd ${BASE_PATH}
-    cp ${BASE_PATH}/MDI_Mechanic/badges/-working-success.svg ${BASE_PATH}/.travis/dynamic_badges/step_mdi_nodes.svg
-    git add ${BASE_PATH}/.travis/dynamic_badges/step_mdi_nodes.svg
+    cp ${BASE_PATH}/MDI_Mechanic/badges/-working-success.svg ${BASE_PATH}/report/dynamic_badges/step_mdi_nodes.svg
+    git add ${BASE_PATH}/report/dynamic_badges/step_mdi_nodes.svg
 else
     echo "Error: Unable to detect MDI nodes."
     cd ${BASE_PATH}
