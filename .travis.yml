@@ -42,7 +42,23 @@ matrix:
       script:
         - echo "Script"
         - ./MDI_Mechanic/scripts/.internal/configure_travis.sh
-        - ./MDI_Mechanic/tutorial.sh
+        #- ./MDI_Mechanic/tutorial.sh
+        - |
+          if ./MDI_Mechanic/tutorial.sh ; then
+            echo "Report script succeeded."
+            export MDI_REPORT_STATUS=0
+          else
+            echo "Report script failed."
+            export MDI_REPORT_STATUS=1
+          fi
+      after_script:
+        # Push any changes to the report
+        #- git add ./README.md
+        #- git add ./report
+        #- git commit -m "Travis CI commit [ci skip]"
+        #- git push -v > /dev/null 2>&1
+        - ./MDI_Mechanic/scripts/.internal/travis_after_script.sh
+
 
 before_install:
   - |

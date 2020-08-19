@@ -4,11 +4,15 @@
 set -e
 
 tutorial_error() {
+    # Git add all files associated with the documentation
+    #git add ${BASE_PATH}/README.md
+    #git add ${BASE_PATH}/report
+
     # Attempt to push to the remote
-    git commit -m "Travis CI commit [ci skip]"
-    if git push -v > /dev/null 2>&1 ; then
-        echo "Exiting due to error, but was able to push to the remote"
-    fi
+    #git commit -m "Travis CI commit [ci skip]"
+    #if git push -v > /dev/null 2>&1 ; then
+    #    echo "Exiting due to error, but was able to push to the remote"
+    #fi
 
     exit 1
 }
@@ -32,9 +36,6 @@ reset_tutorial() {
     cp ${BASE_PATH}/MDI_Mechanic/badges/-failing-red.svg ${BASE_PATH}/report/dynamic_badges/step_mdi_nodes.svg
     cp ${BASE_PATH}/MDI_Mechanic/badges/-failing-red.svg ${BASE_PATH}/report/dynamic_badges/step_min_engine.svg
     cp ${BASE_PATH}/MDI_Mechanic/badges/-failing-red.svg ${BASE_PATH}/report/dynamic_badges/step_unsupported.svg
-
-    git add -u
-    git add ${BASE_PATH}/report
 }
 
 step_config() {
@@ -42,7 +43,6 @@ step_config() {
     if git push -v > /dev/null 2>&1 ; then
         echo "Success: Able to push to remote."
         cp ${BASE_PATH}/MDI_Mechanic/badges/-working-success.svg ${BASE_PATH}/report/dynamic_badges/step_config.svg
-	git add ${BASE_PATH}/report/dynamic_badges/step_config.svg
     else
         echo "Error: Unable to push to remote.  The repo has not been configured correctly."
 	tutorial_error
@@ -78,7 +78,6 @@ step_mdi_commands() {
 
 	# Copy the new README.md file into position
 	cp ${BASE_PATH}/MDI_Mechanic/README.temp ${BASE_PATH}/README.md
-	git add ${BASE_PATH}/README.md
     else
 	echo "Error: Unable to determine which MDI commands are supported by this engine"
 	return 1
@@ -93,8 +92,6 @@ step_mdi_nodes() {
 
 	# Copy the new README.md file into position
 	cp ${BASE_PATH}/MDI_Mechanic/README.temp ${BASE_PATH}/README.md
-	git add ${BASE_PATH}/README.md
-        #git add ${BASE_PATH}/report/graphs/node-report.gv.svg
     else
 	echo "Error: Unable to determine which MDI nodes are supported by this engine"
 	return 1
@@ -142,7 +139,6 @@ if python MDI_Mechanic/scripts/validate_build.py ; then
     echo "Success: Able to verify that the engine was built."
     #cd ${BASE_PATH}
     cp ${BASE_PATH}/MDI_Mechanic/badges/-working-success.svg ${BASE_PATH}/report/dynamic_badges/step_engine_build.svg
-    git add ${BASE_PATH}/report/dynamic_badges/step_engine_build.svg
 else
     echo "Error: Unable to verify that the engine was built."
     #cd ${BASE_PATH}
@@ -154,7 +150,6 @@ if step_engine_test ; then
     echo "Success: Engine test(s) succeeded."
     cd ${BASE_PATH}
     cp ${BASE_PATH}/MDI_Mechanic/badges/-working-success.svg ${BASE_PATH}/report/dynamic_badges/step_engine_test.svg
-    git add ${BASE_PATH}/report/dynamic_badges/step_engine_test.svg
 else
     echo "Error: Engine test(s) failed."
     cd ${BASE_PATH}
@@ -166,7 +161,6 @@ if step_min_engine ; then
     echo "Success: Engine passed minimal MDI functionality test."
     cd ${BASE_PATH}
     cp ${BASE_PATH}/MDI_Mechanic/badges/-working-success.svg ${BASE_PATH}/report/dynamic_badges/step_min_engine.svg
-    git add ${BASE_PATH}/report/dynamic_badges/step_min_engine.svg
 else
     echo "Error: Engine failed minimal MDI functionality test."
     cd ${BASE_PATH}
@@ -178,7 +172,6 @@ if step_unsupported ; then
     echo "Success: Engine errors out upon receiving an unsupported command."
     cd ${BASE_PATH}
     cp ${BASE_PATH}/MDI_Mechanic/badges/-working-success.svg ${BASE_PATH}/report/dynamic_badges/step_unsupported.svg
-    git add ${BASE_PATH}/report/dynamic_badges/step_unsupported.svg
 else
     echo "Error: Engine does not error out upon receiving an unsupported command."
     cd ${BASE_PATH}
@@ -190,7 +183,6 @@ if step_mdi_commands ; then
     echo "Success: Detected MDI commands."
     cd ${BASE_PATH}
     cp ${BASE_PATH}/MDI_Mechanic/badges/-working-success.svg ${BASE_PATH}/report/dynamic_badges/step_mdi_commands.svg
-    git add ${BASE_PATH}/report/dynamic_badges/step_mdi_commands.svg
 else
     echo "Error: Unable to detect MDI commands."
     cd ${BASE_PATH}
@@ -202,7 +194,6 @@ if step_mdi_nodes ; then
     echo "Success: Detected MDI nodes."
     cd ${BASE_PATH}
     cp ${BASE_PATH}/MDI_Mechanic/badges/-working-success.svg ${BASE_PATH}/report/dynamic_badges/step_mdi_nodes.svg
-    git add ${BASE_PATH}/report/dynamic_badges/step_mdi_nodes.svg
 else
     echo "Error: Unable to detect MDI nodes."
     cd ${BASE_PATH}
@@ -210,8 +201,10 @@ else
 fi
 
 # Commit and push any changes
-echo "Attempting to commit any changes"
-if git commit -m "Travis CI commit [ci skip]" ; then
-    echo "Success: Committed final changes to repo"
-    git push -v > /dev/null 2>&1
-fi
+#git add ${BASE_PATH}/README.md
+#git add ${BASE_PATH}/report
+#echo "Attempting to commit any changes"
+#if git commit -m "Travis CI commit [ci skip]" ; then
+#    echo "Success: Committed final changes to repo"
+#    git push -v > /dev/null 2>&1
+#fi
