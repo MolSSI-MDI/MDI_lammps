@@ -10,7 +10,7 @@ git push -v > /dev/null 2>&1
 
 echo "Finished pushing the updated report."
 
-if [ "${MDI_REPORT_STATUS}" == "0" ] ; then
+if [[ "${MDI_REPORT_STATUS}" -eq "0" ]] ; then
     echo "The MDI interface is working."
     exit 0
 else
