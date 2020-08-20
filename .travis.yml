@@ -12,33 +12,22 @@ matrix:
         # Update apt-get
         - sudo apt-get update
 
-        # Run the docker build
-        - docker build -t travis/mdi_test user
-        #- docker run -p 8888:5000 travis/mdi_test
-        #- docker run --rm travis/mdi_test
-        - python MDI_Mechanic/scripts/install_engine.py
-
         # Install conda
         - wget http://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh
         - bash miniconda.sh -b -p $HOME/miniconda
         - export PATH=$HOME/miniconda/bin:$PATH
-        #- source "$HOME/miniconda/etc/profile.d/conda.sh"
-        #- hash -r
         - conda config --set always_yes yes --set changeps1 no
         - conda update -q conda
         - conda info -a
 
         # Install pymdi
         - conda install -c conda-forge pymdi pyyaml pandas python-graphviz
-
-        # Check Python version
-        - which python
-        - python --version
-
-        - git status
-        - echo "Before install"
       install:
         - echo "Install"
+
+        # Run the docker build
+        - docker build -t travis/mdi_test user
+        - python MDI_Mechanic/scripts/install_engine.py
       before_script:
         - ./MDI_Mechanic/scripts/.internal/configure_travis.sh
       script:
@@ -54,26 +43,3 @@ matrix:
 
         # Push any changes to the report
         - ./MDI_Mechanic/scripts/.internal/push_changes.sh
-
-
-before_install:
-  - |
-    if [ "$TRAVIS_OS_NAME" == "linux" ]; then
-        sudo apt-get install gfortran
-        sudo apt-get install mpich libmpich-dev
-        sudo pip install mpi4py
-        sudo pip install numpy
-    elif [ "$TRAVIS_OS_NAME" == "osx" ]; then
-      brew update > /dev/null
-      if [ "$MPI" != "" ]; then
-         brew install $MPI
-      fi
-    fi
-  - export FC=gfortran
-  - sudo pip install -U pytest pytest-cov
-
-install:
-  - BASE_PATH=$(pwd)
-  - echo ${BASE_PATH}
-
-
