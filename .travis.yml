@@ -44,7 +44,7 @@ matrix:
       script:
         - echo "Script"
         - |
-          if ./MDI_Mechanic/scripts/.internal/tutorial.sh ; then
+          if python ./MDI_Mechanic/scripts/generate_report.py ; then
             echo "Report script succeeded."
             export MDI_REPORT_STATUS=0
           else
