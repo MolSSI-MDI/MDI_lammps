@@ -28,20 +28,6 @@ reset_tutorial() {
     cp ${BASE_PATH}/MDI_Mechanic/badges/-failing-red.svg ${BASE_PATH}/report/dynamic_badges/step_unsupported.svg
 }
 
-#step_config() {
-#    git remote -v
-#    if git push -v > /dev/null 2>&1 ; then
-#        echo "Success: Able to push to remote."
-#        cp ${BASE_PATH}/MDI_Mechanic/badges/-working-success.svg ${BASE_PATH}/report/dynamic_badges/step_config.svg
-#    else
-#        echo "Error: Unable to push to remote.  The repo has not been configured correctly."
-#	tutorial_error
-#    fi
-#    echo "================================================================="
-#    git status
-#    echo "================================================================="
-#}
-
 step_engine_test() {
     python MDI_Mechanic/scripts/engine_tests.py
 }
