@@ -115,7 +115,7 @@ fi
 if python MDI_Mechanic/scripts/validate_build.py ; then
     echo "Success: Able to verify that the engine was built."
     #cd ${BASE_PATH}
-    cp ${BASE_PATH}/MDI_Mechanic/badges/-working-success.svg ${BASE_PATH}/report/dynamic_badges/step_engine_build.svg
+    cp ${BASE_PATH}/report/badges/-working-success.svg ${BASE_PATH}/report/dynamic_badges/step_engine_build.svg
 else
     echo "Error: Unable to verify that the engine was built."
     #cd ${BASE_PATH}
@@ -126,7 +126,7 @@ fi
 if step_engine_test ; then
     echo "Success: Engine test(s) succeeded."
     cd ${BASE_PATH}
-    cp ${BASE_PATH}/MDI_Mechanic/badges/-working-success.svg ${BASE_PATH}/report/dynamic_badges/step_engine_test.svg
+    cp ${BASE_PATH}/report/badges/-working-success.svg ${BASE_PATH}/report/dynamic_badges/step_engine_test.svg
 else
     echo "Error: Engine test(s) failed."
     cd ${BASE_PATH}
@@ -137,7 +137,7 @@ fi
 if step_min_engine ; then
     echo "Success: Engine passed minimal MDI functionality test."
     cd ${BASE_PATH}
-    cp ${BASE_PATH}/MDI_Mechanic/badges/-working-success.svg ${BASE_PATH}/report/dynamic_badges/step_min_engine.svg
+    cp ${BASE_PATH}/report/badges/-working-success.svg ${BASE_PATH}/report/dynamic_badges/step_min_engine.svg
 else
     echo "Error: Engine failed minimal MDI functionality test."
     cd ${BASE_PATH}
@@ -148,7 +148,7 @@ fi
 if step_unsupported ; then
     echo "Success: Engine errors out upon receiving an unsupported command."
     cd ${BASE_PATH}
-    cp ${BASE_PATH}/MDI_Mechanic/badges/-working-success.svg ${BASE_PATH}/report/dynamic_badges/step_unsupported.svg
+    cp ${BASE_PATH}/report/badges/-working-success.svg ${BASE_PATH}/report/dynamic_badges/step_unsupported.svg
 else
     echo "Error: Engine does not error out upon receiving an unsupported command."
     cd ${BASE_PATH}
@@ -159,7 +159,7 @@ fi
 if step_mdi_commands ; then
     echo "Success: Detected MDI commands."
     cd ${BASE_PATH}
-    cp ${BASE_PATH}/MDI_Mechanic/badges/-working-success.svg ${BASE_PATH}/report/dynamic_badges/step_mdi_commands.svg
+    cp ${BASE_PATH}/report/badges/-working-success.svg ${BASE_PATH}/report/dynamic_badges/step_mdi_commands.svg
 else
     echo "Error: Unable to detect MDI commands."
     cd ${BASE_PATH}
@@ -170,7 +170,7 @@ fi
 if step_mdi_nodes ; then
     echo "Success: Detected MDI nodes."
     cd ${BASE_PATH}
-    cp ${BASE_PATH}/MDI_Mechanic/badges/-working-success.svg ${BASE_PATH}/report/dynamic_badges/step_mdi_nodes.svg
+    cp ${BASE_PATH}/report/badges/-working-success.svg ${BASE_PATH}/report/dynamic_badges/step_mdi_nodes.svg
 else
     echo "Error: Unable to detect MDI nodes."
     cd ${BASE_PATH}
