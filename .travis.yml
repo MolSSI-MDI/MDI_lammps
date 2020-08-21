@@ -9,19 +9,7 @@ matrix:
   include:
     - os: linux
       before_install:
-        # Update apt-get
-        - sudo apt-get update
-
-        # Install conda
-        - wget http://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh
-        - bash miniconda.sh -b -p $HOME/miniconda
-        - export PATH=$HOME/miniconda/bin:$PATH
-        - conda config --set always_yes yes --set changeps1 no
-        - conda update -q conda
-        - conda info -a
-
-        # Install pymdi
-        - conda install -c conda-forge pymdi pyyaml pandas python-graphviz
+        - ./MDI_Mechanic/scripts/.travis/travis_before_install.sh
       install:
         - ./MDI_Mechanic/scripts/.internal/travis_install.sh
       before_script:
