@@ -3,9 +3,6 @@
 # Exit if any command fails
 set -e
 
-source "$HOME/miniconda/etc/profile.d/conda.sh"
-conda activate base
-
 tutorial_error() {
     exit 1
 }
