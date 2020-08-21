@@ -15,15 +15,15 @@ matrix:
       before_script:
         - ./MDI_Mechanic/scripts/.internal/configure_travis.sh
       script:
-        - source "$HOME/miniconda/etc/profile.d/conda.sh"
-        - |
-          if ./MDI_Mechanic/scripts/.travis/travis_script.sh ; then
-            echo "Report script succeeded."
-            export MDI_REPORT_STATUS=0
-          else
-            echo "Report script failed."
-            export MDI_REPORT_STATUS=1
-          fi
+        #- |
+        #  if ./MDI_Mechanic/scripts/.travis/travis_script.sh ; then
+        #    echo "Report script succeeded."
+        #    export MDI_REPORT_STATUS=0
+        #  else
+        #    echo "Report script failed."
+        #    export MDI_REPORT_STATUS=1
+        #  fi
 
         # Push any changes to the report
-        - ./MDI_Mechanic/scripts/.internal/push_changes.sh
+        #- ./MDI_Mechanic/scripts/.internal/push_changes.sh
+        - ./MDI_Mechanic/scripts/.travis/travis_script.sh
