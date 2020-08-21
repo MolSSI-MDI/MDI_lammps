@@ -20,11 +20,5 @@ matrix:
         - ./MDI_Mechanic/scripts/.travis/travis_after_success.sh
       after_failure:
         - ./MDI_Mechanic/scripts/.travis/travis_after_failure.sh
-      before_deploy:
-        - ./MDI_Mechanic/scripts/.travis/travis_before_deploy.sh
-      deploy:
-        - ./MDI_Mechanic/scripts/.travis/deploy.sh
-      after_deploy:
-        - ./MDI_Mechanic/scripts/.travis/after_deploy.sh
       after_script:
         - ./MDI_Mechanic/scripts/.travis/travis_after_script.sh
