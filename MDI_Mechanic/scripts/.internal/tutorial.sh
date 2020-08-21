@@ -10,22 +10,23 @@ tutorial_error() {
 reset_tutorial() {
     # Create the necessary directories
     if [ -d ${BASE_PATH}/report ]; then rm -Rf ${BASE_PATH}/report; fi
-    mkdir -p ${BASE_PATH}/report
-    mkdir -p ${BASE_PATH}/report/badges
-    mkdir -p ${BASE_PATH}/report/dynamic_badges
-    mkdir -p ${BASE_PATH}/report/graphs
+    cp -r ${BASE_PATH}/MDI_Mechanic/base_report ${BASE_PATH}/report
+    #mkdir -p ${BASE_PATH}/report
+    #mkdir -p ${BASE_PATH}/report/badges
+    #mkdir -p ${BASE_PATH}/report/dynamic_badges
+    #mkdir -p ${BASE_PATH}/report/graphs
 
     # Reset the README.md file
     cp ${BASE_PATH}/MDI_Mechanic/README.base ${BASE_PATH}/README.md
 
     # Reset the badges marking working / failing steps
     #cp ${BASE_PATH}/MDI_Mechanic/badges/-failing-red.svg ${BASE_PATH}/report/dynamic_badges/step_config.svg
-    cp ${BASE_PATH}/MDI_Mechanic/badges/-failing-red.svg ${BASE_PATH}/report/dynamic_badges/step_engine_build.svg
-    cp ${BASE_PATH}/MDI_Mechanic/badges/-failing-red.svg ${BASE_PATH}/report/dynamic_badges/step_engine_test.svg
-    cp ${BASE_PATH}/MDI_Mechanic/badges/-failing-red.svg ${BASE_PATH}/report/dynamic_badges/step_mdi_commands.svg
-    cp ${BASE_PATH}/MDI_Mechanic/badges/-failing-red.svg ${BASE_PATH}/report/dynamic_badges/step_mdi_nodes.svg
-    cp ${BASE_PATH}/MDI_Mechanic/badges/-failing-red.svg ${BASE_PATH}/report/dynamic_badges/step_min_engine.svg
-    cp ${BASE_PATH}/MDI_Mechanic/badges/-failing-red.svg ${BASE_PATH}/report/dynamic_badges/step_unsupported.svg
+    #cp ${BASE_PATH}/MDI_Mechanic/badges/-failing-red.svg ${BASE_PATH}/report/dynamic_badges/step_engine_build.svg
+    #cp ${BASE_PATH}/MDI_Mechanic/badges/-failing-red.svg ${BASE_PATH}/report/dynamic_badges/step_engine_test.svg
+    #cp ${BASE_PATH}/MDI_Mechanic/badges/-failing-red.svg ${BASE_PATH}/report/dynamic_badges/step_mdi_commands.svg
+    #cp ${BASE_PATH}/MDI_Mechanic/badges/-failing-red.svg ${BASE_PATH}/report/dynamic_badges/step_mdi_nodes.svg
+    #cp ${BASE_PATH}/MDI_Mechanic/badges/-failing-red.svg ${BASE_PATH}/report/dynamic_badges/step_min_engine.svg
+    #cp ${BASE_PATH}/MDI_Mechanic/badges/-failing-red.svg ${BASE_PATH}/report/dynamic_badges/step_unsupported.svg
 }
 
 step_engine_test() {
