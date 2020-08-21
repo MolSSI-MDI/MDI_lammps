@@ -15,7 +15,7 @@ matrix:
       before_script:
         - ./MDI_Mechanic/scripts/.internal/configure_travis.sh
       script:
-        - echo "Script"
+        - source "$HOME/miniconda/etc/profile.d/conda.sh"
         - |
           if python ./MDI_Mechanic/scripts/generate_report.py ; then
             echo "Report script succeeded."
