@@ -17,7 +17,7 @@ matrix:
       script:
         - source "$HOME/miniconda/etc/profile.d/conda.sh"
         - |
-          if python ./MDI_Mechanic/scripts/generate_report.py ; then
+          if ./MDI_Mechanic/scripts/.travis/travis_script.sh ; then
             echo "Report script succeeded."
             export MDI_REPORT_STATUS=0
           else
