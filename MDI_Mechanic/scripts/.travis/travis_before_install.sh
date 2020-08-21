@@ -15,4 +15,6 @@ conda update -q conda
 conda info -a
 
 # Install pymdi
+conda activate base
 conda install -c conda-forge pymdi pyyaml pandas python-graphviz
+conda info -a
