@@ -134,3 +134,6 @@ dmypy.json
 # SSH keys
 mdi_key
 mdi_key.pub
+
+# Report work directory
+.work/
