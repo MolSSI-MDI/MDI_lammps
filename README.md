@@ -30,8 +30,7 @@ git submodule update --remote
 3. ![step3](report/dynamic_badges/step_engine_test.svg) Add engine test(s)
 4. ![step5](report/dynamic_badges/step_min_engine.svg) Implement minimalistic engine functionality
 5. ![step6](report/dynamic_badges/step_unsupported.svg) Error on unsupported commands
-6. ![step7](report/dynamic_badges/step_mdi_commands.svg) Add support for more MDI commands
-7. ![step8](report/dynamic_badges/step_mdi_nodes.svg) Add support for the MDI Node System
+6. ![step8](report/dynamic_badges/step_mdi_nodes.svg) Continue to add support for more MDI commands
 
 ## Nodes
 

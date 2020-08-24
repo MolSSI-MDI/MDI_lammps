@@ -48,18 +48,18 @@ step_unsupported() {
     return 0
 }
 
-step_mdi_commands() {
-    cd ${BASE_PATH}/MDI_Mechanic/scripts
-    if python check_mdi_commands.py ; then
-        echo "Success: Able to determine which MDI commands are supported by this engine"
+#step_mdi_commands() {
+#    cd ${BASE_PATH}/MDI_Mechanic/scripts
+#    if python check_mdi_commands.py ; then
+#        echo "Success: Able to determine which MDI commands are supported by this engine"
 
 	# Copy the new README.md file into position
-	cp ${BASE_PATH}/MDI_Mechanic/README.temp ${BASE_PATH}/README.md
-    else
-	echo "Error: Unable to determine which MDI commands are supported by this engine"
-	return 1
-    fi
-}
+#	cp ${BASE_PATH}/MDI_Mechanic/README.temp ${BASE_PATH}/README.md
+#    else
+#	echo "Error: Unable to determine which MDI commands are supported by this engine"
+#	return 1
+#    fi
+#}
 
 step_mdi_nodes() {
     cd ${BASE_PATH}/MDI_Mechanic/scripts
@@ -142,15 +142,15 @@ else
 fi
 
 # Write out the commands that are supported by this engine
-if step_mdi_commands ; then
-    echo "Success: Detected MDI commands."
-    cd ${BASE_PATH}
-    cp ${BASE_PATH}/report/badges/-working-success.svg ${BASE_PATH}/report/dynamic_badges/step_mdi_commands.svg
-else
-    echo "Error: Unable to detect MDI commands."
-    cd ${BASE_PATH}
-    tutorial_error
-fi
+#if step_mdi_commands ; then
+#    echo "Success: Detected MDI commands."
+#    cd ${BASE_PATH}
+#    cp ${BASE_PATH}/report/badges/-working-success.svg ${BASE_PATH}/report/dynamic_badges/step_mdi_commands.svg
+#else
+#    echo "Error: Unable to detect MDI commands."
+#    cd ${BASE_PATH}
+#    tutorial_error
+#fi
 
 # Perform the node analysis
 if step_mdi_nodes ; then
