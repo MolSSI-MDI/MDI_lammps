@@ -82,21 +82,7 @@ export USER_PATH=$(pwd)/user
 # Reset the tutorial
 reset_tutorial
 
-# Test whether the repo has been correctly configured
-#step_config
-
-config_travis() {
-  echo "Making a PR"
-}
-
 #git submodule update --remote
-
-config_travis
-if [ "$?" = "0" ]; then
-    echo "Travis configuration was successful"
-else
-    echo "Travis configuration was NOT successful"
-fi
 
 # Attempt to build the engine, using the user-provided script
 #cd user
