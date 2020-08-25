@@ -66,18 +66,14 @@ recv_type = None
 if nreceive is not None:
     # Get the number of elements to receive
     nreceive_split = re.split("\+|\-|\*\*|\*|\/\/|\/|\%| ",nreceive)
-    print("NRECV: " + str(nreceive_split))
     for word in nreceive_split:
         if len(word) > 0 and word[0] == '<':
-            print("Found command in nreceive_split")
             # This is a command, so send it to the engine
             # Assume that the command receives a single integer
             mdi.MDI_Send_Command(word, comm)
             value = mdi.MDI_Recv(1, mdi.MDI_INT, comm)
-            print("count: " + str(value))
             
             nreceive = nreceive.replace(word, str(value), 1)
-            print("nreceive: " + str(nreceive))
     
     recv_num = pd.eval(nreceive)
     
@@ -97,7 +93,6 @@ send_type = None
 if nsend is not None:
     # Get the number of elements to send
     nsend_split = re.split("\+|\-|\*\*|\*|\/\/|\/|\%| ",nsend)
-    print("NSEND: " + str(nsend_split))
     for word in nsend_split:
         if len(word) > 0 and word[0] == '<':
             # This is a command, so send it to the engine
@@ -123,20 +118,16 @@ if nsend is not None:
 
 
 # Send all commands
-print("   Command input: " + str(command_input))
 command_string = str(command_input)
 command_list = command_string.split()
-print("   Command list: " + str(command_list))
 
 # Send the command(s) to be tested
 for command in command_list:
-    print(" Minimum driver is testing command: " + str(command))
     mdi.MDI_Send_Command(command, comm)
 
 # Send or receive any data associated with the final command
 if nreceive is not None:
     recv_data = mdi.MDI_Recv(recv_num, recv_type, comm)
-    print("    Received: " + str(recv_data))
     
     # Write the received data to a file 
     f = open("min_driver.dat", "w")
@@ -167,4 +158,3 @@ f.write("0")
 f.close()
 
 mdi.MDI_Send_Command("EXIT", comm)
-print("    Completed testing command")

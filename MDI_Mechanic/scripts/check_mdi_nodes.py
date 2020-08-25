@@ -43,15 +43,19 @@ def test_command( command, nrecv, recv_type, nsend, send_type ):
     global n_tested_commands
     global base_path
     global hostname
-    print("Starting min_driver.py with command: " + str(command))
+    #print("Starting min_driver.py with command: " + str(command))
     
     # Remove any leftover files from previous runs of min_driver.py
-    os.system("rm ./drivers/min_driver.dat")
-    os.system("rm ./drivers/min_driver.err")
+    #os.system("rm ./drivers/min_driver.dat")
+    #os.system("rm ./drivers/min_driver.err")
+    if os.path.exists("./drivers/min_driver.dat"):
+        os.remove("./drivers/min_driver.dat")
+    if os.path.exists("./drivers/min_driver.err"):
+        os.remove("./drivers/min_driver.err")
 
     port_num = 9050 + n_tested_commands
     mdi_driver_options = "-role DRIVER -name driver -method TCP -port " + str(port_num)
-    print("   Driver Options: " + str(command) + " " + str(nrecv) + " " + str(recv_type) + " " + str(nsend) + " " + str(send_type))
+    #print("   Driver Options: " + str(command) + " " + str(nrecv) + " " + str(recv_type) + " " + str(nsend) + " " + str(send_type))
     if nrecv is not None and nsend is not None:
        driver_proc = subprocess.Popen([sys.executable, "min_driver.py", "-command", command, 
                                         "-nreceive", str(nrecv), "-rtype", str(recv_type), 
@@ -78,7 +82,7 @@ def test_command( command, nrecv, recv_type, nsend, send_type ):
     working_dir = str(base_path) + "/user/mdi_tests/test1"
     os.system("rm -rf " + str(base_path) + "/user/mdi_tests/.work")
     os.system("cp -r " + str(working_dir) + " " + str(base_path) + "/user/mdi_tests/.work")
-    docker_string = "docker run --net=host --rm -v " + str(base_path) + ":/repo -it travis/mdi_test bash -c \"cd /repo/user/mdi_tests/.work && ls && export MDI_OPTIONS=\'" + str(mdi_engine_options) + "\' && ./run.sh\""
+    docker_string = "docker run --net=host --rm -v " + str(base_path) + ":/repo -it travis/mdi_test bash -c \"cd /repo/user/mdi_tests/.work && export MDI_OPTIONS=\'" + str(mdi_engine_options) + "\' && ./run.sh\""
     os.system(docker_string)
 
     # Convert the driver's output into a string
@@ -86,13 +90,15 @@ def test_command( command, nrecv, recv_type, nsend, send_type ):
     driver_out = format_return(driver_tup[0])
     driver_err = format_return(driver_tup[1])
     
-    print("   Driver out: " + str(driver_out))
-    print("   Driver err: " + str(driver_err))
+    #print("   Driver out: " + str(driver_out))
+    #print("   Driver err: " + str(driver_err))
 
     n_tested_commands += 1
     if driver_err == "":
+        print("WORKED")
         return True
     else:
+        print("FAILED")
         return False
 
 def find_nodes():
@@ -115,7 +121,7 @@ def find_nodes():
     for command in command_list:
         command_works = test_command( command, None, None, None, None )
         if command_works:
-            print("Working command: " + str(command))
+            #print("Working command: " + str(command))
             node_paths[command] = command
     
     # From the nodes that have currently been identified, attempt to use the "@" command to identify more nodes
@@ -203,11 +209,12 @@ def write_supported_commands():
             nsend = commands[command]['send']['count']
             send_type = commands[command]['send']['datatype']
         
-        #line = "| " + str(command) + " | " + str(command_status) + "  |\n"
         line = "| " + str(command) + " "
         for node in node_paths.keys():
             command_with_path = node_paths[node] + " " + command
-            print("FFF: " + str(command_with_path))
+            #print("FFF: " + str(command_with_path), end=" ")
+            padded_string = str(node).ljust(20, '.')
+            print(padded_string, end=" ")
             command_works = test_command( command_with_path, nrecv, recv_type, nsend, send_type )
         
             if command_works:
