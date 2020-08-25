@@ -23,7 +23,7 @@ else:
 node_paths = { "@DEFAULT": "" }
 
 # Paths associated with the edges for the node graph
-node_edge_paths = []
+node_edge_paths = [ ("@DEFAULT", "") ]
 
 def format_return(input_string):
     my_string = input_string.decode('utf-8')
@@ -123,6 +123,7 @@ def find_nodes():
         if command_works:
             #print("Working command: " + str(command))
             node_paths[command] = command
+            node_edge_paths.append( (command, command) )
     
     # From the nodes that have currently been identified, attempt to use the "@" command to identify more nodes
     original_nodes = []
@@ -254,7 +255,17 @@ def node_graph():
     #dot.edge('@INIT_MD', '@INIT_MD_')
     #dot.edge('@INIT_OPTG', '@INIT_OPTG_')
 
+    print("*********************************************")
+    print("* Creating node graph                       *")
+    print("*********************************************")
+
+    print("node_edge_paths: " + str(node_edge_paths))
+
+    #for node_name in node_paths.keys():
+    #    dot.node( node_name, node_name )
+
     for edge_path in node_edge_paths:
+        print("edge_path: " + str(edge_path))
         dot.node( edge_path[0], edge_path[0] )
 
     dot.render(str(base_path) + '/report/graphs/node-report.gv')
