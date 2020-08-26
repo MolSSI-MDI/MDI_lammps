@@ -155,7 +155,18 @@ def find_nodes():
             if node_name is not None and not node_name in node_paths.keys():
                 node_paths[node_name] = new_path
 
-                node_edge_paths.append( (node_name, new_path) )
+            # Check whether this should be added to the node graph
+            if node_name is not None:
+                split_path = new_path.split()
+                include = True
+                for node_edge in node_edge_paths:
+                    if node_edge[0] == node_name:
+                        path = node_edge[1].split()
+                        if path[0] == split_path[0]:
+                            include = False
+
+                if include:
+                    node_edge_paths.append( (node_name, new_path) )
     
     print("AAA: " + str(command_list))
     print("BBB: " + str(node_paths))
@@ -264,9 +275,43 @@ def node_graph():
     #for node_name in node_paths.keys():
     #    dot.node( node_name, node_name )
 
+    nodes = {}
+    edges = []
     for edge_path in node_edge_paths:
-        print("edge_path: " + str(edge_path))
-        dot.node( edge_path[0], edge_path[0] )
+        name = edge_path[0]
+        path = edge_path[1].split()
+        if '@' in path:
+            parent_cluster = str(path[0]) + '_'
+            if not parent_cluster in nodes.keys():
+                nodes[ parent_cluster ] = str(name)
+                edges.append( ( path[0], parent_cluster ) )
+            else:
+                nodes[ parent_cluster ] += '\n' + str(name)
+        else:
+            nodes[ name ] = name
+            if name != '@DEFAULT':
+                edges.append( ( '@DEFAULT', name ) )
+    print("nodes: " + str(nodes))
+
+    for node in nodes.keys():
+        dot.node( node, nodes[ node ], shape='box' )
+
+    for edge in edges:
+        dot.edge( edge[0], edge[1] )
+    
+    #for edge_path in node_edge_paths:
+    #    print("edge_path: " + str(edge_path))
+    #    name = edge_path[0]
+    #    path = edge_path[1]
+    #    dot.node( name, name )
+
+    #    # Add edges for the nodes that are directly accessed from @DEFAULT
+    #    if name == path:
+    #        dot.edge('@DEFAULT', name)
+    #    elif path.find(' @ ') != -1 or path[-2:] == ' @':
+    #        split_path = path.split()
+    #        parent = split_path[0]
+    #        dot.edge(parent, name)
 
     dot.render(str(base_path) + '/report/graphs/node-report.gv')
     
