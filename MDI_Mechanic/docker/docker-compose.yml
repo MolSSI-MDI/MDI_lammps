@@ -3,17 +3,16 @@ version: '3'
 services:
   mdi_mechanic:
     build: .
-    #command: bash -c "cd /repo/MDI_Mechanic/scripts/drivers && python min_driver.py -command \<NAME -nreceive MDI_NAME_LENGTH -rtype MDI_CHAR -mdi '-role DRIVER -name driver -method TCP -port 8021'"
     command: bash -c "cd /repo && ./MDI_Mechanic/scripts/drivers/docker_script.sh"
     volumes:
-      - /Users/tbarnes/Documents/mdi/docker/MDI_lammps2/:/repo
+      - ../../:/repo
     networks:
       - mdinet
   engine:
     image: "travis/mdi_test"
     command: bash -c "cd /repo/user/mdi_tests/.work && ls && export MDI_OPTIONS='-role ENGINE -name TESTCODE -method TCP -hostname mdi_mechanic -port 8021' && ./run.sh"
     volumes:
-      - /Users/tbarnes/Documents/mdi/docker/MDI_lammps2/:/repo
+      - ../../:/repo
     networks:
       - mdinet
     depends_on:
