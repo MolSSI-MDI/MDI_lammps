@@ -19,3 +19,6 @@ conda info -a
 conda activate base
 conda install -c conda-forge pymdi pyyaml pandas python-graphviz
 conda info -a
+
+# Create the MDI_Mechanic docker image
+python MDI_Mechanic/scripts/install_mechanic.py
