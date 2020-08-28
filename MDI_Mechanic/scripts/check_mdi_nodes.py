@@ -48,14 +48,47 @@ def test_command( command, nrecv, recv_type, nsend, send_type ):
     # Remove any leftover files from previous runs of min_driver.py
     #os.system("rm ./drivers/min_driver.dat")
     #os.system("rm ./drivers/min_driver.err")
-    if os.path.exists("./drivers/min_driver.dat"):
-        os.remove("./drivers/min_driver.dat")
-    if os.path.exists("./drivers/min_driver.err"):
-        os.remove("./drivers/min_driver.err")
+    if os.path.exists(str(base_path) + "/MDI_Mechanic/scripts/drivers/min_driver.dat"):
+        os.remove(str(base_path) + "/MDI_Mechanic/scripts/drivers/min_driver.dat")
+    if os.path.exists(str(base_path) + "/MDI_Mechanic/scripts/drivers/min_driver.err"):
+        os.remove(str(base_path) + "/MDI_Mechanic/scripts/drivers/min_driver.err")
 
     port_num = 9050 + n_tested_commands
-    mdi_driver_options = "-role DRIVER -name driver -method TCP -port " + str(port_num)
+    #mdi_driver_options = "-role DRIVER -name driver -method TCP -port " + str(port_num)
+    mdi_driver_options = "-role DRIVER -name driver -method TCP -port 8021"
     #print("   Driver Options: " + str(command) + " " + str(nrecv) + " " + str(recv_type) + " " + str(nsend) + " " + str(send_type))
+
+
+    # Create the docker script
+    docker_file = str(base_path) + '/MDI_Mechanic/.temp/docker_mdi_mechanic.sh'
+    docker_lines = [ "#!/bin/bash\n",
+                     "\n",
+                     "# Exit if any command fails\n",
+                     "\n",
+                     "cd MDI_Mechanic/scripts/drivers\n",
+                     "python min_driver.py \\\n"
+    ]
+    if command is not None:
+        docker_lines.append( "   -command \'" + str(command) + "\' \\\n" )
+    if nrecv is not None:
+        docker_lines.append( "   -nreceive \'" + str(nrecv) + "\' \\\n" )
+    if recv_type is not None:
+        docker_lines.append( "   -rtype \'" + str(recv_type) + "\' \\\n" )
+    if nsend is not None:
+        docker_lines.append( "   -nsend \'" + str(nsend) + "\' \\\n" )
+    if send_type is not None:
+        docker_lines.append( "   -stype \'" + str(send_type) + "\' \\\n" )
+    docker_lines.append( "   -mdi \"" + str(mdi_driver_options) + "\"\n" )
+    os.makedirs(os.path.dirname(docker_file), exist_ok=True)
+    with open(docker_file, 'w') as file:
+        file.writelines( docker_lines )
+
+
+    #driver_proc = subprocess.Popen(["docker-compose", "up", "--exit-code-from", "mdi_mechanic", 
+    #                                "--abort-on-container-exit"],
+    #                               stdout=subprocess.PIPE, stderr=subprocess.PIPE, cwd="../docker")
+
+    commen = """
     if nrecv is not None and nsend is not None:
        driver_proc = subprocess.Popen([sys.executable, "min_driver.py", "-command", command, 
                                         "-nreceive", str(nrecv), "-rtype", str(recv_type), 
@@ -76,30 +109,47 @@ def test_command( command, nrecv, recv_type, nsend, send_type ):
         driver_proc = subprocess.Popen([sys.executable, "min_driver.py", "-command", command, 
                                         "-mdi", mdi_driver_options],
                                    stdout=subprocess.PIPE, stderr=subprocess.PIPE, cwd="./drivers")
+    """
     
     # Run the engine, using Docker
-    mdi_engine_options = "-role ENGINE -name TESTCODE -method TCP -hostname " + str(hostname) + " -port " + str(port_num)
-    working_dir = str(base_path) + "/user/mdi_tests/test1"
-    os.system("rm -rf " + str(base_path) + "/user/mdi_tests/.work")
-    os.system("cp -r " + str(working_dir) + " " + str(base_path) + "/user/mdi_tests/.work")
-    docker_string = "docker run --net=host --rm -v " + str(base_path) + ":/repo -it travis/mdi_test bash -c \"cd /repo/user/mdi_tests/.work && export MDI_OPTIONS=\'" + str(mdi_engine_options) + "\' && ./run.sh\""
-    os.system(docker_string)
+    #mdi_engine_options = "-role ENGINE -name TESTCODE -method TCP -hostname " + str(hostname) + " -port " + str(port_num)
+    #working_dir = str(base_path) + "/user/mdi_tests/test1"
+    #os.system("rm -rf " + str(base_path) + "/user/mdi_tests/.work")
+    #os.system("cp -r " + str(working_dir) + " " + str(base_path) + "/user/mdi_tests/.work")
+    #docker_string = "docker run --net=host --rm -v " + str(base_path) + ":/repo -it travis/mdi_test bash -c \"cd /repo/user/mdi_tests/.work && export MDI_OPTIONS=\'" + str(mdi_engine_options) + "\' && ./run.sh\""
+    #os.system(docker_string)
 
     # Convert the driver's output into a string
-    driver_tup = driver_proc.communicate()
-    driver_out = format_return(driver_tup[0])
-    driver_err = format_return(driver_tup[1])
+    #driver_tup = driver_proc.communicate()
+    #driver_out = format_return(driver_tup[0])
+    #driver_err = format_return(driver_tup[1])
     
     #print("   Driver out: " + str(driver_out))
     #print("   Driver err: " + str(driver_err))
 
-    n_tested_commands += 1
-    if driver_err == "":
-        print("WORKED")
-        return True
-    else:
+    # Terminate everything created by docker-compose
+    #driver_end = subprocess.Popen(["docker-compose", "down"],
+    #                               stdout=subprocess.PIPE, stderr=subprocess.PIPE, cwd="../docker")
+    #driver_end.communicate()
+    os.chdir(str(base_path) + "/MDI_Mechanic/docker")
+    ret = os.system("docker-compose up --exit-code-from mdi_mechanic --abort-on-container-exit")
+    if ret != 0:
         print("FAILED")
         return False
+    ret = os.system("docker-compose down")
+    if ret != 0:
+        print("FAILED")
+        return False
+    print("WORKED")
+    return True
+    
+    #n_tested_commands += 1
+    #if driver_err == "":
+    #    print("WORKED")
+    #    return True
+    #else:
+    #    print("FAILED")
+    #    return False
 
 def find_nodes():
     global node_paths
@@ -141,13 +191,13 @@ def find_nodes():
         
             # Read the name of the node
             node_name = None
-            if os.path.isfile("./drivers/min_driver.dat"):
-                with open("./drivers/min_driver.dat", "r") as f:
+            if os.path.isfile(str(base_path) + "/MDI_Mechanic/scripts/drivers/min_driver.dat"):
+                with open(str(base_path) + "/MDI_Mechanic/scripts/drivers/min_driver.dat", "r") as f:
                     node_name = f.read()
             print("DDD Name of new node: " + str(node_name))
             err_value = None
-            if os.path.isfile("./drivers/min_driver.err"):
-                with open("./drivers/min_driver.err", "r") as f:
+            if os.path.isfile(str(base_path) + "/MDI_Mechanic/scripts/drivers/min_driver.err"):
+                with open(str(base_path) + "/MDI_Mechanic/scripts/drivers/min_driver.err", "r") as f:
                     err_value = f.read()
             if err_value == "0":
                 print("EEE: Worked")
