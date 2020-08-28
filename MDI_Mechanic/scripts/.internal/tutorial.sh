@@ -11,22 +11,9 @@ reset_tutorial() {
     # Create the necessary directories
     if [ -d ${BASE_PATH}/report ]; then rm -Rf ${BASE_PATH}/report; fi
     cp -r ${BASE_PATH}/MDI_Mechanic/base_report ${BASE_PATH}/report
-    #mkdir -p ${BASE_PATH}/report
-    #mkdir -p ${BASE_PATH}/report/badges
-    #mkdir -p ${BASE_PATH}/report/dynamic_badges
-    #mkdir -p ${BASE_PATH}/report/graphs
 
     # Reset the README.md file
     cp ${BASE_PATH}/MDI_Mechanic/README.base ${BASE_PATH}/README.md
-
-    # Reset the badges marking working / failing steps
-    #cp ${BASE_PATH}/MDI_Mechanic/badges/-failing-red.svg ${BASE_PATH}/report/dynamic_badges/step_config.svg
-    #cp ${BASE_PATH}/MDI_Mechanic/badges/-failing-red.svg ${BASE_PATH}/report/dynamic_badges/step_engine_build.svg
-    #cp ${BASE_PATH}/MDI_Mechanic/badges/-failing-red.svg ${BASE_PATH}/report/dynamic_badges/step_engine_test.svg
-    #cp ${BASE_PATH}/MDI_Mechanic/badges/-failing-red.svg ${BASE_PATH}/report/dynamic_badges/step_mdi_commands.svg
-    #cp ${BASE_PATH}/MDI_Mechanic/badges/-failing-red.svg ${BASE_PATH}/report/dynamic_badges/step_mdi_nodes.svg
-    #cp ${BASE_PATH}/MDI_Mechanic/badges/-failing-red.svg ${BASE_PATH}/report/dynamic_badges/step_min_engine.svg
-    #cp ${BASE_PATH}/MDI_Mechanic/badges/-failing-red.svg ${BASE_PATH}/report/dynamic_badges/step_unsupported.svg
 }
 
 step_engine_test() {
@@ -48,19 +35,6 @@ step_unsupported() {
     return 0
 }
 
-#step_mdi_commands() {
-#    cd ${BASE_PATH}/MDI_Mechanic/scripts
-#    if python check_mdi_commands.py ; then
-#        echo "Success: Able to determine which MDI commands are supported by this engine"
-
-	# Copy the new README.md file into position
-#	cp ${BASE_PATH}/MDI_Mechanic/README.temp ${BASE_PATH}/README.md
-#    else
-#	echo "Error: Unable to determine which MDI commands are supported by this engine"
-#	return 1
-#    fi
-#}
-
 step_mdi_nodes() {
     cd ${BASE_PATH}/MDI_Mechanic/scripts
 
@@ -68,7 +42,7 @@ step_mdi_nodes() {
         echo "Success: Able to determine which MDI nodes are supported by this engine"
 
 	# Copy the new README.md file into position
-	cp ${BASE_PATH}/MDI_Mechanic/README.temp ${BASE_PATH}/README.md
+	cp ${BASE_PATH}/MDI_Mechanic/.temp/README.temp ${BASE_PATH}/README.md
     else
 	echo "Error: Unable to determine which MDI nodes are supported by this engine"
 	return 1
@@ -84,27 +58,12 @@ reset_tutorial
 
 #git submodule update --remote
 
-# Attempt to build the engine, using the user-provided script
-#cd user
-#if bash -e build_engine.sh ; then
-#    echo "Success: Able to run engine build script."
-#    cd ${BASE_PATH}
-#else
-#    echo "Error: Unable to build engine"
-#    cd ${BASE_PATH}
-#    tutorial_error
-#fi
-
 # Verify that the engine has been built / installed correctly
-#cd user
-#if bash -e validate_build.sh ; then
 if python MDI_Mechanic/scripts/validate_build.py ; then
     echo "Success: Able to verify that the engine was built."
-    #cd ${BASE_PATH}
     cp ${BASE_PATH}/report/badges/-working-success.svg ${BASE_PATH}/report/dynamic_badges/step_engine_build.svg
 else
     echo "Error: Unable to verify that the engine was built."
-    #cd ${BASE_PATH}
     tutorial_error
 fi
 
@@ -140,17 +99,6 @@ else
     cd ${BASE_PATH}
     tutorial_error
 fi
-
-# Write out the commands that are supported by this engine
-#if step_mdi_commands ; then
-#    echo "Success: Detected MDI commands."
-#    cd ${BASE_PATH}
-#    cp ${BASE_PATH}/report/badges/-working-success.svg ${BASE_PATH}/report/dynamic_badges/step_mdi_commands.svg
-#else
-#    echo "Error: Unable to detect MDI commands."
-#    cd ${BASE_PATH}
-#    tutorial_error
-#fi
 
 # Perform the node analysis
 if step_mdi_nodes ; then
