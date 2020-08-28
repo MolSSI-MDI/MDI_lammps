@@ -1,7 +1,6 @@
 import mdi
 import os
 import sys
-import subprocess
 
 # Path to this file
 file_path = os.path.dirname(os.path.realpath(__file__))
@@ -9,45 +8,24 @@ file_path = os.path.dirname(os.path.realpath(__file__))
 # Path to the top-level directory
 base_path = file_path + "/../.."
 
-# Platform-specific hostname
-if sys.platform == "darwin":
-    hostname = "host.docker.internal"
-else:
-    hostname = "localhost"
+docker_file = str(base_path) + '/MDI_Mechanic/.temp/docker_mdi_mechanic.sh'
+docker_lines = [ "#!/bin/bash\n",
+                 "\n",
+                 "# Exit if any command fails\n",
+                 "\n",
+                 "cd MDI_Mechanic/scripts/drivers\n",
+                 "python min_driver.py -command \'UNSUPPORTED\' -nreceive \'MDI_NAME_LENGTH\' -rtype \'MDI_CHAR\' -mdi \'-role DRIVER -name driver -method TCP -port 8021\'\n"]
+os.makedirs(os.path.dirname(docker_file), exist_ok=True)
+with open(docker_file, 'w') as file:
+    file.writelines( docker_lines )
 
-
-
-def format_return(input_string):
-    my_string = input_string.decode('utf-8')
-
-    # remove any \r special characters, which sometimes are added on Windows
-    my_string = my_string.replace('\r','')
-
-    return my_string
-
-#working_dir = "../../user/mdi_tests/test1"
-
-# Launch the driver in the background
-driver_proc = subprocess.Popen([sys.executable, "min_driver.py", "-command", "UNSUPPORTED", "-mdi", "-role DRIVER -name driver -method TCP -port 8021"],
-                               stdout=subprocess.PIPE, stderr=subprocess.PIPE, cwd="./drivers")
-
-# Run the engine, using Docker
-mdi_engine_options = "-role ENGINE -name TESTCODE -method TCP -hostname " + str(hostname) + " -port 8021"
 working_dir = str(base_path) + "/user/mdi_tests/test1"
 os.system("rm -rf " + str(base_path) + "/user/mdi_tests/.work")
 os.system("cp -r " + str(working_dir) + " " + str(base_path) + "/user/mdi_tests/.work")
-docker_string = "docker run --net=host --rm -v " + str(base_path) + ":/repo -it travis/mdi_test bash -c \"cd /repo/user/mdi_tests/.work && ls && export MDI_OPTIONS=\'" + str(mdi_engine_options) + "\' && ./run.sh\""
-os.system(docker_string)
+os.chdir(str(base_path) + "/MDI_Mechanic/docker")
 
-# Convert the driver's output into a string
-driver_tup = driver_proc.communicate()
-driver_out = format_return(driver_tup[0])
-driver_err = format_return(driver_tup[1])
+ret = os.system("docker-compose up --exit-code-from mdi_mechanic --abort-on-container-exit")
+assert ret == 0
 
-print("Driver output: ")
-print(str(driver_out))
-
-print("Driver error message: ")
-print(str(driver_err))
-
-assert driver_err == ""
+ret = os.system("docker-compose down")
+assert ret == 0
