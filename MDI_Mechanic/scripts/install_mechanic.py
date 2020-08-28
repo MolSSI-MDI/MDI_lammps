@@ -1,5 +1,4 @@
 import os
-import subprocess
 import sys
 
 # Path to this file

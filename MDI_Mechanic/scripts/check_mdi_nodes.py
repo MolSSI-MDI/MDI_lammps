@@ -1,5 +1,4 @@
 import os
-import subprocess
 import sys
 import yaml
 from graphviz import Digraph
@@ -56,8 +55,6 @@ def test_command( command, nrecv, recv_type, nsend, send_type ):
     port_num = 9050 + n_tested_commands
     #mdi_driver_options = "-role DRIVER -name driver -method TCP -port " + str(port_num)
     mdi_driver_options = "-role DRIVER -name driver -method TCP -port 8021"
-    #print("   Driver Options: " + str(command) + " " + str(nrecv) + " " + str(recv_type) + " " + str(nsend) + " " + str(send_type))
-
 
     # Create the docker script
     docker_file = str(base_path) + '/MDI_Mechanic/.temp/docker_mdi_mechanic.sh'
@@ -83,54 +80,7 @@ def test_command( command, nrecv, recv_type, nsend, send_type ):
     with open(docker_file, 'w') as file:
         file.writelines( docker_lines )
 
-
-    #driver_proc = subprocess.Popen(["docker-compose", "up", "--exit-code-from", "mdi_mechanic", 
-    #                                "--abort-on-container-exit"],
-    #                               stdout=subprocess.PIPE, stderr=subprocess.PIPE, cwd="../docker")
-
-    commen = """
-    if nrecv is not None and nsend is not None:
-       driver_proc = subprocess.Popen([sys.executable, "min_driver.py", "-command", command, 
-                                        "-nreceive", str(nrecv), "-rtype", str(recv_type), 
-                                        "-nsend", str(nsend), "-stype", str(send_type), 
-                                        "-mdi", mdi_driver_options],
-                                   stdout=subprocess.PIPE, stderr=subprocess.PIPE, cwd="./drivers")
-    elif nrecv is not None:
-        driver_proc = subprocess.Popen([sys.executable, "min_driver.py", "-command", command, 
-                                        "-nreceive", str(nrecv), "-rtype", str(recv_type), 
-                                        "-mdi", mdi_driver_options],
-                                   stdout=subprocess.PIPE, stderr=subprocess.PIPE, cwd="./drivers")
-    elif nsend is not None:
-        driver_proc = subprocess.Popen([sys.executable, "min_driver.py", "-command", command, 
-                                        "-nsend", str(nsend), "-stype", str(send_type), 
-                                        "-mdi", mdi_driver_options],
-                                   stdout=subprocess.PIPE, stderr=subprocess.PIPE, cwd="./drivers")
-    else:
-        driver_proc = subprocess.Popen([sys.executable, "min_driver.py", "-command", command, 
-                                        "-mdi", mdi_driver_options],
-                                   stdout=subprocess.PIPE, stderr=subprocess.PIPE, cwd="./drivers")
-    """
-    
-    # Run the engine, using Docker
-    #mdi_engine_options = "-role ENGINE -name TESTCODE -method TCP -hostname " + str(hostname) + " -port " + str(port_num)
-    #working_dir = str(base_path) + "/user/mdi_tests/test1"
-    #os.system("rm -rf " + str(base_path) + "/user/mdi_tests/.work")
-    #os.system("cp -r " + str(working_dir) + " " + str(base_path) + "/user/mdi_tests/.work")
-    #docker_string = "docker run --net=host --rm -v " + str(base_path) + ":/repo -it travis/mdi_test bash -c \"cd /repo/user/mdi_tests/.work && export MDI_OPTIONS=\'" + str(mdi_engine_options) + "\' && ./run.sh\""
-    #os.system(docker_string)
-
-    # Convert the driver's output into a string
-    #driver_tup = driver_proc.communicate()
-    #driver_out = format_return(driver_tup[0])
-    #driver_err = format_return(driver_tup[1])
-    
-    #print("   Driver out: " + str(driver_out))
-    #print("   Driver err: " + str(driver_err))
-
-    # Terminate everything created by docker-compose
-    #driver_end = subprocess.Popen(["docker-compose", "down"],
-    #                               stdout=subprocess.PIPE, stderr=subprocess.PIPE, cwd="../docker")
-    #driver_end.communicate()
+    # Run the driver and engine, using Docker Compose
     os.chdir(str(base_path) + "/MDI_Mechanic/docker")
     ret = os.system("docker-compose up --exit-code-from mdi_mechanic --abort-on-container-exit")
     if ret != 0:
@@ -142,14 +92,6 @@ def test_command( command, nrecv, recv_type, nsend, send_type ):
         return False
     print("WORKED")
     return True
-    
-    #n_tested_commands += 1
-    #if driver_err == "":
-    #    print("WORKED")
-    #    return True
-    #else:
-    #    print("FAILED")
-    #    return False
 
 def find_nodes():
     global node_paths

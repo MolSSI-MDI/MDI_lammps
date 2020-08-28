@@ -1,7 +1,6 @@
 import mdi
 import os
 import sys
-import subprocess
 
 # Path to this file
 file_path = os.path.dirname(os.path.realpath(__file__))
