@@ -3,7 +3,7 @@ version: '3'
 services:
   mdi_mechanic:
     build: .
-    command: bash -c "cd /repo && ./MDI_Mechanic/scripts/drivers/docker_script.sh"
+    command: bash -c "cd /repo && bash ./MDI_Mechanic/.temp/docker_mdi_mechanic.sh"
     volumes:
       - ../../:/repo
     networks:
