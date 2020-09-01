@@ -3,6 +3,9 @@
 # Exit if any command fails
 set -e
 
+# Add the Travis CI badge to README.md
+cat ./.travis/travis_badge.md ./README.md > temp && mv temp README.md
+
 git add ./README.md || true
 git add ./report || true
 git commit -m "Travis CI commit [ci skip]" || true

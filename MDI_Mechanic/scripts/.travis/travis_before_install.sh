@@ -26,8 +26,8 @@ git checkout ${TRAVIS_BRANCH}
 
 # Set the Travis CI badge
 mkdir -p .travis
-echo "[![Build Status](${TRAVIS_BUILD_WEB_URL%/builds*}.svg?branch=master)](${TRAVIS_BUILD_WEB_URL%/builds*})" > ./.travis/travis_badge
-git add ./.travis/travis_badge || true
+echo "[![Build Status](${TRAVIS_BUILD_WEB_URL%/builds*}.svg?branch=master)](${TRAVIS_BUILD_WEB_URL%/builds*})" > ./.travis/travis_badge.md
+git add ./.travis/travis_badge.md || true
 git commit -m "Travis CI commit [ci skip]" || true
 git push -v > /dev/null 2>&1
 
