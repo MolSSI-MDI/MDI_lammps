@@ -3,6 +3,9 @@
 # Exit if any command fails
 set -e
 
+# Set Travis CI badge
+echo "Web URL: ${TRAVIS_BUILD_WEB_URL}"
+
 # Update apt-get
 sudo apt-get update
 
