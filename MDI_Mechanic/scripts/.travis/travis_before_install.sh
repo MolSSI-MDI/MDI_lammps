@@ -3,9 +3,6 @@
 # Exit if any command fails
 set -e
 
-# Set Travis CI badge
-echo "[![Build Status](${TRAVIS_BUILD_WEB_URL%/builds*}.svg?branch=master)](${TRAVIS_BUILD_WEB_URL%/builds*})"
-
 # Write out the MDI key
 echo "-----BEGIN OPENSSH PRIVATE KEY-----" > travis_key
 echo ${mdi_key} >> travis_key
@@ -22,6 +19,17 @@ git config --global user.name "Travis CI"
 git remote -v
 git remote set-url origin git@github.com:MolSSI-MDI/MDI_lammps2.git
 git checkout ${TRAVIS_BRANCH}
+
+# Confirm that Travis can push
+#git remote -v
+#git push -v > /dev/null 2>&1
+
+# Set the Travis CI badge
+mkdir -p .travis
+echo "[![Build Status](${TRAVIS_BUILD_WEB_URL%/builds*}.svg?branch=master)](${TRAVIS_BUILD_WEB_URL%/builds*})" > ./.travis/travis_badge
+git add ./.travis/travis_badge || true
+git commit -m "Travis CI commit [ci skip]" || true
+git push -v > /dev/null 2>&1
 
 # Update apt-get
 sudo apt-get update
