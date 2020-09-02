@@ -60,6 +60,7 @@ if ! configure_git ; then
 fi
 
 if ! install_dependencies ; then
+    export MDI_REPORT_STATUS=1
     ./MDI_Mechanic/scripts/.internal/push_changes.sh
     exit 1
 fi
