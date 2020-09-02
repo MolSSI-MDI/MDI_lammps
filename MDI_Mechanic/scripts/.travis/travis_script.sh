@@ -17,7 +17,7 @@ run_tests() {
     fi
 }
 
-if ! install_engine ; then
+if ! run_tests ; then
     export MDI_REPORT_STATUS=1
     ./MDI_Mechanic/scripts/.internal/push_changes.sh
     exit 1
