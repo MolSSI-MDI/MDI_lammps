@@ -4,7 +4,7 @@ import os
 file_path = os.path.dirname(os.path.realpath(__file__))
 
 # Path to the top-level directory
-base_path = file_path + "/../.."
+base_path = file_path + "/../../.."
 
 # Run the engine test script
 working_dir = str(base_path) + "/user/engine_tests/test1"

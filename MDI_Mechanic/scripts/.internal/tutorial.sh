@@ -8,16 +8,16 @@ tutorial_error() {
 }
 
 step_engine_test() {
-    python MDI_Mechanic/scripts/engine_tests.py
+    python MDI_Mechanic/scripts/.internal/engine_tests.py
 }
 
 step_min_engine() {
-    cd ${BASE_PATH}/MDI_Mechanic/scripts
+    cd ${BASE_PATH}/MDI_Mechanic/scripts/.internal
     python min_test.py
 }
 
 step_unsupported() {
-    cd ${BASE_PATH}/MDI_Mechanic/scripts
+    cd ${BASE_PATH}/MDI_Mechanic/scripts/.internal
     if python unsupported_test.py ; then
 	echo "Error: Script unsupported_test.py ran to completion"
 	tutorial_error
