@@ -7,15 +7,6 @@ tutorial_error() {
     exit 1
 }
 
-reset_tutorial() {
-    # Create the necessary directories
-    if [ -d ${BASE_PATH}/report ]; then rm -Rf ${BASE_PATH}/report; fi
-    cp -r ${BASE_PATH}/MDI_Mechanic/base_report ${BASE_PATH}/report
-
-    # Reset the README.md file
-    cp ${BASE_PATH}/MDI_Mechanic/README.base ${BASE_PATH}/README.md
-}
-
 step_engine_test() {
     python MDI_Mechanic/scripts/engine_tests.py
 }
@@ -36,7 +27,7 @@ step_unsupported() {
 }
 
 step_mdi_nodes() {
-    cd ${BASE_PATH}/MDI_Mechanic/scripts
+    cd ${BASE_PATH}/MDI_Mechanic/scripts/.internal
 
     if python check_mdi_nodes.py ; then
         echo "Success: Able to determine which MDI nodes are supported by this engine"
@@ -53,13 +44,10 @@ step_mdi_nodes() {
 BASE_PATH=$(pwd)
 export USER_PATH=$(pwd)/user
 
-# Reset the tutorial
-reset_tutorial
-
 #git submodule update --remote
 
 # Verify that the engine has been built / installed correctly
-if python MDI_Mechanic/scripts/validate_build.py ; then
+if python MDI_Mechanic/scripts/.internal/validate_build.py ; then
     echo "Success: Able to verify that the engine was built."
     cp ${BASE_PATH}/report/badges/-working-success.svg ${BASE_PATH}/report/dynamic_badges/step_engine_build.svg
 else

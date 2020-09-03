@@ -7,7 +7,7 @@ from graphviz import Digraph
 file_path = os.path.dirname(os.path.realpath(__file__))
 
 # Path to the top-level directory
-base_path = file_path + "/../.."
+base_path = file_path + "/../../.."
 
 # Platform-specific hostname
 if sys.platform == "darwin":
@@ -101,7 +101,8 @@ def find_nodes():
     command_list = []
     commands = None
     
-    with open(r'../mdi_standard.yaml') as standard_file:
+    standard_yaml_path = os.path.join(base_path,"MDI_Mechanic","mdi_standard.yaml")
+    with open(standard_yaml_path, "r") as standard_file:
         standard = yaml.load(standard_file, Loader=yaml.FullLoader)
         commands = standard['commands']
         
@@ -170,7 +171,8 @@ def write_supported_commands():
     command_list = []
     commands = None
     
-    with open(r'../mdi_standard.yaml') as standard_file:
+    standard_yaml_path = os.path.join(base_path,"MDI_Mechanic","mdi_standard.yaml")
+    with open(standard_yaml_path, "r") as standard_file:
         standard = yaml.load(standard_file, Loader=yaml.FullLoader)
         commands = standard['commands']
     
@@ -308,7 +310,8 @@ def node_graph():
     dot.render(str(base_path) + '/report/graphs/node-report.gv')
     
 # Read the README.md file
-with open(r'../README.base') as file:
+readme_path = os.path.join(base_path,"MDI_Mechanic","README.base")
+with open(readme_path, "r") as file:
     readme = file.readlines()
 
 # Check the README.md file for any comments for travis

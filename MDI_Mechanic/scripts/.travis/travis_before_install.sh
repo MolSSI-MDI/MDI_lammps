@@ -33,6 +33,17 @@ configure_git() {
     #git push -v > /dev/null 2>&1
 }
 
+reset_report() {
+    # Run the script to reset the MDI report
+    if ./MDI_Mechanic/scripts/.internal/reset_report.sh ; then
+        echo "Report reset succeeded."
+	return 0
+    else
+        echo "Report reset failed."
+	return 1
+    fi
+}
+
 install_dependencies() {
     # Update apt-get
     sudo apt-get update
@@ -56,6 +67,10 @@ install_dependencies() {
 }
 
 if ! configure_git ; then
+    exit 1
+fi
+
+if ! reset_report ; then
     exit 1
 fi
 
