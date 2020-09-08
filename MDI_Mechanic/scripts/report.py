@@ -12,12 +12,12 @@ base_path = os.path.dirname( os.path.dirname( file_path ) )
 
 # Generate the report
 os.chdir( str(base_path) )
-os.system("python ./MDI_Mechanic/scripts/.internal/reset_report.py")
+os.system("python ./MDI_Mechanic/scripts/utils/reset_report.py")
 
 
 def generate_report():
     # Verify that the engine has been built / installed correctly
-    ret = os.system("python MDI_Mechanic/scripts/.internal/validate_build.py")
+    ret = os.system("python MDI_Mechanic/scripts/utils/validate_build.py")
     if ret == 0:
         print("Success: Able to verify that the engine was built")
         src_location = os.path.join(base_path, "report", "badges", "-working-success.svg")
@@ -27,7 +27,7 @@ def generate_report():
         raise Exception("Error: Unable to verify that the engine was built.")
 
     # Verify that the engine test calculation can be run
-    ret = os.system("python MDI_Mechanic/scripts/.internal/engine_tests.py")
+    ret = os.system("python MDI_Mechanic/scripts/utils/engine_tests.py")
     if ret == 0:
         print("Success: Engine test(s) succeeded.")
         src_location = os.path.join(base_path, "report", "badges", "-working-success.svg")
@@ -37,7 +37,7 @@ def generate_report():
         raise Exception("Error: Engine test(s) failed.")
 
     # Verify that the engine test calculation can be run
-    ret = os.system("python MDI_Mechanic/scripts/.internal/min_test.py")
+    ret = os.system("python MDI_Mechanic/scripts/utils/min_test.py")
     if ret == 0:
         print("Success: Engine passed minimal MDI functionality test.")
         src_location = os.path.join(base_path, "report", "badges", "-working-success.svg")
@@ -47,7 +47,7 @@ def generate_report():
         raise Exception("Error: Engine failed minimal MDI functionality test.")
 
     # Check if the engine correctly errors upon receiving an unsupported command
-    ret = os.system("python MDI_Mechanic/scripts/.internal/unsupported_test.py")
+    ret = os.system("python MDI_Mechanic/scripts/utils/unsupported_test.py")
     if ret != 0:
         print("Success: Engine errors out upon receiving an unsupported command.")
         src_location = os.path.join(base_path, "report", "badges", "-working-success.svg")
@@ -57,7 +57,7 @@ def generate_report():
         raise Exception("Error: Engine does not error out upon receiving an unsupported command.")
 
     # Perform the node analysis
-    ret = os.system("python MDI_Mechanic/scripts/.internal/check_mdi_nodes.py")
+    ret = os.system("python MDI_Mechanic/scripts/utils/check_mdi_nodes.py")
     if ret == 0:
         print("Success: Detected MDI nodes.")
 

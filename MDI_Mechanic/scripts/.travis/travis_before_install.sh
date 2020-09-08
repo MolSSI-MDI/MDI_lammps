@@ -35,7 +35,7 @@ configure_git() {
 
 reset_report() {
     # Run the script to reset the MDI report
-    if python ./MDI_Mechanic/scripts/.internal/reset_report.py ; then
+    if python ./MDI_Mechanic/scripts/utils/reset_report.py ; then
         echo "Report reset succeeded."
 	return 0
     else
