@@ -3,20 +3,9 @@ import sys
 import yaml
 from graphviz import Digraph
 
-# Path to this file
+# Get the base directory
 file_path = os.path.dirname(os.path.realpath(__file__))
-
-# Path to the top-level directory
-base_path = file_path + "/../../.."
-
-# Platform-specific hostname
-if sys.platform == "darwin":
-    hostname = "host.docker.internal"
-else:
-    hostname = "localhost"
-
-
-
+base_path = os.path.dirname( os.path.dirname( os.path.dirname( file_path ) ) )
 
 # Paths to enter each identified node
 node_paths = { "@DEFAULT": "" }
@@ -41,7 +30,6 @@ n_tested_commands = 0
 def test_command( command, nrecv, recv_type, nsend, send_type ):
     global n_tested_commands
     global base_path
-    global hostname
     #print("Starting min_driver.py with command: " + str(command))
     
     # Remove any leftover files from previous runs of min_driver.py
@@ -308,29 +296,30 @@ def node_graph():
     #        dot.edge(parent, name)
 
     dot.render(str(base_path) + '/report/graphs/node-report.gv')
-    
-# Read the README.md file
-readme_path = os.path.join(base_path,"MDI_Mechanic","README.base")
-with open(readme_path, "r") as file:
-    readme = file.readlines()
 
-# Check the README.md file for any comments for travis
-for iline in range(len(readme)):
-    line = readme[iline]
-    sline = line.split()
-    if len(sline) > 0 and sline[0] == '[travis]:':
-        instruction = sline[3]
+def analyze_nodes():
+    # Read the README.md file
+    readme_path = os.path.join(base_path,"MDI_Mechanic","README.base")
+    with open(readme_path, "r") as file:
+        readme = file.readlines()
 
-        if instruction == "supported_commands":
-            # Need to insert a list of supported commands here
-            command_sec = write_supported_commands()
-            insert_list( readme, command_sec, iline )
+    # Check the README.md file for any comments for travis
+    for iline in range(len(readme)):
+        line = readme[iline]
+        sline = line.split()
+        if len(sline) > 0 and sline[0] == '[travis]:':
+            instruction = sline[3]
 
-# Write the updates to the README file
-tempfile = str(base_path) + '/MDI_Mechanic/.temp/README.temp'
-os.makedirs(os.path.dirname(tempfile), exist_ok=True)
-with open(tempfile, 'w') as file:
-    file.writelines( readme )
+            if instruction == "supported_commands":
+                # Need to insert a list of supported commands here
+                command_sec = write_supported_commands()
+                insert_list( readme, command_sec, iline )
 
-# Create the node graph
-node_graph()
+    # Write the updates to the README file
+    tempfile = str(base_path) + '/MDI_Mechanic/.temp/README.temp'
+    os.makedirs(os.path.dirname(tempfile), exist_ok=True)
+    with open(tempfile, 'w') as file:
+        file.writelines( readme )
+
+    # Create the node graph
+    node_graph()
