@@ -12,7 +12,8 @@ base_path = file_path + "/../.."
 # Generate the report
 os.chdir( str(base_path) )
 os.system("./MDI_Mechanic/scripts/.internal/reset_report.sh")
-os.system("./MDI_Mechanic/scripts/.internal/tutorial.sh")
+#os.system("./MDI_Mechanic/scripts/.internal/tutorial.sh")
+os.system("python ./MDI_Mechanic/scripts/.internal/tutorial.py")
 
 # Prepend the Travis badge
 readme_path = os.path.join(base_path, "README.md")
