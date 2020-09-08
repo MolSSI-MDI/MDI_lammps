@@ -35,7 +35,7 @@ configure_git() {
 
 reset_report() {
     # Run the script to reset the MDI report
-    if ./MDI_Mechanic/scripts/.internal/reset_report.sh ; then
+    if python ./MDI_Mechanic/scripts/.internal/reset_report.py ; then
         echo "Report reset succeeded."
 	return 0
     else
@@ -77,6 +77,6 @@ fi
 if ! install_dependencies ; then
     export MDI_REPORT_STATUS=1
     cat ./.travis/travis_badge.md ./README.md > temp && mv temp README.md
-    ./MDI_Mechanic/scripts/.internal/push_changes.sh
+    ./MDI_Mechanic/scripts/.travis/push_changes.sh
     exit 1
 fi

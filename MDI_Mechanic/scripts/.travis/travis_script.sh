@@ -19,10 +19,10 @@ run_tests() {
 
 if ! run_tests ; then
     export MDI_REPORT_STATUS=1
-    ./MDI_Mechanic/scripts/.internal/push_changes.sh
+    ./MDI_Mechanic/scripts/.travis/push_changes.sh
     exit 1
 fi
 
 # Push any changes to the report
 export MDI_REPORT_STATUS=0
-./MDI_Mechanic/scripts/.internal/push_changes.sh
+./MDI_Mechanic/scripts/.travis/push_changes.sh
