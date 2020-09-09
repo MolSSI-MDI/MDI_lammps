@@ -1,5 +1,6 @@
 import os
 import subprocess
+import shutil
 
 def format_return(input_string):
     my_string = input_string.decode('utf-8')
@@ -14,24 +15,43 @@ def test_validate():
     file_path = os.path.dirname(os.path.realpath(__file__))
     base_path = os.path.dirname( os.path.dirname( os.path.dirname( file_path ) ) )
 
-    # Run the engine test script
-    bash_command = "docker run --net=host --rm -v " + str(base_path) + ":/repo -it travis/mdi_test bash -c \"cd /repo/user && ./validate_build.sh\""
-    ret = os.system(bash_command)
-    if ret != 0:
+    # Run the test
+    test_proc = subprocess.Popen( ["docker", "run", "--rm",
+                                   "-v", str(base_path) + ":/repo",
+                                   "-it", "travis/mdi_test",
+                                   "bash", "-c",
+                                   "cd /repo/user && ./validate_build.sh"],
+                                  stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    test_tup = test_proc.communicate()
+    test_out = format_return(test_tup[0])
+    test_err = format_return(test_tup[1])
+    if test_proc.returncode != 0:
         raise Exception("Build validation script returned non-zero value.")
+
 
 def test_engine():
     # Get the base directory
     file_path = os.path.dirname(os.path.realpath(__file__))
     base_path = os.path.dirname( os.path.dirname( os.path.dirname( file_path ) ) )
 
-    # Run the engine test script
-    working_dir = str(base_path) + "/user/engine_tests/test1"
-    os.system("rm -rf " + str(base_path) + "/user/engine_tests/.work")
-    os.system("cp -r " + str(working_dir) + " " + str(base_path) + "/user/engine_tests/.work")
-    bash_command = "docker run --net=host --rm -v " + str(base_path) + ":/repo -it travis/mdi_test bash -c \"cd /repo/user/engine_tests/.work && ./run.sh\""
-    ret = os.system(bash_command)
-    if ret != 0:
+    # Prepare the working directory
+    src_path = os.path.join( base_path, "user", "engine_tests", "test1" )
+    dst_path = os.path.join( base_path, "user", "engine_tests", ".work" )
+    if os.path.isdir( dst_path ):
+        shutil.rmtree( dst_path )
+    shutil.copytree( src_path, dst_path )
+
+    # Run the test
+    test_proc = subprocess.Popen( ["docker", "run", "--rm",
+                                   "-v", str(base_path) + ":/repo",
+                                   "-it", "travis/mdi_test",
+                                   "bash", "-c",
+                                   "cd /repo/user/engine_tests/.work && ./run.sh"],
+                                  stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    test_tup = test_proc.communicate()
+    test_out = format_return(test_tup[0])
+    test_err = format_return(test_tup[1])
+    if test_proc.returncode != 0:
         raise Exception("Engine test script returned non-zero value.")
 
 def test_min():
@@ -51,9 +71,12 @@ def test_min():
     with open(docker_file, 'w') as file:
         file.writelines( docker_lines )
 
-    working_dir = str(base_path) + "/user/mdi_tests/test1"
-    os.system("rm -rf " + str(base_path) + "/user/mdi_tests/.work")
-    os.system("cp -r " + str(working_dir) + " " + str(base_path) + "/user/mdi_tests/.work")
+    # Prepare the working directory
+    src_path = os.path.join( base_path, "user", "mdi_tests", "test1" )
+    dst_path = os.path.join( base_path, "user", "mdi_tests", ".work" )
+    if os.path.isdir( dst_path ):
+        shutil.rmtree( dst_path )
+    shutil.copytree( src_path, dst_path )
 
     # Run "docker-compose up"
     up_proc = subprocess.Popen( ["docker-compose", "up", "--exit-code-from", "mdi_mechanic", "--abort-on-container-exit"],
@@ -90,9 +113,12 @@ def test_unsupported():
     with open(docker_file, 'w') as file:
         file.writelines( docker_lines )
 
-    working_dir = str(base_path) + "/user/mdi_tests/test1"
-    os.system("rm -rf " + str(base_path) + "/user/mdi_tests/.work")
-    os.system("cp -r " + str(working_dir) + " " + str(base_path) + "/user/mdi_tests/.work")
+    # Prepare the working directory
+    src_path = os.path.join( base_path, "user", "mdi_tests", "test1" )
+    dst_path = os.path.join( base_path, "user", "mdi_tests", ".work" )
+    if os.path.isdir( dst_path ):
+        shutil.rmtree( dst_path )
+    shutil.copytree( src_path, dst_path )
 
     # Run "docker-compose up"
     up_proc = subprocess.Popen( ["docker-compose", "up", "--exit-code-from", "mdi_mechanic", "--abort-on-container-exit"],
