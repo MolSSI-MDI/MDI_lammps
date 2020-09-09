@@ -1,26 +1,21 @@
 import os
-import sys
 from shutil import copyfile
 import utils.mdi_mech_tests as mtests
 import utils.check_mdi_nodes as na
-
-# Path to this file
-file_path = os.path.dirname(os.path.realpath(__file__))
-
-# Path to the top-level directory
-base_path = os.path.dirname( os.path.dirname( file_path ) )
-
-
+import utils.reset_report as rr
 
 # Generate the report
-############
-# REPLACE WITH MODULE
-############
-os.chdir( str(base_path) )
-os.system("python ./MDI_Mechanic/scripts/utils/reset_report.py")
-
-
 def generate_report():
+
+    # Path to this file
+    file_path = os.path.dirname(os.path.realpath(__file__))
+
+    # Path to the top-level directory
+    base_path = os.path.dirname( os.path.dirname( file_path ) )
+
+    # Reset the report
+    rr.reset_report()
+    
     # Verify that the engine has been built / installed correctly
     try:
         mtests.test_validate()
@@ -49,10 +44,6 @@ def generate_report():
         dst_location = os.path.join(base_path, "report", "dynamic_badges", "step_min_engine.svg")
         copyfile(src_location, dst_location)
 
-        ############
-        # TEMPORARY
-        os.chdir( str(base_path) )
-        ############
     except:
         raise Exception("Error: Engine failed minimal MDI functionality test.")
 
@@ -63,11 +54,6 @@ def generate_report():
         src_location = os.path.join(base_path, "report", "badges", "-working-success.svg")
         dst_location = os.path.join(base_path, "report", "dynamic_badges", "step_unsupported.svg")
         copyfile(src_location, dst_location)
-
-        ############
-        # TEMPORARY
-        os.chdir( str(base_path) )
-        ############
     except:
         raise Exception("Error: Engine does not error out upon receiving an unsupported command.")
 
@@ -97,5 +83,6 @@ def generate_report():
     except:
         raise Exception("Error: Unable to detect MDI nodes.")
 
-# Generate the report
-generate_report()
+if __name__ == "__main__":
+    # Generate the report
+    generate_report()
