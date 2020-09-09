@@ -1,7 +1,9 @@
 import os
 import subprocess
+import pickle
 import yaml
 from graphviz import Digraph
+from .graph import make_graph
 
 # Get the base directory
 file_path = os.path.dirname(os.path.realpath(__file__))
@@ -244,8 +246,6 @@ def write_supported_commands():
 def node_graph():
     global node_edge_paths
 
-    dot = Digraph(comment='Node Report', format='svg')
-
     print("*********************************************")
     print("* Creating node graph                       *")
     print("*********************************************")
@@ -270,13 +270,33 @@ def node_graph():
                 edges.append( ( '@DEFAULT', name ) )
     print("nodes: " + str(nodes))
 
-    for node in nodes.keys():
-        dot.node( node, nodes[ node ], shape='box' )
+    # Save the graph data to a file
+    graph_data = { 'nodes': nodes,
+                   'edges': edges }
+    graph_file = os.path.join( base_path, "MDI_Mechanic", ".temp", "graph.pickle")
+    os.makedirs(os.path.dirname(graph_file), exist_ok=True)
+    with open(graph_file, 'wb') as handle:
+        pickle.dump(graph_data, handle, protocol=min(pickle.HIGHEST_PROTOCOL, 4))
 
-    for edge in edges:
-        dot.edge( edge[0], edge[1] )
+    with open(graph_file, 'rb') as handle:
+        data = pickle.load(handle)
 
-    dot.render(str(base_path) + '/report/graphs/node-report.gv')
+    # Render the graph within a docker image, so that it is consistent across machines
+    graph_proc = subprocess.Popen( ["docker", "run", "--rm",
+                                   "-v", str(base_path) + ":/repo",
+                                   "-it", "mdi_mechanic/mdi_mechanic",
+                                   "bash", "-c",
+                                   "cd /repo/MDI_Mechanic/scripts/utils && python graph.py"],
+                                  stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    graph_tup = graph_proc.communicate()
+    graph_out = format_return(graph_tup[0])
+    graph_err = format_return(graph_tup[1])
+    if graph_proc.returncode != 0:
+        print("GRAPH OUTPUT: ")
+        print( str(graph_out) )
+        print("GRAPH ERROR: ")
+        print( str(graph_err) )
+        raise Exception("Graph process returned an error.")
 
 def analyze_nodes():
     # Read the README.md file
