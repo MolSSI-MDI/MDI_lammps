@@ -93,7 +93,6 @@ def find_nodes():
     for command in command_list:
         command_works = test_command( command, None, None, None, None )
         if command_works:
-            #print("Working command: " + str(command))
             node_paths[command] = command
             node_edge_paths.append( (command, command) )
     
@@ -107,7 +106,7 @@ def find_nodes():
             for jj in range(ii+1):
                 new_path += " @"
             command = new_path + " <@"
-            print("CCC Node path test: " + str(command))
+            print(new_path, end=" ")
             command_works = test_command( command, "MDI_COMMAND_LENGTH", "MDI_CHAR", None, None )
             print("Working path: " + str(command))
         
@@ -257,9 +256,6 @@ def node_graph():
     with open(graph_file, 'wb') as handle:
         pickle.dump(graph_data, handle, protocol=min(pickle.HIGHEST_PROTOCOL, 4))
 
-    #with open(graph_file, 'rb') as handle:
-    #    data = pickle.load(handle)
-
     # Render the graph within a docker image, so that it is consistent across machines
     graph_proc = subprocess.Popen( ["docker", "run", "--rm",
                                    "-v", str(base_path) + ":/repo",
@@ -269,13 +265,6 @@ def node_graph():
                                   stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     graph_tup = graph_proc.communicate()
     if graph_proc.returncode != 0:
-        #graph_out = format_return(graph_tup[0])
-        #graph_err = format_return(graph_tup[1])
-        #print("GRAPH OUTPUT: ")
-        #print( str(graph_out) )
-        #print("GRAPH ERROR: ")
-        #print( str(graph_err) )
-        #raise Exception("Graph process returned an error.")
         docker_error( graph_tup, "Graph process returned an error." )
 
 def analyze_nodes():
