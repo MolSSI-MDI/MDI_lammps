@@ -1,13 +1,9 @@
 import os
 import subprocess
 import pickle
-import yaml
 from graphviz import Digraph
 from .graph import make_graph
-
-# Get the base directory
-file_path = os.path.dirname(os.path.realpath(__file__))
-base_path = os.path.dirname( os.path.dirname( os.path.dirname( file_path ) ) )
+from .utils import get_base_path, format_return, insert_list, docker_error, get_mdi_standard
 
 # Paths to enter each identified node
 node_paths = { "@DEFAULT": "" }
@@ -15,26 +11,9 @@ node_paths = { "@DEFAULT": "" }
 # Paths associated with the edges for the node graph
 node_edge_paths = [ ("@DEFAULT", "") ]
 
-def format_return(input_string):
-    my_string = input_string.decode('utf-8')
-
-    # remove any \r special characters, which sometimes are added on Windows
-    my_string = my_string.replace('\r','')
-
-    return my_string
-
-def insert_list( original_list, insert_list, pos ):
-    for ielement in range(len(insert_list)):
-        element = insert_list[ielement]
-        original_list.insert( pos + ielement + 1, element )
-
-n_tested_commands = 0
 def test_command( command, nrecv, recv_type, nsend, send_type ):
-    global n_tested_commands
-    global base_path
-    #print("Starting min_driver.py with command: " + str(command))
-    
     # Remove any leftover files from previous runs of min_driver.py
+    base_path = get_base_path()
     if os.path.exists(str(base_path) + "/MDI_Mechanic/scripts/drivers/min_driver.dat"):
         os.remove(str(base_path) + "/MDI_Mechanic/scripts/drivers/min_driver.dat")
     if os.path.exists(str(base_path) + "/MDI_Mechanic/scripts/drivers/min_driver.err"):
@@ -102,14 +81,13 @@ def find_nodes():
     command_list = []
     commands = None
     
-    standard_yaml_path = os.path.join(base_path,"MDI_Mechanic","mdi_standard.yaml")
-    with open(standard_yaml_path, "r") as standard_file:
-        standard = yaml.load(standard_file, Loader=yaml.FullLoader)
-        commands = standard['commands']
+    base_path = get_base_path()
+    standard = get_mdi_standard()
+    commands = standard['commands']
         
-        for command in commands.keys():
-            if command[0] == '@' and command != '@':
-                command_list.append( command )
+    for command in commands.keys():
+        if command[0] == '@' and command != '@':
+            command_list.append( command )
 
     # Check which of the MDI Standard commands work from the @DEFAULT node
     for command in command_list:
@@ -172,14 +150,13 @@ def write_supported_commands():
     command_list = []
     commands = None
     
-    standard_yaml_path = os.path.join(base_path,"MDI_Mechanic","mdi_standard.yaml")
-    with open(standard_yaml_path, "r") as standard_file:
-        standard = yaml.load(standard_file, Loader=yaml.FullLoader)
-        commands = standard['commands']
+    base_path = get_base_path()
+    standard = get_mdi_standard()
+    commands = standard['commands']
     
-        for command in commands.keys():
-            values = commands[command]
-            command_list.append( command )
+    for command in commands.keys():
+        values = commands[command]
+        command_list.append( command )
 
     # Identify all supported nodes, and find a path to them
     find_nodes()
@@ -252,6 +229,8 @@ def node_graph():
 
     print("node_edge_paths: " + str(node_edge_paths))
 
+    base_path = get_base_path()
+
     nodes = {}
     edges = []
     for edge_path in node_edge_paths:
@@ -278,8 +257,8 @@ def node_graph():
     with open(graph_file, 'wb') as handle:
         pickle.dump(graph_data, handle, protocol=min(pickle.HIGHEST_PROTOCOL, 4))
 
-    with open(graph_file, 'rb') as handle:
-        data = pickle.load(handle)
+    #with open(graph_file, 'rb') as handle:
+    #    data = pickle.load(handle)
 
     # Render the graph within a docker image, so that it is consistent across machines
     graph_proc = subprocess.Popen( ["docker", "run", "--rm",
@@ -289,16 +268,19 @@ def node_graph():
                                    "cd /repo/MDI_Mechanic/scripts/utils && python graph.py"],
                                   stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     graph_tup = graph_proc.communicate()
-    graph_out = format_return(graph_tup[0])
-    graph_err = format_return(graph_tup[1])
     if graph_proc.returncode != 0:
-        print("GRAPH OUTPUT: ")
-        print( str(graph_out) )
-        print("GRAPH ERROR: ")
-        print( str(graph_err) )
-        raise Exception("Graph process returned an error.")
+        #graph_out = format_return(graph_tup[0])
+        #graph_err = format_return(graph_tup[1])
+        #print("GRAPH OUTPUT: ")
+        #print( str(graph_out) )
+        #print("GRAPH ERROR: ")
+        #print( str(graph_err) )
+        #raise Exception("Graph process returned an error.")
+        docker_error( graph_tup, "Graph process returned an error." )
 
 def analyze_nodes():
+    base_path = get_base_path()
+
     # Read the README.md file
     readme_path = os.path.join(base_path,"MDI_Mechanic","README.base")
     with open(readme_path, "r") as file:
