@@ -14,15 +14,17 @@ node_edge_paths = [ ("@DEFAULT", "") ]
 def test_command( command, nrecv, recv_type, nsend, send_type ):
     # Remove any leftover files from previous runs of min_driver.py
     base_path = get_base_path()
-    if os.path.exists(str(base_path) + "/MDI_Mechanic/scripts/drivers/min_driver.dat"):
-        os.remove(str(base_path) + "/MDI_Mechanic/scripts/drivers/min_driver.dat")
-    if os.path.exists(str(base_path) + "/MDI_Mechanic/scripts/drivers/min_driver.err"):
-        os.remove(str(base_path) + "/MDI_Mechanic/scripts/drivers/min_driver.err")
+    dat_file = os.path.join( base_path, "MDI_Mechanic", "scripts", "drivers", "min_driver.dat")
+    err_file = os.path.join( base_path, "MDI_Mechanic", "scripts", "drivers", "min_driver.err")
+    if os.path.exists( dat_file ):
+        os.remove( dat_file )
+    if os.path.exists( err_file ):
+        os.remove( err_file )
 
     mdi_driver_options = "-role DRIVER -name driver -method TCP -port 8021"
 
     # Create the docker script
-    docker_file = str(base_path) + '/MDI_Mechanic/.temp/docker_mdi_mechanic.sh'
+    docker_file = os.path.join( base_path, "MDI_Mechanic", ".temp", "docker_mdi_mechanic.sh" )
     docker_lines = [ "#!/bin/bash\n",
                      "\n",
                      "# Exit if any command fails\n",
@@ -93,11 +95,11 @@ def find_nodes():
     for command in command_list:
         command_works = test_command( command, None, None, None, None )
         if command_works:
-            #print("Working command: " + str(command))
             node_paths[command] = command
             node_edge_paths.append( (command, command) )
     
     # From the nodes that have currently been identified, attempt to use the "@" command to identify more nodes
+    print("Searching for supported nodes")
     original_nodes = []
     for node in node_paths.keys():
         original_nodes.append(node)
@@ -107,22 +109,20 @@ def find_nodes():
             for jj in range(ii+1):
                 new_path += " @"
             command = new_path + " <@"
-            print("CCC Node path test: " + str(command))
+            print(new_path, end=" ")
             command_works = test_command( command, "MDI_COMMAND_LENGTH", "MDI_CHAR", None, None )
-            print("Working path: " + str(command))
         
             # Read the name of the node
+            dat_file = os.path.join( base_path, "MDI_Mechanic", "scripts", "drivers", "min_driver.dat")
+            err_file = os.path.join( base_path, "MDI_Mechanic", "scripts", "drivers", "min_driver.err")
             node_name = None
-            if os.path.isfile(str(base_path) + "/MDI_Mechanic/scripts/drivers/min_driver.dat"):
-                with open(str(base_path) + "/MDI_Mechanic/scripts/drivers/min_driver.dat", "r") as f:
+            if os.path.isfile( dat_file ):
+                with open( dat_file, "r") as f:
                     node_name = f.read()
-            print("DDD Name of new node: " + str(node_name))
             err_value = None
-            if os.path.isfile(str(base_path) + "/MDI_Mechanic/scripts/drivers/min_driver.err"):
-                with open(str(base_path) + "/MDI_Mechanic/scripts/drivers/min_driver.err", "r") as f:
+            if os.path.isfile( err_file ):
+                with open( err_file, "r") as f:
                     err_value = f.read()
-            if err_value == "0":
-                print("EEE: Worked")
                 
             if node_name is not None and not node_name in node_paths.keys():
                 node_paths[node_name] = new_path
@@ -140,9 +140,6 @@ def find_nodes():
                 if include:
                     node_edge_paths.append( (node_name, new_path) )
     
-    print("AAA: " + str(command_list))
-    print("BBB: " + str(node_paths))
-
 def write_supported_commands():
     global node_paths
     
@@ -257,9 +254,6 @@ def node_graph():
     with open(graph_file, 'wb') as handle:
         pickle.dump(graph_data, handle, protocol=min(pickle.HIGHEST_PROTOCOL, 4))
 
-    #with open(graph_file, 'rb') as handle:
-    #    data = pickle.load(handle)
-
     # Render the graph within a docker image, so that it is consistent across machines
     graph_proc = subprocess.Popen( ["docker", "run", "--rm",
                                    "-v", str(base_path) + ":/repo",
@@ -269,13 +263,6 @@ def node_graph():
                                   stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     graph_tup = graph_proc.communicate()
     if graph_proc.returncode != 0:
-        #graph_out = format_return(graph_tup[0])
-        #graph_err = format_return(graph_tup[1])
-        #print("GRAPH OUTPUT: ")
-        #print( str(graph_out) )
-        #print("GRAPH ERROR: ")
-        #print( str(graph_err) )
-        #raise Exception("Graph process returned an error.")
         docker_error( graph_tup, "Graph process returned an error." )
 
 def analyze_nodes():
@@ -299,9 +286,9 @@ def analyze_nodes():
                 insert_list( readme, command_sec, iline )
 
     # Write the updates to the README file
-    tempfile = str(base_path) + '/MDI_Mechanic/.temp/README.temp'
-    os.makedirs(os.path.dirname(tempfile), exist_ok=True)
-    with open(tempfile, 'w') as file:
+    temp_file = os.path.join( base_path, "MDI_Mechanic", ".temp", "README.temp" )
+    os.makedirs(os.path.dirname(temp_file), exist_ok=True)
+    with open(temp_file, 'w') as file:
         file.writelines( readme )
 
     # Create the node graph
