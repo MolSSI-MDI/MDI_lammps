@@ -1,7 +1,7 @@
 import os
 from shutil import copyfile
-import utils.mdi_mech_tests as mtests
-import utils.check_mdi_nodes as na
+import utils.tests as mtests
+import utils.node_analysis as na
 import utils.reset_report as rr
 
 # Generate the report
