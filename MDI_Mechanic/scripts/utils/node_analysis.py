@@ -107,9 +107,9 @@ def find_nodes():
             for jj in range(ii+1):
                 new_path += " @"
             command = new_path + " <@"
-            print(new_path, end=" ")
+            print("Checking for node at: " + str(new_path), end=" ")
             command_works = test_command( command, "MDI_COMMAND_LENGTH", "MDI_CHAR", None, None )
-            print("Working path: " + str(command))
+            #print("Working path: " + str(command))
         
             # Read the name of the node
             node_name = None
