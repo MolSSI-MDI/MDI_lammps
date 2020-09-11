@@ -4,7 +4,7 @@
 set -e
 
 install_engine() {
-   docker build -t mdi_mechanic/lammps user
+   #docker build -t mdi_mechanic/lammps user
    python MDI_Mechanic/scripts/install_engine.py
 }
 

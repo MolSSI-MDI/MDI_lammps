@@ -63,7 +63,7 @@ install_dependencies() {
     conda info -a
 
     # Create the MDI_Mechanic docker image
-    python MDI_Mechanic/scripts/install_mechanic.py
+    #python MDI_Mechanic/scripts/install_mechanic.py
 }
 
 if ! configure_git ; then
