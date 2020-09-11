@@ -1,7 +1,6 @@
 import os
 import subprocess
 import pickle
-from .graph import make_graph
 from .utils import get_base_path, format_return, insert_list, docker_error, get_mdi_standard
 
 # Paths to enter each identified node
