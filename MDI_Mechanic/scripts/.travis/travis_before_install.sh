@@ -35,7 +35,7 @@ configure_git() {
 
 reset_report() {
     # Run the script to reset the MDI report
-    if python ./MDI_Mechanic/scripts/utils/reset_report.py ; then
+    if python3 ./MDI_Mechanic/scripts/utils/reset_report.py ; then
         echo "Report reset succeeded."
 	return 0
     else
@@ -49,7 +49,6 @@ install_dependencies() {
     sudo apt-get update
 
     # Install conda
-    python --version
     #wget http://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh
     #bash miniconda.sh -b -p $HOME/miniconda
     #source "$HOME/miniconda/etc/profile.d/conda.sh"
