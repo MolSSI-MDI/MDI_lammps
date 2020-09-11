@@ -116,7 +116,7 @@ def find_nodes():
             if os.path.isfile(str(base_path) + "/MDI_Mechanic/scripts/drivers/min_driver.dat"):
                 with open(str(base_path) + "/MDI_Mechanic/scripts/drivers/min_driver.dat", "r") as f:
                     node_name = f.read()
-            print("DDD Name of new node: " + str(node_name))
+            #print("DDD Name of new node: " + str(node_name))
             err_value = None
             if os.path.isfile(str(base_path) + "/MDI_Mechanic/scripts/drivers/min_driver.err"):
                 with open(str(base_path) + "/MDI_Mechanic/scripts/drivers/min_driver.err", "r") as f:
