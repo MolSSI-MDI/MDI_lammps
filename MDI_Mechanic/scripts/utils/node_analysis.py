@@ -97,6 +97,7 @@ def find_nodes():
             node_edge_paths.append( (command, command) )
     
     # From the nodes that have currently been identified, attempt to use the "@" command to identify more nodes
+    print("Searching for supported nodes")
     original_nodes = []
     for node in node_paths.keys():
         original_nodes.append(node)
@@ -108,20 +109,16 @@ def find_nodes():
             command = new_path + " <@"
             print(new_path, end=" ")
             command_works = test_command( command, "MDI_COMMAND_LENGTH", "MDI_CHAR", None, None )
-            print("Working path: " + str(command))
         
             # Read the name of the node
             node_name = None
             if os.path.isfile(str(base_path) + "/MDI_Mechanic/scripts/drivers/min_driver.dat"):
                 with open(str(base_path) + "/MDI_Mechanic/scripts/drivers/min_driver.dat", "r") as f:
                     node_name = f.read()
-            print("DDD Name of new node: " + str(node_name))
             err_value = None
             if os.path.isfile(str(base_path) + "/MDI_Mechanic/scripts/drivers/min_driver.err"):
                 with open(str(base_path) + "/MDI_Mechanic/scripts/drivers/min_driver.err", "r") as f:
                     err_value = f.read()
-            if err_value == "0":
-                print("EEE: Worked")
                 
             if node_name is not None and not node_name in node_paths.keys():
                 node_paths[node_name] = new_path
@@ -139,9 +136,6 @@ def find_nodes():
                 if include:
                     node_edge_paths.append( (node_name, new_path) )
     
-    print("AAA: " + str(command_list))
-    print("BBB: " + str(node_paths))
-
 def write_supported_commands():
     global node_paths
     
