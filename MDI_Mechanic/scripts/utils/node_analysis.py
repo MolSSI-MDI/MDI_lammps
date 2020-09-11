@@ -97,7 +97,7 @@ def find_nodes():
             node_edge_paths.append( (command, command) )
     
     # From the nodes that have currently been identified, attempt to use the "@" command to identify more nodes
-    print("Searching for supported nodes")
+    print("Searching for supported nodes", flush=True)
     original_nodes = []
     for node in node_paths.keys():
         original_nodes.append(node)
@@ -140,7 +140,7 @@ def find_nodes():
                 if include:
                     node_edge_paths.append( (node_name, new_path) )
 
-    print("Completed search for nodes.")
+    print("Completed search for nodes.", flush=True)
     print("Found the following nodes: " + str(node_paths.keys()) )
     #print("AAA: " + str(command_list))
     #print("BBB: " + str(node_paths))
