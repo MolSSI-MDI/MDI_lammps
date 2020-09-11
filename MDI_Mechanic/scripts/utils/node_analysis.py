@@ -14,10 +14,12 @@ node_edge_paths = [ ("@DEFAULT", "") ]
 def test_command( command, nrecv, recv_type, nsend, send_type ):
     # Remove any leftover files from previous runs of min_driver.py
     base_path = get_base_path()
-    if os.path.exists(str(base_path) + "/MDI_Mechanic/scripts/drivers/min_driver.dat"):
-        os.remove(str(base_path) + "/MDI_Mechanic/scripts/drivers/min_driver.dat")
-    if os.path.exists(str(base_path) + "/MDI_Mechanic/scripts/drivers/min_driver.err"):
-        os.remove(str(base_path) + "/MDI_Mechanic/scripts/drivers/min_driver.err")
+    dat_file = os.path.join( base_path, "MDI_Mechanic", "scripts", "drivers", "min_driver.dat" )
+    err_file = os.path.join( base_path, "MDI_Mechanic", "scripts", "drivers", "min_driver.err" )
+    if os.path.exists( dat_file ):
+        os.remove( dat_file )
+    if os.path.exists( err_file ):
+        os.remove( err_file )
 
     mdi_driver_options = "-role DRIVER -name driver -method TCP -port 8021"
 
@@ -109,20 +111,18 @@ def find_nodes():
             command = new_path + " <@"
             print("Checking for node at: " + str(new_path), end=" ")
             command_works = test_command( command, "MDI_COMMAND_LENGTH", "MDI_CHAR", None, None )
-            #print("Working path: " + str(command))
         
             # Read the name of the node
             node_name = None
-            if os.path.isfile(str(base_path) + "/MDI_Mechanic/scripts/drivers/min_driver.dat"):
-                with open(str(base_path) + "/MDI_Mechanic/scripts/drivers/min_driver.dat", "r") as f:
+            dat_file = os.path.join( base_path, "MDI_Mechanic", "scripts", "drivers", "min_driver.dat" )
+            err_file = os.path.join( base_path, "MDI_Mechanic", "scripts", "drivers", "min_driver.err" )
+            if os.path.isfile( dat_file ):
+                with open( dat_file, "r") as f:
                     node_name = f.read()
-            #print("DDD Name of new node: " + str(node_name))
             err_value = None
-            if os.path.isfile(str(base_path) + "/MDI_Mechanic/scripts/drivers/min_driver.err"):
-                with open(str(base_path) + "/MDI_Mechanic/scripts/drivers/min_driver.err", "r") as f:
+            if os.path.isfile( err_file ):
+                with open( err_file, "r") as f:
                     err_value = f.read()
-            #if err_value == "0":
-            #    print("EEE: Worked")
                 
             if node_name is not None and not node_name in node_paths.keys():
                 node_paths[node_name] = new_path
@@ -142,8 +142,6 @@ def find_nodes():
 
     print("Completed search for nodes.", flush=True)
     print("Found the following nodes: " + str(node_paths.keys()) )
-    #print("AAA: " + str(command_list))
-    #print("BBB: " + str(node_paths))
 
 def write_supported_commands():
     global node_paths
@@ -291,9 +289,9 @@ def analyze_nodes():
                 insert_list( readme, command_sec, iline )
 
     # Write the updates to the README file
-    tempfile = str(base_path) + '/MDI_Mechanic/.temp/README.temp'
-    os.makedirs(os.path.dirname(tempfile), exist_ok=True)
-    with open(tempfile, 'w') as file:
+    temp_file = os.path.join( base_path, 'MDI_Mechanic', '.temp', 'README.temp')
+    os.makedirs(os.path.dirname(temp_file), exist_ok=True)
+    with open(temp_file, 'w') as file:
         file.writelines( readme )
 
     # Create the node graph
