@@ -7,8 +7,8 @@ file_path = os.path.dirname(os.path.realpath(__file__))
 base_path = os.path.dirname( os.path.dirname( file_path ) )
 
 # Build the docker image
-#os.system("docker build -t travis/mdi_test user")
+#os.system("docker build -t mdi_mechanic/lammps user")
 
 # Run the engine, using Docker
-docker_string = "docker run --rm -v " + str(base_path) + ":/repo -it travis/mdi_test bash -c \"cd /repo/user && ls && ./docker_install.sh\""
+docker_string = "docker run --rm -v " + str(base_path) + ":/repo -it mdi_mechanic/lammps bash -c \"cd /repo/user && ls && ./docker_install.sh\""
 os.system(docker_string)

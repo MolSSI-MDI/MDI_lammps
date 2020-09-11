@@ -9,7 +9,7 @@ services:
     networks:
       - mdinet
   engine:
-    image: "travis/mdi_test"
+    image: "mdi_mechanic/lammps"
     command: bash -c "cd /repo/user/mdi_tests/.work && ls && export MDI_OPTIONS='-role ENGINE -name TESTCODE -method TCP -hostname mdi_mechanic -port 8021' && ./run.sh"
     volumes:
       - ../../:/repo

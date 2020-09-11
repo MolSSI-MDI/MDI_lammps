@@ -57,7 +57,7 @@ def test_command( command, nrecv, recv_type, nsend, send_type ):
     up_out = format_return(up_tup[0])
     up_err = format_return(up_tup[1])
     if up_proc.returncode != 0:
-        print("FAILED")
+        print("FAILED", flush=True)
         return False
 
     # Run "docker-compose down"
@@ -68,11 +68,11 @@ def test_command( command, nrecv, recv_type, nsend, send_type ):
     down_out = format_return(down_tup[0])
     down_err = format_return(down_tup[1])
     if down_proc.returncode != 0:
-        print("FAILED")
+        print("FAILED", flush=True)
         return False
 
 
-    print("WORKED")
+    print("WORKED", flush=True)
     return True
 
 def find_nodes():

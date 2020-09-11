@@ -18,7 +18,7 @@ def test_validate():
     # Run the test
     test_proc = subprocess.Popen( ["docker", "run", "--rm",
                                    "-v", str(base_path) + ":/repo",
-                                   "-it", "travis/mdi_test",
+                                   "-it", "mdi_mechanic/lammps",
                                    "bash", "-c",
                                    "cd /repo/user && ./validate_build.sh"],
                                   stdout=subprocess.PIPE, stderr=subprocess.PIPE)
@@ -44,7 +44,7 @@ def test_engine():
     # Run the test
     test_proc = subprocess.Popen( ["docker", "run", "--rm",
                                    "-v", str(base_path) + ":/repo",
-                                   "-it", "travis/mdi_test",
+                                   "-it", "mdi_mechanic/lammps",
                                    "bash", "-c",
                                    "cd /repo/user/engine_tests/.work && ./run.sh"],
                                   stdout=subprocess.PIPE, stderr=subprocess.PIPE)
