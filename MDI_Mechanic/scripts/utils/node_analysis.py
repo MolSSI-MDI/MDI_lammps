@@ -139,9 +139,11 @@ def find_nodes():
 
                 if include:
                     node_edge_paths.append( (node_name, new_path) )
-    
-    print("AAA: " + str(command_list))
-    print("BBB: " + str(node_paths))
+
+    print("Completed search for nodes.")
+    print("Found the following nodes: " + str(node_paths.keys()) )
+    #print("AAA: " + str(command_list))
+    #print("BBB: " + str(node_paths))
 
 def write_supported_commands():
     global node_paths
