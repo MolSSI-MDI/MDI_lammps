@@ -1,13 +1,13 @@
 // Node Report
 digraph {
-	"@INIT_OPTG" [label="@INIT_OPTG" shape=box]
+	"@DEFAULT" [label="@DEFAULT" shape=box]
+	"@INIT_MD" [label="@INIT_MD" shape=box]
 	"@INIT_MD_" [label="@PRE-FORCES
 @FORCES
 @COORDS" shape=box]
-	"@DEFAULT" [label="@DEFAULT" shape=box]
+	"@INIT_OPTG" [label="@INIT_OPTG" shape=box]
 	"@INIT_OPTG_" [label="@FORCES
 @COORDS" shape=box]
-	"@INIT_MD" [label="@INIT_MD" shape=box]
 	"@DEFAULT" -> "@INIT_MD"
 	"@DEFAULT" -> "@INIT_OPTG"
 	"@INIT_MD" -> "@INIT_MD_"
