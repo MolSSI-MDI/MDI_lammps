@@ -84,13 +84,14 @@ def find_nodes():
     base_path = get_base_path()
     standard = get_mdi_standard()
     commands = standard['commands']
-        
-    for command in commands.keys():
+    
+    for command in commands:
         if command[0] == '@' and command != '@':
             command_list.append( command )
+    ordered_commands = sorted( command_list )
 
     # Check which of the MDI Standard commands work from the @DEFAULT node
-    for command in command_list:
+    for command in ordered_commands:
         command_works = test_command( command, None, None, None, None )
         if command_works:
             node_paths[command] = command
@@ -101,7 +102,8 @@ def find_nodes():
     original_nodes = []
     for node in node_paths.keys():
         original_nodes.append(node)
-    for node in original_nodes:
+    ordered_nodes = sorted( original_nodes )
+    for node in ordered_nodes:
         for ii in range(20):
             new_path = node_paths[node]
             for jj in range(ii+1):
@@ -155,9 +157,11 @@ def write_supported_commands():
     for command in commands.keys():
         values = commands[command]
         command_list.append( command )
+    ordered_commands = sorted( command_list )
 
     # Identify all supported nodes, and find a path to them
     find_nodes()
+    ordered_nodes = sorted( node_paths.keys() )
     
     # Write the README.md section that lists all supported commands
     command_sec = []
@@ -166,18 +170,18 @@ def write_supported_commands():
     command_sec.append( "## Supported Commands\n" )
     command_sec.append( "\n" )
     header_line = "| "
-    for node in node_paths.keys():
+    for node in ordered_nodes:
         header_line += "| " + str(node) + " "
     header_line += "|\n"
     command_sec.append( header_line )
     header_line = "| ------------- "
-    for node in node_paths.keys():
+    for node in ordered_nodes:
         header_line += "| ------------- "
     header_line += "|\n"
     command_sec.append( header_line )
 
     # Write the list of supported commands
-    for command in command_list:
+    for command in ordered_commands:
         nrecv = None
         recv_type = None
         nsend = None
@@ -192,7 +196,7 @@ def write_supported_commands():
             send_type = commands[command]['send']['datatype']
         
         line = "| " + str(command) + " "
-        for node in node_paths.keys():
+        for node in ordered_nodes:
             command_with_path = node_paths[node] + " " + command
             padded_string = str(node).ljust(20, '.')
             print(padded_string, end=" ")
