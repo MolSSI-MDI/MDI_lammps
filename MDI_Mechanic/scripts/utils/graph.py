@@ -16,7 +16,12 @@ def make_graph():
 
     dot = Digraph(comment='Node Report', format='svg')
 
+    node_list = []
     for node in nodes.keys():
+        node_list.append( node )
+    ordered_nodes = sorted( node_list )
+    
+    for node in ordered_nodes:
         dot.node( node, nodes[ node ], shape='box' )
 
     for edge in edges:
