@@ -22,7 +22,7 @@ def make_graph():
     ordered_nodes = sorted( node_list )
     
     for node in ordered_nodes:
-        dot.node( node, nodes[ node ], shape='box' )
+        dot.node( node, nodes[ node ], shape='box', margin='0.1' )
 
     for edge in edges:
         dot.edge( edge[0], edge[1] )
