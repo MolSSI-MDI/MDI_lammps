@@ -2,8 +2,8 @@
 if [ ! -d "build/lammps" ]; then
     git clone https://github.com/MolSSI-MDI/lammps.git --branch mdi build/lammps
 fi
-LAMMPS_INSTALL='serial'
-#LAMMPS_INSTALL='mpi'
+#LAMMPS_INSTALL='serial'
+LAMMPS_INSTALL='mpi'
 
 # Configure LAMMPS
 cd build/lammps/src

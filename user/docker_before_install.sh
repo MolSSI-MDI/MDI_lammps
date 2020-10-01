@@ -9,7 +9,9 @@ apt-get update && apt-get install -y \
     gfortran \
     git \
     make \
-    python3-pip
+    python3-pip \
+    openmpi-bin \
+    libopenmpi-dev
 
 pip install mpi4py
 pip install numpy
