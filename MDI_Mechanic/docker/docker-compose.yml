@@ -2,14 +2,16 @@ version: '3'
 
 services:
   mdi_mechanic:
-    build: .
+    #build: .
+    image: "mdi_mechanic/mdi_mechanic"
     command: bash -c "cd /repo && bash ./MDI_Mechanic/.temp/docker_mdi_mechanic.sh"
     volumes:
       - ../../:/repo
     networks:
       - mdinet
   engine:
-    build: ../../user
+    #build: ../../user
+    image: "mdi_mechanic/lammps"
     command: bash -c "cd /repo/user/mdi_tests/.work && ls && export MDI_OPTIONS='-role ENGINE -name TESTCODE -method TCP -hostname mdi_mechanic -port 8021' && ./run.sh"
     volumes:
       - ../../:/repo
