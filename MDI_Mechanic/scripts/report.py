@@ -1,4 +1,5 @@
 import os
+import subprocess
 from shutil import copyfile
 import utils.tests as mtests
 import utils.node_analysis as na
@@ -15,6 +16,17 @@ def generate_report():
 
     # Reset the report
     rr.reset_report()
+
+    # Ensure that there are no orphaned containers / networks running
+    try:
+        docker_path = os.path.join( base_path, "MDI_Mechanic", "docker" )
+        down_proc = subprocess.Popen( ["docker-compose", "down"],
+                                      stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+                                      cwd=docker_path)
+        down_tup = down_proc.communicate()
+    except:
+        raise Exception("Error: Unable to remove orphaned containers.")
+
     
     # Verify that the engine has been built / installed correctly
     try:
