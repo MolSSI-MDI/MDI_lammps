@@ -1,4 +1,4 @@
-FROM python:3
+FROM ubuntu:20.10
 
 # set the working directory
 WORKDIR ./docker_image

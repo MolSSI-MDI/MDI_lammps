@@ -8,7 +8,9 @@ services:
     volumes:
       - ../../:/repo
     networks:
-      - mdinet
+      mdinet:
+        aliases:
+          - driverhost
   engine:
     #build: ../../user
     image: "mdi_mechanic/lammps"
@@ -16,7 +18,9 @@ services:
     volumes:
       - ../../:/repo
     networks:
-      - mdinet
+      mdinet:
+        aliases:
+          - enginehost
     depends_on:
       - mdi_mechanic
 

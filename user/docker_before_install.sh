@@ -8,7 +8,8 @@
 apt-get update && apt-get install -y \
     gfortran \
     git \
-    make
+    make \
+    python3-pip
 
 pip install mpi4py
 pip install numpy
