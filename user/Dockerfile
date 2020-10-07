@@ -5,8 +5,8 @@ FROM ubuntu:20.04
 
 ENV DEBIAN_FRONTEND=noninteractive
 
-RUN apt-get update -y && \
-    apt-get install -y --no-install-recommends \
+RUN apt-get update -y \
+    && apt-get install -y --no-install-recommends \
         openssh-server \
         python3-dev \
         python3-pip \
@@ -28,26 +28,19 @@ ARG MPI_USER=mpiuser
 ARG HOME_DIR=/home/${MPI_USER}
 ARG SSH_DIR=${HOME_DIR}/.ssh
 
-RUN adduser --disabled-password --gecos "" ${MPI_USER} && \
-    echo "${MPI_USER} ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
+RUN adduser --disabled-password --gecos "" ${MPI_USER} \
+    && echo "${MPI_USER} ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
 
 # ------------------------------------------------------------
 # Set-Up SSH with our Github deploy key
 # ------------------------------------------------------------
 
-#RUN mkdir /var/run/sshd \
-#    && rm -rf ${SSH_DIR}
-
 RUN mkdir /var/run/sshd \
     && mkdir -p ${SSH_DIR}
 
-COPY ssh/config ${SSH_DIR}/config
-COPY ssh/id_rsa.mpi ${SSH_DIR}/id_rsa
-COPY ssh/id_rsa.mpi.pub ${SSH_DIR}/id_rsa.pub
-COPY ssh/id_rsa.mpi.pub ${SSH_DIR}/authorized_keys
-
-RUN chmod -R 600 ${SSH_DIR}/* && \
-    chown -R ${MPI_USER}:${MPI_USER} ${SSH_DIR}
+COPY docker-entrypoint.sh /bin/docker-entrypoint.sh
+RUN chmod +x /bin/docker-entrypoint.sh
+ENTRYPOINT ["/bin/docker-entrypoint.sh"]
 
 # ------------------------------------------------------------
 # Copy MPI4PY example scripts
