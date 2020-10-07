@@ -10,9 +10,6 @@ RUN mkdir -p /tmp && apt-get update -y \
     && apt-get autoremove && apt-get autoclean && apt-get update -y \
     && apt-get install -y --no-install-recommends \
         openssh-server \
-        python3-dev \
-        python3-pip \
-        libopenmpi-dev \
     && apt-get clean && apt-get purge && rm -rf /tmp/* /var/tmp/* \
     #
     # Ensure that Python 3 is used by default
