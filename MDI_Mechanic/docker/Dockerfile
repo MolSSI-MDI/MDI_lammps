@@ -5,7 +5,7 @@ FROM ubuntu:20.10
 
 RUN apt-get update -y && \
     apt-get install -y --no-install-recommends \
-        openssh-server \
+#        openssh-server \
         python3-dev \
         python3-pip \
         libopenmpi-dev \
