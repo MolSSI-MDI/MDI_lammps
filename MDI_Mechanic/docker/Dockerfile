@@ -8,7 +8,7 @@ RUN apt-get update -y && \
         python3-dev \
         python3-pip \
         libopenmpi-dev \
-    && apt-get remove -y
+    && apt-get remove -y \
         openssh-client \
     && apt-get autoclean \
     && apt-get install -y --no-install-recommends \
