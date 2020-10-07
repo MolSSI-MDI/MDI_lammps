@@ -3,16 +3,12 @@
 
 FROM ubuntu:20.10
 
-RUN apt-get update -y && \
+RUN mkdir -p /tmp && apt-get update -y && \
     apt-get install -y --no-install-recommends \
+        openssh-server \
         python3-dev \
         python3-pip \
         libopenmpi-dev \
-    && apt-get remove -y \
-        openssh-client \
-    && apt-get autoclean \
-    && apt-get install -y --no-install-recommends \
-        openssh-server \
     && apt-get clean && apt-get purge && rm -rf /tmp/* /var/tmp/* \
     #
     # Ensure that Python 3 is used by default
