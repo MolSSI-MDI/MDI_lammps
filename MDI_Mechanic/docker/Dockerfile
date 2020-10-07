@@ -8,8 +8,8 @@ RUN apt-get update -y && \
         python3-dev \
         python3-pip \
         libopenmpi-dev \
-    && sudo apt-get remove openssh-client \
-    && sudo apt-get autoclean \
+    && apt-get remove openssh-client \
+    && apt-get autoclean \
     && apt-get install -y --no-install-recommends \
         openssh-server \
     && apt-get clean && apt-get purge && rm -rf /tmp/* /var/tmp/* \
