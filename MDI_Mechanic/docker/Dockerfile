@@ -3,15 +3,12 @@
 
 FROM ubuntu:20.04
 
-ENV DEBIAN_FRONTEND=noninteractive
-
-RUN mkdir -p /tmp && apt-get update -y \
-    && apt-get install --fix-missing \
-    && dpkg --configure -a \
-    && apt-get remove -y openssh-server openssh-client --purge \
-    && apt-get autoremove && apt-get autoclean && apt-get update -y \
-    && apt-get install -y --no-install-recommends \
+RUN apt-get update -y && \
+    apt-get install -y --no-install-recommends \
         openssh-server \
+        python3-dev \
+        python3-pip \
+        libopenmpi-dev \
     && apt-get clean && apt-get purge && rm -rf /tmp/* /var/tmp/* \
     #
     # Ensure that Python 3 is used by default
