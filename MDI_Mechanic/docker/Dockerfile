@@ -3,6 +3,8 @@
 
 FROM ubuntu:20.10
 
+ENV DEBIAN_FRONTEND=noninteractive
+
 RUN mkdir -p /tmp && apt-get update -y \
     && apt-get install --fix-missing \
     && dpkg --configure -a \
