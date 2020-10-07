@@ -4,6 +4,7 @@
 FROM ubuntu:20.10
 
 RUN mkdir -p /tmp && apt-get update -y \
+    && apt-get install --fix-missing \
     && dpkg --configure -a \
     && apt-get remove -y openssh-server openssh-client --purge \
     && apt-get autoremove && apt-get autoclean && apt-get update -y \
