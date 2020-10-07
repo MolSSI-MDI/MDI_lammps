@@ -1,7 +1,7 @@
 # Base docker file for the MDI project
 #
 
-FROM ubuntu:20.10
+FROM ubuntu:18.04
 
 ENV DEBIAN_FRONTEND=noninteractive
 
