@@ -9,7 +9,33 @@ node_paths = { "@DEFAULT": "" }
 # Paths associated with the edges for the node graph
 node_edge_paths = [ ("@DEFAULT", "") ]
 
+# Use MPI for the tests
+use_mpi = False
+
+def docker_up( docker_path ):
+    # Run "docker-compose up -d"
+    up_proc = subprocess.Popen( ["docker-compose", "up", "-d"],
+                                stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+                                cwd=docker_path )
+    up_tup = up_proc.communicate()
+    up_out = format_return(up_tup[0])
+    up_err = format_return(up_tup[1])
+    return up_proc.returncode
+
+def docker_down( docker_path ):
+    # Run "docker-compose down"
+    down_proc = subprocess.Popen( ["docker-compose", "down"],
+                                stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+                                cwd=docker_path )
+    down_tup = down_proc.communicate()
+    down_out = format_return(down_tup[0])
+    down_err = format_return(down_tup[1])
+    return down_proc.returncode
+
+
 def test_command( command, nrecv, recv_type, nsend, send_type ):
+    global use_mpi
+
     # Remove any leftover files from previous runs of min_driver.py
     base_path = get_base_path()
     dat_file = os.path.join( base_path, "MDI_Mechanic", "scripts", "drivers", "min_driver.dat" )
@@ -19,15 +45,22 @@ def test_command( command, nrecv, recv_type, nsend, send_type ):
     if os.path.exists( err_file ):
         os.remove( err_file )
 
-    mdi_driver_options = "-role DRIVER -name driver -method TCP -port 8021"
+    if use_mpi:
+        mdi_driver_options = "-role DRIVER -name driver -method MPI"
+        mdi_engine_options = "-role ENGINE -name TESTCODE -method MPI"
+        docker_path = os.path.join( base_path, "MDI_Mechanic", "docker_mpi" )
+    else:
+        mdi_driver_options = "-role DRIVER -name driver -method TCP -port 8021"
+        mdi_engine_options = "-role ENGINE -name TESTCODE -method TCP -hostname mdi_mechanic -port 8021"
+        docker_path = os.path.join( base_path, "MDI_Mechanic", "docker" )
 
-    # Create the docker script
+    # Create the script for MDI Mechanic
     docker_file = str(base_path) + '/MDI_Mechanic/.temp/docker_mdi_mechanic.sh'
     docker_lines = [ "#!/bin/bash\n",
                      "\n",
                      "# Exit if any command fails\n",
                      "\n",
-                     "cd MDI_Mechanic/scripts/drivers\n",
+                     "cd /repo/MDI_Mechanic/scripts/drivers\n",
                      "python min_driver.py \\\n"
     ]
     if command is not None:
@@ -45,33 +78,64 @@ def test_command( command, nrecv, recv_type, nsend, send_type ):
     with open(docker_file, 'w') as file:
         file.writelines( docker_lines )
 
-    docker_path = os.path.join( base_path, "MDI_Mechanic", "docker" )
 
-    # Run "docker-compose up"
-    up_proc = subprocess.Popen( ["docker-compose", "up", "--exit-code-from", "mdi_mechanic", "--abort-on-container-exit"],
-                                stdout=subprocess.PIPE, stderr=subprocess.PIPE,
-                                cwd=docker_path )
-    up_tup = up_proc.communicate()
-    up_out = format_return(up_tup[0])
-    up_err = format_return(up_tup[1])
-    if up_proc.returncode != 0:
-        print("FAILED", flush=True)
-        return False
+    # Create the script for the engine
+    docker_lines = [ "#!/bin/bash\n",
+                     "\n",
+                     "cd /repo\n",
+                     "cd user/mdi_tests/.work\n",
+                     "export MDI_OPTIONS=\'" + str(mdi_engine_options) + "\'\n",
+                     "./run.sh\n"]        
+    docker_file = str(base_path) + '/MDI_Mechanic/.temp/docker_mdi_engine.sh'
+    os.makedirs(os.path.dirname(docker_file), exist_ok=True)
+    with open(docker_file, 'w') as file:
+        file.writelines( docker_lines )
 
-    # Run "docker-compose down"
-    down_proc = subprocess.Popen( ["docker-compose", "down"],
-                                stdout=subprocess.PIPE, stderr=subprocess.PIPE,
-                                cwd=docker_path )
-    down_tup = down_proc.communicate()
-    down_out = format_return(down_tup[0])
-    down_err = format_return(down_tup[1])
-    if down_proc.returncode != 0:
+
+
+    if use_mpi:
+
+        # Start the docker container
+        if docker_up( docker_path ) != 0:
+            raise Exception("Unable to start docker-compose")
+    
+        # Run "docker-compose exec"
+        exec_proc = subprocess.Popen( ["docker-compose", "exec", "-T", "--user", "mpiuser", "mdi_mechanic", "mpiexec", "-app", "/repo/MDI_Mechanic/docker_mpi/mdi_appfile"],
+                                      stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+                                      cwd=docker_path )
+        exec_tup = exec_proc.communicate()
+        exec_out = format_return(exec_tup[0])
+        exec_err = format_return(exec_tup[1])
+        if exec_proc.returncode != 0:
+            print("FAILED", flush=True)
+            docker_down( docker_path )
+            return False
+
+    else:
+
+        # Run the docker container
+        up_proc = subprocess.Popen( ["docker-compose", "up", "--exit-code-from", "mdi_mechanic", "--abort-on-container-exit"],
+                                    stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+                                    cwd=docker_path )
+        up_tup = up_proc.communicate()
+        up_out = format_return(up_tup[0])
+        up_err = format_return(up_tup[1])
+        if up_proc.returncode != 0:
+            print("FAILED", flush=True)
+            docker_down( docker_path )
+            return False
+
+
+
+    if docker_down( docker_path ) != 0:
         print("FAILED", flush=True)
         return False
 
 
     print("WORKED", flush=True)
     return True
+
+
 
 def find_nodes():
     global node_paths
@@ -219,7 +283,7 @@ def write_supported_commands():
         line = line.replace(">", "&gt;")
         line = line.replace("<", "&lt;")
         command_sec[iline] = line
-    
+        
     return command_sec
 
 def node_graph():

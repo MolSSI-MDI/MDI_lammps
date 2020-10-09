@@ -60,13 +60,27 @@ def test_min():
     base_path = os.path.dirname( os.path.dirname( os.path.dirname( file_path ) ) )
     docker_path = os.path.join( base_path, "MDI_Mechanic", "docker" )
 
+    # Write the run script for MDI Mechanic
     docker_file = str(base_path) + '/MDI_Mechanic/.temp/docker_mdi_mechanic.sh'
     docker_lines = [ "#!/bin/bash\n",
                      "\n",
                      "# Exit if any command fails\n",
                      "\n",
-                     "cd MDI_Mechanic/scripts/drivers\n",
+                     "cd /repo/MDI_Mechanic/scripts/drivers\n",
                      "python min_driver.py -command \'<NAME\' -nreceive \'MDI_NAME_LENGTH\' -rtype \'MDI_CHAR\' -mdi \'-role DRIVER -name driver -method TCP -port 8021\'\n"]
+    os.makedirs(os.path.dirname(docker_file), exist_ok=True)
+    with open(docker_file, 'w') as file:
+        file.writelines( docker_lines )
+
+    # Write the run script for the engine
+    docker_file = str(base_path) + '/MDI_Mechanic/.temp/docker_mdi_engine.sh'
+    docker_lines = [ "#!/bin/bash\n",
+                     "\n",
+                     "# Exit if any command fails\n",
+                     "\n",
+                     "cd /repo/user/mdi_tests/.work\n",
+                     "export MDI_OPTIONS=\'-role ENGINE -name TESTCODE -method TCP -hostname mdi_mechanic -port 8021\'\n",
+                     "./run.sh\n"]
     os.makedirs(os.path.dirname(docker_file), exist_ok=True)
     with open(docker_file, 'w') as file:
         file.writelines( docker_lines )
@@ -85,7 +99,6 @@ def test_min():
     up_tup = up_proc.communicate()
     up_out = format_return(up_tup[0])
     up_err = format_return(up_tup[1])
-    assert up_proc.returncode == 0
 
     # Run "docker-compose down"
     down_proc = subprocess.Popen( ["docker-compose", "down"],
@@ -94,6 +107,8 @@ def test_min():
     down_tup = down_proc.communicate()
     down_out = format_return(down_tup[0])
     down_err = format_return(down_tup[1])
+
+    assert up_proc.returncode == 0
     assert down_proc.returncode == 0
 
 def test_unsupported():
@@ -102,13 +117,27 @@ def test_unsupported():
     base_path = os.path.dirname( os.path.dirname( os.path.dirname( file_path ) ) )
     docker_path = os.path.join( base_path, "MDI_Mechanic", "docker" )
 
+    # Write the run script for MDI Mechanic
     docker_file = str(base_path) + '/MDI_Mechanic/.temp/docker_mdi_mechanic.sh'
     docker_lines = [ "#!/bin/bash\n",
                      "\n",
                      "# Exit if any command fails\n",
                      "\n",
-                     "cd MDI_Mechanic/scripts/drivers\n",
+                     "cd /repo/MDI_Mechanic/scripts/drivers\n",
                      "python min_driver.py -command \'UNSUPPORTED\' -nreceive \'MDI_NAME_LENGTH\' -rtype \'MDI_CHAR\' -mdi \'-role DRIVER -name driver -method TCP -port 8021\'\n"]
+    os.makedirs(os.path.dirname(docker_file), exist_ok=True)
+    with open(docker_file, 'w') as file:
+        file.writelines( docker_lines )
+
+    # Write the run script for the engine
+    docker_file = str(base_path) + '/MDI_Mechanic/.temp/docker_mdi_engine.sh'
+    docker_lines = [ "#!/bin/bash\n",
+                     "\n",
+                     "# Exit if any command fails\n",
+                     "\n",
+                     "cd /repo/user/mdi_tests/.work\n",
+                     "export MDI_OPTIONS=\'-role ENGINE -name TESTCODE -method TCP -hostname mdi_mechanic -port 8021\'\n",
+                     "./run.sh\n"]
     os.makedirs(os.path.dirname(docker_file), exist_ok=True)
     with open(docker_file, 'w') as file:
         file.writelines( docker_lines )
@@ -127,7 +156,6 @@ def test_unsupported():
     up_tup = up_proc.communicate()
     up_out = format_return(up_tup[0])
     up_err = format_return(up_tup[1])
-    assert up_proc.returncode != 0
 
     # Run "docker-compose down"
     down_proc = subprocess.Popen( ["docker-compose", "down"],
@@ -136,4 +164,6 @@ def test_unsupported():
     down_tup = down_proc.communicate()
     down_out = format_return(down_tup[0])
     down_err = format_return(down_tup[1])
+
+    assert up_proc.returncode != 0
     assert down_proc.returncode == 0

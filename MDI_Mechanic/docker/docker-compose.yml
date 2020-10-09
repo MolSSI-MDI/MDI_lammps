@@ -4,7 +4,7 @@ services:
   mdi_mechanic:
     #build: .
     image: "mdi_mechanic/mdi_mechanic"
-    command: bash -c "cd /repo && bash ./MDI_Mechanic/.temp/docker_mdi_mechanic.sh"
+    command: bash -c "bash /repo/MDI_Mechanic/.temp/docker_mdi_mechanic.sh"
     volumes:
       - ../../:/repo
     networks:
@@ -14,7 +14,7 @@ services:
   engine:
     #build: ../../user
     image: "mdi_mechanic/lammps"
-    command: bash -c "cd /repo/user/mdi_tests/.work && ls && export MDI_OPTIONS='-role ENGINE -name TESTCODE -method TCP -hostname mdi_mechanic -port 8021' && ./run.sh"
+    command: bash -c "bash /repo/MDI_Mechanic/.temp/docker_mdi_engine.sh"
     volumes:
       - ../../:/repo
     networks:
