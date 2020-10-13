@@ -1,14 +1,16 @@
 import os
 import subprocess
 import shutil
+from .utils import get_base_path, format_return, insert_list, docker_error, get_mdi_standard, get_compose_path
 
-def format_return(input_string):
-    my_string = input_string.decode('utf-8')
+
+#def format_return(input_string):
+#    my_string = input_string.decode('utf-8')
 
     # remove any \r special characters, which sometimes are added on Windows
-    my_string = my_string.replace('\r','')
+#    my_string = my_string.replace('\r','')
 
-    return my_string
+#    return my_string
 
 def test_validate():
     # Get the base directory
@@ -58,7 +60,8 @@ def test_min():
     # Get the base directory
     file_path = os.path.dirname(os.path.realpath(__file__))
     base_path = os.path.dirname( os.path.dirname( os.path.dirname( file_path ) ) )
-    docker_path = os.path.join( base_path, "MDI_Mechanic", "docker" )
+    #docker_path = os.path.join( base_path, "MDI_Mechanic", "docker" )
+    docker_path = get_compose_path( "tcp" )
 
     # Write the run script for MDI Mechanic
     docker_file = str(base_path) + '/MDI_Mechanic/.temp/docker_mdi_mechanic.sh'
@@ -115,7 +118,8 @@ def test_unsupported():
     # Get the base directory
     file_path = os.path.dirname(os.path.realpath(__file__))
     base_path = os.path.dirname( os.path.dirname( os.path.dirname( file_path ) ) )
-    docker_path = os.path.join( base_path, "MDI_Mechanic", "docker" )
+    #docker_path = os.path.join( base_path, "MDI_Mechanic", "docker" )
+    docker_path = get_compose_path( "tcp" )
 
     # Write the run script for MDI Mechanic
     docker_file = str(base_path) + '/MDI_Mechanic/.temp/docker_mdi_mechanic.sh'

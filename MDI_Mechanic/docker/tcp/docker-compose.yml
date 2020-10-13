@@ -6,7 +6,7 @@ services:
     image: "mdi_mechanic/mdi_mechanic"
     command: bash -c "bash /repo/MDI_Mechanic/.temp/docker_mdi_mechanic.sh"
     volumes:
-      - ../../:/repo
+      - ../../../:/repo
     networks:
       mdinet:
         aliases:
@@ -16,7 +16,7 @@ services:
     image: "mdi_mechanic/lammps"
     command: bash -c "bash /repo/MDI_Mechanic/.temp/docker_mdi_engine.sh"
     volumes:
-      - ../../:/repo
+      - ../../../:/repo
     networks:
       mdinet:
         aliases:

@@ -8,6 +8,11 @@ def get_base_path():
     base_path = os.path.dirname( os.path.dirname( os.path.dirname( file_path ) ) )
     return base_path
 
+def get_compose_path( method ):
+    base_path = get_base_path()
+    compose_path = os.path.join( base_path, "MDI_Mechanic", "docker", method )
+    return compose_path
+
 def format_return(input_string):
     my_string = input_string.decode('utf-8')
 

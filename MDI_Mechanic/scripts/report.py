@@ -4,6 +4,7 @@ from shutil import copyfile
 import utils.tests as mtests
 import utils.node_analysis as na
 import utils.reset_report as rr
+import utils.utils as ut
 
 # Generate the report
 def generate_report():
@@ -19,10 +20,11 @@ def generate_report():
 
     # Ensure that there are no orphaned containers / networks running
     try:
-        docker_path = os.path.join( base_path, "MDI_Mechanic", "docker" )
+        #docker_path = os.path.join( base_path, "MDI_Mechanic", "docker" )
+        compose_path = ut.get_compose_path( "tcp" )
         down_proc = subprocess.Popen( ["docker-compose", "down"],
                                       stdout=subprocess.PIPE, stderr=subprocess.PIPE,
-                                      cwd=docker_path)
+                                      cwd=compose_path)
         down_tup = down_proc.communicate()
     except:
         raise Exception("Error: Unable to remove orphaned containers.")

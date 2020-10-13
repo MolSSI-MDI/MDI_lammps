@@ -1,12 +1,14 @@
 #import mdi
 import os
 import sys
+import utils.utils as ut
 
 # Path to this file
 file_path = os.path.dirname(os.path.realpath(__file__))
 
 # Path to the top-level directory
 base_path = file_path + "/../.."
+compose_path = ut.get_compose_path( "mpi" )
 
 docker_file = str(base_path) + '/MDI_Mechanic/.temp/docker_mdi_mechanic.sh'
 #docker_lines = [ "#!/bin/bash\n",
@@ -46,7 +48,8 @@ working_dir = str(base_path) + "/user/mdi_tests/test1"
 os.system("rm -rf " + str(base_path) + "/user/mdi_tests/.work")
 os.system("cp -r " + str(working_dir) + " " + str(base_path) + "/user/mdi_tests/.work")
 
-os.chdir(str(base_path) + "/MDI_Mechanic/docker_mpi")
+#os.chdir(str(base_path) + "/MDI_Mechanic/docker_mpi")
+os.chdir( compose_path )
 os.system("docker-compose down")
 os.system("docker-compose up -d")
 os.system("docker-compose exec --user mpiuser mdi_mechanic mpiexec -app /repo/MDI_Mechanic/docker_mpi/mdi_appfile")

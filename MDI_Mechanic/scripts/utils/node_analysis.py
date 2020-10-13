@@ -1,7 +1,7 @@
 import os
 import subprocess
 import pickle
-from .utils import get_base_path, format_return, insert_list, docker_error, get_mdi_standard
+from .utils import get_base_path, format_return, insert_list, docker_error, get_mdi_standard, get_compose_path
 
 # Paths to enter each identified node
 node_paths = { "@DEFAULT": "" }
@@ -48,11 +48,13 @@ def test_command( command, nrecv, recv_type, nsend, send_type ):
     if use_mpi:
         mdi_driver_options = "-role DRIVER -name driver -method MPI"
         mdi_engine_options = "-role ENGINE -name TESTCODE -method MPI"
-        docker_path = os.path.join( base_path, "MDI_Mechanic", "docker_mpi" )
+        #docker_path = os.path.join( base_path, "MDI_Mechanic", "docker_mpi" )
+        docker_path = get_compose_path( "mpi" )
     else:
         mdi_driver_options = "-role DRIVER -name driver -method TCP -port 8021"
         mdi_engine_options = "-role ENGINE -name TESTCODE -method TCP -hostname mdi_mechanic -port 8021"
-        docker_path = os.path.join( base_path, "MDI_Mechanic", "docker" )
+        #docker_path = os.path.join( base_path, "MDI_Mechanic", "docker" )
+        docker_path = get_compose_path( "tcp" )
 
     # Create the script for MDI Mechanic
     docker_file = str(base_path) + '/MDI_Mechanic/.temp/docker_mdi_mechanic.sh'
