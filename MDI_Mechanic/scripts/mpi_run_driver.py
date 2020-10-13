@@ -52,7 +52,7 @@ os.system("cp -r " + str(working_dir) + " " + str(base_path) + "/user/mdi_tests/
 os.chdir( compose_path )
 os.system("docker-compose down")
 os.system("docker-compose up -d")
-os.system("docker-compose exec --user mpiuser mdi_mechanic mpiexec -app /repo/MDI_Mechanic/docker_mpi/mdi_appfile")
+os.system("docker-compose exec --user mpiuser mdi_mechanic mpiexec -app /repo/MDI_Mechanic/docker/mpi/mdi_appfile")
 os.system("docker-compose down")
 
 #working_dir = str(base_path) + "/user/mdi_tests/test1"

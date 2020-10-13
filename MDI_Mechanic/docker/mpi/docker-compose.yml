@@ -5,7 +5,7 @@ services:
     #build: .
     image: "mdi_mechanic/mdi_mechanic"
     volumes:
-      - ../../:/repo
+      - ../../../:/repo
     networks:
       mdinet:
         aliases:
@@ -16,7 +16,7 @@ services:
     #build: ../../user
     image: "mdi_mechanic/lammps"
     volumes:
-      - ../../:/repo
+      - ../../../:/repo
     networks:
       mdinet:
         aliases:

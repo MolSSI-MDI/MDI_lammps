@@ -102,7 +102,7 @@ def test_command( command, nrecv, recv_type, nsend, send_type ):
             raise Exception("Unable to start docker-compose")
     
         # Run "docker-compose exec"
-        exec_proc = subprocess.Popen( ["docker-compose", "exec", "-T", "--user", "mpiuser", "mdi_mechanic", "mpiexec", "-app", "/repo/MDI_Mechanic/docker_mpi/mdi_appfile"],
+        exec_proc = subprocess.Popen( ["docker-compose", "exec", "-T", "--user", "mpiuser", "mdi_mechanic", "mpiexec", "-app", "/repo/MDI_Mechanic/docker/mpi/mdi_appfile"],
                                       stdout=subprocess.PIPE, stderr=subprocess.PIPE,
                                       cwd=docker_path )
         exec_tup = exec_proc.communicate()
