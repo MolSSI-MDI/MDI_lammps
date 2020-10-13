@@ -1,3 +1,6 @@
+# NOTE: SHOULD PROBABLY MAKE THIS UNECCESSARY
+cd ../
+
 # Obtain a clone of LAMMPS
 if [ ! -d "build/lammps" ]; then
     git clone https://github.com/MolSSI-MDI/lammps.git --branch mdi build/lammps

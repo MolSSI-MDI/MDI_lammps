@@ -13,10 +13,10 @@ if ret != 0:
     raise Exception("Unable to build the MDI Mechanic image")
 
 # Build the engine image
-ret = os.system("docker build -t mdi_mechanic/lammps user")
+ret = os.system("docker build -t mdi_mechanic/lammps user/docker")
 if ret != 0:
     raise Exception("Unable to build the engine image")
 
 # Build the engine, within its Docker image
-docker_string = "docker run --rm -v " + str(base_path) + ":/repo -it mdi_mechanic/lammps bash -c \"cd /repo/user && ls && ./docker_install.sh\""
+docker_string = "docker run --rm -v " + str(base_path) + ":/repo -it mdi_mechanic/lammps bash -c \"cd /repo/user/docker && ls && ./docker_install.sh\""
 os.system(docker_string)
