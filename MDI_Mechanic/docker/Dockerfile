@@ -1,5 +1,5 @@
 #------------------------------------------------------------#
-# Base docker file for MDI Mechanic
+# Docker file for MDI Mechanic
 #------------------------------------------------------------#
 
 FROM mdi/base
