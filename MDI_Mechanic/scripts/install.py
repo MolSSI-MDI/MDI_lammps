@@ -7,6 +7,11 @@ base_path = ut.get_base_path()
 # Switch to the base directory
 os.chdir(base_path)
 
+# Build the MDI base image
+ret = os.system("docker build -t mdi/base MDI_Mechanic/docker/base")
+if ret != 0:
+    raise Exception("Unable to build the MDI Mechanic image")
+
 # Build the MDI Mechanic image
 ret = os.system("docker build -t mdi_mechanic/mdi_mechanic MDI_Mechanic/docker")
 if ret != 0:

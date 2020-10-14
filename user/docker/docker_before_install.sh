@@ -5,13 +5,14 @@
 #    gfortran \
 #    mpich \
 #    libmpich-dev
+
 apt-get update && apt-get install -y \
-    gfortran \
-    git \
-    make \
-    python3-pip \
-    openmpi-bin \
-    libopenmpi-dev
+    git
+#    gfortran \
+#    make \
+#    python3-pip \
+#    openmpi-bin \
+#    libopenmpi-dev
 
 pip install mpi4py
 pip install numpy
