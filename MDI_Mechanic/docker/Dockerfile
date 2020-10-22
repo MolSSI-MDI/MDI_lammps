@@ -17,16 +17,4 @@ RUN apt-get update -y && \
     pip install pandas && \
     pip install PyYAML && \
     pip install graphviz && \
-    #
-    #--------------------------------------------------------#
-    # Build the MDI Library
-    #--------------------------------------------------------#
-    #
-    git clone https://github.com/MolSSI-MDI/MDI_Library.git && \
-    mkdir MDI_Library/build && \
-    cd MDI_Library/build && \
-    cmake -Dlanguage=Python -Dpython_package=ON .. && \
-    make && \
-    make install && \
-    cd ../../ && \
-    rm -rf MDI_Library
+    pip install pymdi
