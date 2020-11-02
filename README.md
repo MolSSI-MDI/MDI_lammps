@@ -5,6 +5,7 @@
 [![Build Status](https://travis-ci.com/MolSSI-MDI/MDI_lammps2.svg?branch=master)](https://travis-ci.com/MolSSI-MDI/MDI_lammps2)
 [![Build Status](https://travis-ci.com/MolSSI-MDI/MDI_lammps2.svg?branch=master)](https://travis-ci.com/MolSSI-MDI/MDI_lammps2)
 [![Build Status](https://travis-ci.com/MolSSI-MDI/MDI_lammps2.svg?branch=master)](https://travis-ci.com/MolSSI-MDI/MDI_lammps2)
+[![Build Status](https://travis-ci.com/MolSSI-MDI/MDI_lammps2.svg?branch=master)](https://travis-ci.com/MolSSI-MDI/MDI_lammps2)
 # MDI Mechanic LAMMPS report
 
 This repo presents test results for the MDI interface implementation in the LAMMPS code.
