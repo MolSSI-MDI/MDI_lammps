@@ -64,15 +64,20 @@ install_dependencies() {
 
     # Create the MDI_Mechanic docker image
     #python MDI_Mechanic/scripts/install_mechanic.py
+
+    # Install MDI Mechanic
+    git clone https://github.com/MolSSI-MDI/MDI_Mechanic.git
+    cd MDI_Mechanic
+    pip install .
 }
 
 if ! configure_git ; then
     exit 1
 fi
 
-if ! reset_report ; then
-    exit 1
-fi
+#if ! reset_report ; then
+#    exit 1
+#fi
 
 if ! install_dependencies ; then
     export MDI_REPORT_STATUS=1

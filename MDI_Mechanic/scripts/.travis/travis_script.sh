@@ -8,7 +8,8 @@ run_tests() {
     conda activate base
 
     # Run the script to generate the MDI report
-    if python3 ./MDI_Mechanic/scripts/report.py ; then
+    #if python3 ./MDI_Mechanic/scripts/report.py ; then
+    if mdimechanic report ; then
         echo "Report script succeeded."
 	return 0
     else
