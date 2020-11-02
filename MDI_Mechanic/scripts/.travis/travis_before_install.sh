@@ -48,47 +48,18 @@ install_dependencies() {
     # Update apt-get
     sudo apt-get update
 
-    # Install conda
-    #wget http://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh
-    #bash miniconda.sh -b -p $HOME/miniconda
-    #source "$HOME/miniconda/etc/profile.d/conda.sh"
-    #export PATH=$HOME/miniconda/bin:$PATH
-    #conda config --set always_yes yes --set changeps1 no
-    #conda update -q conda
-    #conda info -a
-
-    # Install pymdi
-    #conda activate base
-    #conda install -c conda-forge pymdi pyyaml pandas python-graphviz
-    #conda info -a
-
-    # Create the MDI_Mechanic docker image
-    #python MDI_Mechanic/scripts/install_mechanic.py
-
     # Install MDI Mechanic
-    sudo apt-get install pip3
     mkdir mechbuild
     cd mechbuild
     git clone https://github.com/MolSSI-MDI/MDI_Mechanic.git
     cd MDI_Mechanic
-    echo "=============================================="
-    python --version
-    pwd
-    echo "----------------------------------------------"
-    ls
-    echo "----------------------------------------------"
-    pip3 install .
-    echo "=============================================="
+    pip install .
     cd ../..
 }
 
 if ! configure_git ; then
     exit 1
 fi
-
-#if ! reset_report ; then
-#    exit 1
-#fi
 
 if ! install_dependencies ; then
     export MDI_REPORT_STATUS=1
