@@ -66,6 +66,8 @@ install_dependencies() {
     #python MDI_Mechanic/scripts/install_mechanic.py
 
     # Install MDI Mechanic
+    mkdir mechbuild
+    cd mechbuild
     git clone https://github.com/MolSSI-MDI/MDI_Mechanic.git
     cd MDI_Mechanic
     echo "=============================================="
@@ -75,7 +77,7 @@ install_dependencies() {
     echo "----------------------------------------------"
     pip install .
     echo "=============================================="
-    cd ..
+    cd ../..
 }
 
 if ! configure_git ; then
