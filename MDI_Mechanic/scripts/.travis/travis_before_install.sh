@@ -66,6 +66,7 @@ install_dependencies() {
     #python MDI_Mechanic/scripts/install_mechanic.py
 
     # Install MDI Mechanic
+    sudo apt-get install pip3
     mkdir mechbuild
     cd mechbuild
     git clone https://github.com/MolSSI-MDI/MDI_Mechanic.git
