@@ -4,8 +4,8 @@
 set -e
 
 run_tests() {
-    source "$HOME/miniconda/etc/profile.d/conda.sh"
-    conda activate base
+    #source "$HOME/miniconda/etc/profile.d/conda.sh"
+    #conda activate base
 
     # Run the script to generate the MDI report
     #if python3 ./MDI_Mechanic/scripts/report.py ; then
