@@ -69,7 +69,10 @@ install_dependencies() {
     git clone https://github.com/MolSSI-MDI/MDI_Mechanic.git
     cd MDI_Mechanic
     echo "=============================================="
+    pwd
+    echo "----------------------------------------------"
     ls
+    echo "----------------------------------------------"
     pip install .
     echo "=============================================="
     cd ..
