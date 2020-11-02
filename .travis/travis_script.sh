@@ -4,11 +4,7 @@
 set -e
 
 run_tests() {
-    #source "$HOME/miniconda/etc/profile.d/conda.sh"
-    #conda activate base
-
     # Run the script to generate the MDI report
-    #if python3 ./MDI_Mechanic/scripts/report.py ; then
     if mdimechanic report ; then
         echo "Report script succeeded."
 	return 0
@@ -20,10 +16,10 @@ run_tests() {
 
 if ! run_tests ; then
     export MDI_REPORT_STATUS=1
-    ./MDI_Mechanic/scripts/.travis/push_changes.sh
+    ./.travis/push_changes.sh
     exit 1
 fi
 
 # Push any changes to the report
 export MDI_REPORT_STATUS=0
-./MDI_Mechanic/scripts/.travis/push_changes.sh
+./.travis/push_changes.sh

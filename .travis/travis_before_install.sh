@@ -28,9 +28,6 @@ configure_git() {
     # Set the Travis CI badge
     mkdir -p .travis
     echo "[![Build Status](${TRAVIS_BUILD_WEB_URL%/builds*}.svg?branch=master)](${TRAVIS_BUILD_WEB_URL%/builds*})" > ./.travis/travis_badge.md
-    #git add ./.travis/travis_badge.md || true
-    #git commit -m "Travis CI commit [ci skip]" || true
-    #git push -v > /dev/null 2>&1
 }
 
 reset_report() {
@@ -64,6 +61,6 @@ fi
 if ! install_dependencies ; then
     export MDI_REPORT_STATUS=1
     cat ./.travis/travis_badge.md ./README.md > temp && mv temp README.md
-    ./MDI_Mechanic/scripts/.travis/push_changes.sh
+    ./.travis/push_changes.sh
     exit 1
 fi
