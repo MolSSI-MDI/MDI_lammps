@@ -137,3 +137,6 @@ mdi_key.pub
 
 # Report work directory
 .work/
+
+# MDI Mechanic work directory
+.mdimechanic/.temp
