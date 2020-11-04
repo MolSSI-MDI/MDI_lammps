@@ -49,3 +49,14 @@ docker:
     - if test "${LAMMPS_INSTALL}" = 'serial'; then make mpi-stubs; fi
     - make -j 4 "${LAMMPS_INSTALL}"
     - cp lmp_"${LAMMPS_INSTALL}" lmp_mdi
+
+  validate_engine:
+    # Confirm that the engine was built successfully
+    - ENGINE_EXECUTABLE=/repo/user/build/lammps/src/lmp_mdi
+    - |
+      if test -f "$ENGINE_EXECUTABLE"; then
+        echo "$ENGINE_EXECUTABLE exists"
+      else
+        echo "Could not find engine executable: $ENGINE_EXECUTABLE"
+        exit 1
+      fi
