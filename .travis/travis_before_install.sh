@@ -45,6 +45,9 @@ install_dependencies() {
     # Update apt-get
     sudo apt-get update
 
+    # Install pyyaml
+    pip install pyyaml
+
     # Install MDI Mechanic
     mkdir mechbuild
     cd mechbuild
