@@ -5,7 +5,7 @@
 FROM mdi/base
 
 # copy the build script
-COPY ./build_image.sh .
+COPY .temp/build_image.sh .
 
 # run the build script
 RUN chmod +x ./build_image.sh && \

@@ -1,4 +1,9 @@
 docker:
+  build_image:
+    - apt-get update
+    - apt-get install -y git
+    - pip install cmake
+
   build_engine:
     # NOTE: SHOULD PROBABLY MAKE THIS UNECCESSARY
     - cd /repo/user
