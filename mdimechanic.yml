@@ -51,7 +51,7 @@ docker:
     - cp lmp_"${LAMMPS_INSTALL}" lmp_mdi
 
   validate_engine:
-    # Confirm that the engine was built successfully
+    # Confirm that the engine's executable exists
     - ENGINE_EXECUTABLE=/repo/user/build/lammps/src/lmp_mdi
     - |
       if test -f "$ENGINE_EXECUTABLE"; then
@@ -60,3 +60,9 @@ docker:
         echo "Could not find engine executable: $ENGINE_EXECUTABLE"
         exit 1
       fi
+
+    # Run a test calculation to confirm that the engine can run correctly
+    - cd tests/engine_validation
+    - ${ENGINE_EXECUTABLE} -in lammps.in > lammps.out
+    - echo "Test output:"
+    - cat lammps.out
