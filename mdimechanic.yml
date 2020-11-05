@@ -6,7 +6,7 @@ docker:
 
   build_engine:
     # NOTE: SHOULD PROBABLY MAKE THIS UNECCESSARY
-    - cd /repo/user
+    - cd /repo
 
     # Obtain a clone of LAMMPS
     - |
@@ -52,7 +52,7 @@ docker:
 
   validate_engine:
     # Confirm that the engine's executable exists
-    - ENGINE_EXECUTABLE=/repo/user/build/lammps/src/lmp_mdi
+    - ENGINE_EXECUTABLE=/repo/build/lammps/src/lmp_mdi
     - |
       if test -f "$ENGINE_EXECUTABLE"; then
         echo "$ENGINE_EXECUTABLE exists"
@@ -70,4 +70,4 @@ docker:
 engine_tests:
   - script:
       - cd /repo/tests/mdi_test
-      - /repo/user/build/lammps/src/lmp_mdi -mdi "${MDI_OPTIONS}" -in lammps.in > lammps.out
+      - /repo/build/lammps/src/lmp_mdi -mdi "${MDI_OPTIONS}" -in lammps.in > lammps.out
