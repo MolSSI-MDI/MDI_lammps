@@ -1,1 +1,1 @@
-[![Build Status](https://github.com/MolSSI-MDI/MDI_lammps2/workflows/CI/badge.svg)](https://github.com/MolSSI-MDI/MDI_lammps2/actions/runs/350104511)
+[![Build Status](https://github.com/MolSSI-MDI/MDI_lammps2/workflows/CI/badge.svg)](https://github.com/MolSSI-MDI/MDI_lammps2/actions/runs/350161822)
