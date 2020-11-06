@@ -1,4 +1,0 @@
-[submodule ".submodules/MDI_CI"]
-	path = .submodules/MDI_CI
-	url = https://github.com/MolSSI-MDI/MDI_CI.git
-	branch = master
