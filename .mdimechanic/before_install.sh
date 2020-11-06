@@ -21,7 +21,7 @@ configure_git() {
     echo "GITHUB_REPOSITORY: ${GITHUB_REPOSITORY}"
     echo "GITHUB_ACTION:     ${GITHUB_ACTION}"
     echo "GITHUB_RUN_ID:     ${GITHUB_RUN_ID}"
-    echo "[![Build Status](${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/workflows/CI/badge.svg)](${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/${GITHUB_RUN_ID})" > ./.mdimechanic/ci_badge.md
+    echo "[![Build Status](${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/workflows/CI/badge.svg)](${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID})" > ./.mdimechanic/ci_badge.md
 }
 
 install_dependencies() {
