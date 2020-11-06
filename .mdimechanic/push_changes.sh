@@ -4,7 +4,7 @@
 set -e
 
 # Add the Travis CI badge to README.md
-git add ./.travis/travis_badge.md || true
+git add ./.mdimechanic/ci_badge.md || true
 git add ./README.md || true
 git add ./report || true
 echo "Committing the report"

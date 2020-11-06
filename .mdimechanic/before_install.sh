@@ -30,7 +30,7 @@ configure_git() {
 
     # Set the Travis CI badge
     mkdir -p .travis
-    echo "![Build Status Actions](https://github.com/MolSSI-MDI/MDI_lammps2/workflows/CI/badge.svg)" > ./.travis/travis_badge.md
+    echo "![Build Status Actions](https://github.com/MolSSI-MDI/MDI_lammps2/workflows/CI/badge.svg)" > ./.mdimechanic/ci_badge.md
 }
 
 install_dependencies() {
@@ -58,7 +58,7 @@ fi
 
 if ! install_dependencies ; then
     export MDI_REPORT_STATUS=1
-    cat ./.travis/travis_badge.md ./README.md > temp && mv temp README.md
-    ./.travis/push_changes.sh
+    cat ./.mdimechanic/ci_badge.md ./README.md > temp && mv temp README.md
+    ./.mdimechanic/push_changes.sh
     exit 1
 fi
