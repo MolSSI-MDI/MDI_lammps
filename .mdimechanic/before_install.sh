@@ -35,6 +35,9 @@ install_dependencies() {
     sudo apt-get update
 
     # Install pyyaml
+    which python
+    python --version
+    pip install wheel
     pip install pyyaml
 
     # Install MDI Mechanic
