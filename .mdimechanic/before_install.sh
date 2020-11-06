@@ -25,6 +25,9 @@ configure_git() {
     git remote -v
     git push -v > /dev/null 2>&1
 
+    # Pull, in case this build was restarted
+    git pull
+
     # Set the Travis CI badge
     mkdir -p .travis
     echo "![Build Status Actions](https://github.com/MolSSI-MDI/MDI_lammps2/workflows/CI/badge.svg)" > ./.travis/travis_badge.md
