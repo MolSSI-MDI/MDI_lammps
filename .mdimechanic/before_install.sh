@@ -17,10 +17,6 @@ configure_git() {
     git pull
 
     # Set the CI badge
-    echo "GITHUB_SERVER_URL: ${GITHUB_SERVER_URL}"
-    echo "GITHUB_REPOSITORY: ${GITHUB_REPOSITORY}"
-    echo "GITHUB_ACTION:     ${GITHUB_ACTION}"
-    echo "GITHUB_RUN_ID:     ${GITHUB_RUN_ID}"
     echo "[![Build Status](${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/workflows/CI/badge.svg)](${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID})" > ./.mdimechanic/ci_badge.md
 }
 
