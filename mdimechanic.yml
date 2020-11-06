@@ -54,6 +54,14 @@ docker:
     # Confirm that the engine's executable exists
     - ENGINE_EXECUTABLE=/repo/build/lammps/src/lmp_mdi
     - |
+      echo "PWD"
+      pwd
+      echo "ls"
+      ls
+      echo "ls /repo"
+      ls /repo
+      echo "ls /repo/build/lammps/src"
+      ls /repo/build/lammps/src
       if test -f "$ENGINE_EXECUTABLE"; then
         echo "$ENGINE_EXECUTABLE exists"
       else
