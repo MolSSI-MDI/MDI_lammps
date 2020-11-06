@@ -22,5 +22,6 @@ if ! run_tests ; then
 fi
 
 # Push any changes to the report
+echo "Pushing completed report"
 export MDI_REPORT_STATUS=0
 ./.travis/push_changes.sh

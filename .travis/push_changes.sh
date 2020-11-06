@@ -7,7 +7,9 @@ set -e
 git add ./.travis/travis_badge.md || true
 git add ./README.md || true
 git add ./report || true
+echo "Committing the report"
 git commit -m "Travis CI commit [ci skip]" || true
+echo "Pushing the report"
 git push -v > /dev/null 2>&1
 
 echo "Finished pushing the updated report."
