@@ -13,8 +13,8 @@ configure_git() {
     #chmod 400 travis_key
 
     # Configure Travis to use Git
-    #git config --global user.email "travis@travis-ci.com"
-    #git config --global user.name "Travis CI"
+    git config --global user.email "action@github.com"
+    git config --global user.name "GitHub Action"
 
     # Switch the remote to use ssh
     #git remote -v
