@@ -1,4 +1,7 @@
+code_name: 'LAMMPS'
 docker:
+  image_name: 'mdi_mechanic/lammps'
+
   build_image:
     - apt-get update
     - apt-get install -y git
