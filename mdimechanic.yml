@@ -8,9 +8,6 @@ docker:
     - pip install cmake
 
   build_engine:
-    # NOTE: SHOULD PROBABLY MAKE THIS UNECCESSARY
-    - cd /repo
-
     # Obtain a clone of LAMMPS
     - |
       if [ ! -d "build/lammps" ]; then
@@ -55,16 +52,8 @@ docker:
 
   validate_engine:
     # Confirm that the engine's executable exists
-    - ENGINE_EXECUTABLE=/repo/build/lammps/src/lmp_mdi
+    - ENGINE_EXECUTABLE="build/lammps/src/lmp_mdi"
     - |
-      echo "PWD"
-      pwd
-      echo "ls"
-      ls
-      echo "ls /repo"
-      ls /repo
-      echo "ls /repo/build/lammps/src"
-      ls /repo/build/lammps/src
       if test -f "$ENGINE_EXECUTABLE"; then
         echo "$ENGINE_EXECUTABLE exists"
       else
@@ -74,11 +63,11 @@ docker:
 
     # Run a test calculation to confirm that the engine can run correctly
     - cd tests/engine_validation
-    - ${ENGINE_EXECUTABLE} -in lammps.in > lammps.out
+    - ../../${ENGINE_EXECUTABLE} -in lammps.in > lammps.out
     - echo "Test output:"
     - cat lammps.out
 
 engine_tests:
   - script:
-      - cd /repo/tests/mdi_test
-      - /repo/build/lammps/src/lmp_mdi -mdi "${MDI_OPTIONS}" -in lammps.in > lammps.out
+      - cd tests/mdi_test
+      - ../../build/lammps/src/lmp_mdi -mdi "${MDI_OPTIONS}" -in lammps.in > lammps.out
