@@ -1,4 +1,4 @@
-[![Build Status](https://github.com/MolSSI-MDI/MDI_lammps2/workflows/CI/badge.svg)](https://github.com/MolSSI-MDI/MDI_lammps2/actions/runs/350161822)
+[![Build Status](https://github.com/MolSSI-MDI/MDI_lammps2/workflows/CI/badge.svg)](https://github.com/MolSSI-MDI/MDI_lammps2/actions/runs/383529532)
 # MDI Mechanic LAMMPS report
 
 This repo presents test results for the MDI interface implementation in the LAMMPS code.
