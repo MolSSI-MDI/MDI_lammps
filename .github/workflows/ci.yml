@@ -42,12 +42,3 @@ jobs:
 
       - name: Run CI Using MDI Mechanic
         run: python -c "import mdimechanic; mdimechanic.ci()"
-
-      #- name: Install Dependencies
-      #  run: bash .mdimechanic/before_install.sh
-
-      #- name: Build MDI Mechanic and the Engine
-      #  run: bash .mdimechanic/install.sh
-
-      #- name: Generate Report
-      #  run: bash .mdimechanic/script.sh
