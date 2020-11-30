@@ -27,7 +27,10 @@ jobs:
 
       # Runs a single command using the runners shell
       - name: Install Dependencies
-        run: bash .mdimechanic/before_install.sh
+        run: |
+          bash .mdimechanic/before_install.sh
+          export MDIMECH_CI=true
+          python -c "import mdimechanic; mdimechanic.ci()"
 
       - name: Build MDI Mechanic and the Engine
         run: bash .mdimechanic/install.sh
