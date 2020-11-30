@@ -42,9 +42,9 @@ if ! configure_git ; then
     exit 1
 fi
 
-if ! install_dependencies ; then
-    export MDI_REPORT_STATUS=1
-    cat ./.mdimechanic/ci_badge.md ./README.md > temp && mv temp README.md
-    ./.mdimechanic/push_changes.sh
-    exit 1
-fi
+#if ! install_dependencies ; then
+#    export MDI_REPORT_STATUS=1
+#    cat ./.mdimechanic/ci_badge.md ./README.md > temp && mv temp README.md
+#    ./.mdimechanic/push_changes.sh
+#    exit 1
+#fi
