@@ -4,7 +4,7 @@ docker:
 
   build_image:
     - apt-get update
-    - apt-get install -y git
+    - apt-get install -y git wget
     - pip install cmake
 
   build_engine:
@@ -42,7 +42,7 @@ docker:
 
     # Build the MDI Library
     - cd ../lib/mdi
-    - make -f Makefile.gcc
+    - python Install.py -m gcc
     - cd ../../src
   
     # Build LAMMPS
