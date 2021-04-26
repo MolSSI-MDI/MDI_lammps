@@ -6,6 +6,7 @@ docker:
     - apt-get update
     - apt-get install -y git wget
     - pip install cmake
+    - pip install pymdi
 
   build_engine:
     # Obtain a clone of LAMMPS
@@ -47,7 +48,7 @@ docker:
   
     # Build LAMMPS
     - if test "${LAMMPS_INSTALL}" = 'serial'; then make mpi-stubs; fi
-    - make -j 4 "${LAMMPS_INSTALL}"
+    - make -j 4 mode=shared "${LAMMPS_INSTALL}"
     - cp lmp_"${LAMMPS_INSTALL}" lmp_mdi
 
   validate_engine:
@@ -62,12 +63,19 @@ docker:
       fi
 
     # Run a test calculation to confirm that the engine can run correctly
+    - export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/repo/build/lammps/src
     - cd tests/engine_validation
     - ../../${ENGINE_EXECUTABLE} -in lammps.in > lammps.out
     - echo "Test output:"
     - cat lammps.out
 
+    # Run the MDI example calculations
+    - cd ../../
+    - cd build/lammps/examples/USER/mdi
+    - bash -e Script.sh
+
 engine_tests:
   - script:
+      - export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/repo/build/lammps/src
       - cd tests/mdi_test
       - ../../build/lammps/src/lmp_mdi -mdi "${MDI_OPTIONS}" -in lammps.in > lammps.out
