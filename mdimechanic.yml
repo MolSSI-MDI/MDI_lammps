@@ -72,7 +72,21 @@ docker:
     # Run the MDI example calculations
     - cd ../../
     - cd build/lammps/examples/USER/mdi
-    - bash -e Script.sh
+    #- bash -e Script.sh
+
+#  build_engine:
+#    # Obtain a clone of LAMMPS
+#    - |
+#      if [ ! -d "build/lammps" ]; then
+#        git clone https://github.com/MolSSI-MDI/lammps.git --branch mdi build/lammps
+#      fi
+#    - |
+#      if [ ! -d "build/lammps/build" ]; then
+#        mkdir build/lammps/build
+#      fi
+#    - cd build/lammps/build
+#    - cmake -D PKG_RIGID=yes -D PKG_MOLECULE=yes -D PKG_KSPACE=yes -D PKG_USER-MDI=yes ../cmake
+#    - make -j 4
 
 engine_tests:
   - script:
