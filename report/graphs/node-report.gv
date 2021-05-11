@@ -2,8 +2,7 @@
 digraph {
 	"@DEFAULT" [label="@DEFAULT" margin=0.1 shape=box]
 	"@INIT_MD" [label="@INIT_MD" margin=0.1 shape=box]
-	"@INIT_MD_" [label="@PRE-FORCES
-@FORCES
+	"@INIT_MD_" [label="@FORCES
 @COORDS" margin=0.1 shape=box]
 	"@INIT_OPTG" [label="@INIT_OPTG" margin=0.1 shape=box]
 	"@INIT_OPTG_" [label="@FORCES
