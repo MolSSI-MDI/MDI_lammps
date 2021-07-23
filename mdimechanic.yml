@@ -89,7 +89,7 @@ docker:
 #    - make -j 4
 
 engine_tests:
-  - script:
-      - export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/repo/build/lammps/src
-      - cd tests/mdi_test
-      - ../../build/lammps/src/lmp_mdi -mdi "${MDI_OPTIONS}" -in lammps.in > lammps.out
+  script:
+    - export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/repo/build/lammps/src
+    - cd tests/mdi_test
+    - ../../build/lammps/src/lmp_mdi -mdi "${MDI_OPTIONS}" -in lammps.in > lammps.out
