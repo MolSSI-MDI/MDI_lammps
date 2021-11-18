@@ -37,9 +37,8 @@ docker:
     - make yes-replica
     - make yes-rigid
     - make yes-shock
-    - make yes-snap
     - make yes-srd
-    - make yes-user-mdi
+    - make yes-mdi
 
     # Build the MDI Library
     - cd ../lib/mdi
@@ -70,8 +69,8 @@ docker:
     - cat lammps.out
 
     # Run the MDI example calculations
-    - cd ../../
-    - cd build/lammps/examples/USER/mdi
+    #- cd ../../
+    #- cd build/lammps/examples/USER/mdi
     #- bash -e Script.sh
 
 #  build_engine:
