@@ -1,10 +1,10 @@
 code_name: 'LAMMPS'
 docker:
-  image_name: 'mdi_mechanic/lammps'
+  image_name: 'mdi/lammps'
 
   build_image:
     - apt-get update
-    - apt-get install -y git wget
+    - apt-get install -y git wget vim
     - pip install cmake
     - pip install pymdi
 
