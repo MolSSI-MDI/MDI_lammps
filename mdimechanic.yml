@@ -12,47 +12,53 @@ docker:
     # Obtain a clone of LAMMPS
     - |
       if [ ! -d "build/lammps" ]; then
-        git clone https://github.com/MolSSI-MDI/lammps.git --branch mdi build/lammps
+        git clone https://github.com/lammps/lammps.git --branch mdi-expand build/lammps
       fi
     - LAMMPS_INSTALL='mpi'
 
     # Configure LAMMPS
-    - cd build/lammps/src
-    - make yes-asphere
-    - make yes-body
-    - make yes-class2
-    - make yes-colloid
-    - make yes-compress
-    - make yes-coreshell
-    - make yes-dipole
-    - make yes-granular
-    - make yes-kspace
-    - make yes-manybody
-    - make yes-mc
-    - make yes-misc
-    - make yes-molecule
-    - make yes-opt
-    - make yes-peri
-    - make yes-qeq
-    - make yes-replica
-    - make yes-rigid
-    - make yes-shock
-    - make yes-srd
-    - make yes-mdi
+    #- cd build/lammps/src
+    #- make yes-asphere
+    #- make yes-body
+    #- make yes-class2
+    #- make yes-colloid
+    #- make yes-compress
+    #- make yes-coreshell
+    #- make yes-dipole
+    #- make yes-granular
+    #- make yes-kspace
+    #- make yes-manybody
+    #- make yes-mc
+    #- make yes-misc
+    #- make yes-molecule
+    #- make yes-opt
+    #- make yes-peri
+    #- make yes-qeq
+    #- make yes-replica
+    #- make yes-rigid
+    #- make yes-shock
+    #- make yes-srd
+    #- make yes-mdi
 
     # Build the MDI Library
-    - cd ../lib/mdi
-    - python Install.py -m gcc
-    - cd ../../src
+    #- cd ../lib/mdi
+    #- python Install.py -m gcc
+    #- cd ../../src
   
     # Build LAMMPS
-    - if test "${LAMMPS_INSTALL}" = 'serial'; then make mpi-stubs; fi
-    - make -j 4 mode=shared "${LAMMPS_INSTALL}"
-    - cp lmp_"${LAMMPS_INSTALL}" lmp_mdi
+    - cd build
+    - mkdir -p lammps/build
+    - cd lammps/build
+    - cmake -D PKG_RIGID=yes -D PKG_MOLECULE=yes -D PKG_KSPACE=yes -D PKG_MDI=yes ../cmake
+    - make
+    - cp lmp lmp_mdi
+    #- if test "${LAMMPS_INSTALL}" = 'serial'; then make mpi-stubs; fi
+    #- make -j 4 mode=shared "${LAMMPS_INSTALL}"
+    #- cp lmp_"${LAMMPS_INSTALL}" lmp_mdi
 
   validate_engine:
     # Confirm that the engine's executable exists
-    - ENGINE_EXECUTABLE="build/lammps/src/lmp_mdi"
+    - ENGINE_EXECUTABLE="build/lammps/build/lmp_mdi"
     - |
       if test -f "$ENGINE_EXECUTABLE"; then
         echo "$ENGINE_EXECUTABLE exists"
@@ -91,4 +97,4 @@ engine_tests:
   script:
     - export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/repo/build/lammps/src
     - cd tests/mdi_test
-    - ../../build/lammps/src/lmp_mdi -mdi "${MDI_OPTIONS}" -in lammps.in > lammps.out
+    - ../../build/lammps/build/lmp_mdi -mdi "${MDI_OPTIONS}" -in lammps.in > lammps.out
