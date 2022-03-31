@@ -7,6 +7,7 @@ docker:
     - apt-get install -y git wget vim
     - pip install cmake
     - pip install pymdi
+    - pip install mpi4py
 
   build_engine:
     # Obtain a clone of LAMMPS
@@ -98,3 +99,19 @@ engine_tests:
     - export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/repo/build/lammps/src
     - cd tests/mdi_test
     - ../../build/lammps/build/lmp_mdi -mdi "${MDI_OPTIONS}" -in lammps.in > lammps.out
+
+
+
+
+run_scripts:
+  bug:
+    containers:
+      container1:
+        image: 'mdi/lammps'
+        script:
+          - cd tests/bug
+          #- mpiexec -n 1 python3 plugin_driver.py --plugin_name "lammps" --mdi "-role DRIVER -name driver -method LINK -plugin_path /repo/build/lammps/build" --plugin_command_line "foo -in in.series -log log.series"
+          - mpiexec -n 1 python3 plugin_driver.py --plugin_name "lammps" --mdi "-role DRIVER -name driver -method LINK -plugin_path /repo/build/lammps/build" --plugin_command_line "-in in.series -log log.series"
+
+
+
