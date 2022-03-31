@@ -51,54 +51,54 @@ class PluginInstance:
         mdi.MDI_Send(self.cell, 9, mdi.MDI_DOUBLE, mdi_comm)
 
         # Find out if the plugin supports the >NATOMS command
-        #natoms_supported = 0
-        #natoms_supported = mdi.MDI_Check_command_exists("@DEFAULT", ">NATOMS", mdi_comm)
-        #natoms_supported = mpi_comm.bcast(natoms_supported, root=0)
+        natoms_supported = 0
+        natoms_supported = mdi.MDI_Check_command_exists("@DEFAULT", ">NATOMS", mdi_comm)
+        natoms_supported = mpi_comm.bcast(natoms_supported, root=0)
 
-        #if natoms_supported:
+        if natoms_supported:
 
-        #    # Send the number of atoms to the plugin
-        #    mdi.MDI_Send_Command(">NATOMS", mdi_comm)
-        #    mdi.MDI_Send(self.natoms, 1, mdi.MDI_INT, mdi_comm)
+            # Send the number of atoms to the plugin
+            mdi.MDI_Send_Command(">NATOMS", mdi_comm)
+            mdi.MDI_Send(self.natoms, 1, mdi.MDI_INT, mdi_comm)
 
-        #else:
+        else:
 
             # We will assume the plugin has read the correct number
             #    of atoms from an input file.
-        #    pass
+            pass
 
         # Find out if the plugin supports the >ELEMENTS command
-        #elem_supported = 0
-        #elem_supported = mdi.MDI_Check_command_exists("@DEFAULT", ">ELEMENTS", mdi_comm)
-        #elem_supported = mpi_comm.bcast(elem_supported, root=0)
+        elem_supported = 0
+        elem_supported = mdi.MDI_Check_command_exists("@DEFAULT", ">ELEMENTS", mdi_comm)
+        elem_supported = mpi_comm.bcast(elem_supported, root=0)
 
-        #if elem_supported:
+        if elem_supported:
 
-        #    # Send the number of elements to the plugin
-        #    mdi.MDI_Send_Command(">ELEMENTS", mdi_comm)
-        #    mdi.MDI_Send(self.elements, self.natoms, mdi.MDI_INT, mdi_comm)
+            # Send the number of elements to the plugin
+            mdi.MDI_Send_Command(">ELEMENTS", mdi_comm)
+            mdi.MDI_Send(self.elements, self.natoms, mdi.MDI_INT, mdi_comm)
 
-        #else:
+        else:
 
             # We will assume the plugin has read the correct element
             #    of each atom from an input file.
-        #    pass
+            pass
 
         # Send the nuclear coordinates to the plugin
-        #mdi.MDI_Send_Command(">COORDS", mdi_comm)
-        #mdi.MDI_Send(self.coords, 3*self.natoms, mdi.MDI_DOUBLE, mdi_comm)
+        mdi.MDI_Send_Command(">COORDS", mdi_comm)
+        mdi.MDI_Send(self.coords, 3*self.natoms, mdi.MDI_DOUBLE, mdi_comm)
 
         # Receive the energy of the system from the plugin
-        #mdi.MDI_Send_Command("<ENERGY", mdi_comm)
-        #energy = mdi.MDI_Recv(1, mdi.MDI_DOUBLE, mdi_comm)
-        #if my_rank == 0:
-        #    print("ENERGY: " + str(energy))
+        mdi.MDI_Send_Command("<ENERGY", mdi_comm)
+        energy = mdi.MDI_Recv(1, mdi.MDI_DOUBLE, mdi_comm)
+        if my_rank == 0:
+            print("ENERGY: " + str(energy))
         
         # Receive the nuclear forces from the plugin
-        #mdi.MDI_Send_Command("<FORCES", mdi_comm)
-        #forces = mdi.MDI_Recv(3*self.natoms, mdi.MDI_DOUBLE, mdi_comm)
-        #if my_rank == 0:
-        #    print("FORCES: " + str(forces))
+        mdi.MDI_Send_Command("<FORCES", mdi_comm)
+        forces = mdi.MDI_Recv(3*self.natoms, mdi.MDI_DOUBLE, mdi_comm)
+        if my_rank == 0:
+            print("FORCES: " + str(forces))
 
         # Send the "EXIT" command to the plugin
         mdi.MDI_Send_Command("EXIT", mdi_comm)
@@ -163,7 +163,7 @@ coords = [
     ]
 
 
-for i in range(2):
+for i in range(1):
     plugin_mpi_comm = MPI.COMM_WORLD
     plugin = PluginInstance(cell, elements, coords)
     plugin.launch(args.plugin_name,
