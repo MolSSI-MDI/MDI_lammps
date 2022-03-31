@@ -49,9 +49,9 @@ docker:
     - cd build
     - mkdir -p lammps/build
     - cd lammps/build
-    - cmake -D PKG_RIGID=yes -D PKG_MOLECULE=yes -D PKG_KSPACE=yes -D PKG_MDI=yes ../cmake
+    - cmake -D PKG_RIGID=yes -D PKG_MOLECULE=yes -D PKG_KSPACE=yes -D PKG_MDI=yes -D BUILD_SHARED_LIBS=yes -D LAMMPS_MACHINE=mpi ../cmake
     - make
-    - cp lmp lmp_mdi
+    - cp lmp_mpi lmp_mdi
     #- if test "${LAMMPS_INSTALL}" = 'serial'; then make mpi-stubs; fi
     #- make -j 4 mode=shared "${LAMMPS_INSTALL}"
     #- cp lmp_"${LAMMPS_INSTALL}" lmp_mdi
