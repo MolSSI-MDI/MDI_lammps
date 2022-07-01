@@ -13,38 +13,9 @@ docker:
     # Obtain a clone of LAMMPS
     - |
       if [ ! -d "build/lammps" ]; then
-        git clone https://github.com/lammps/lammps.git --branch mdi-expand build/lammps
+        git clone https://github.com/lammps/lammps.git build/lammps
       fi
     - LAMMPS_INSTALL='mpi'
-
-    # Configure LAMMPS
-    #- cd build/lammps/src
-    #- make yes-asphere
-    #- make yes-body
-    #- make yes-class2
-    #- make yes-colloid
-    #- make yes-compress
-    #- make yes-coreshell
-    #- make yes-dipole
-    #- make yes-granular
-    #- make yes-kspace
-    #- make yes-manybody
-    #- make yes-mc
-    #- make yes-misc
-    #- make yes-molecule
-    #- make yes-opt
-    #- make yes-peri
-    #- make yes-qeq
-    #- make yes-replica
-    #- make yes-rigid
-    #- make yes-shock
-    #- make yes-srd
-    #- make yes-mdi
-
-    # Build the MDI Library
-    #- cd ../lib/mdi
-    #- python Install.py -m gcc
-    #- cd ../../src
   
     # Build LAMMPS
     - cd build
@@ -54,9 +25,22 @@ docker:
     - make
     - cp lmp_mpi lmp_mdi
     - cp liblammps_mpi.so liblammps.so
-    #- if test "${LAMMPS_INSTALL}" = 'serial'; then make mpi-stubs; fi
-    #- make -j 4 mode=shared "${LAMMPS_INSTALL}"
-    #- cp lmp_"${LAMMPS_INSTALL}" lmp_mdi
+
+    # Clone Quantum Espresso
+    - cd /repo
+    - mkdir -p build
+    - |
+      if [ ! -d "build/q-e" ]; then
+        git clone --branch mdi_plugin https://github.com/MolSSI-MDI/q-e.git build/q-e
+      fi
+    - cd build/q-e
+
+    # Configuring requires a full rebuild, so only do it once
+    - |
+      if [ ! -f "PW/src/pw.x" ]; then
+        ./configure --enable-parallel --enable-openmp --enable-shared FFLAGS="-fPIC" FCFLAGS="-fPIC" CFLAGS="-fPIC" foxflags="-fPIC" try_foxflags="-fPIC"
+      fi
+    - make -j 4 mdi
 
   validate_engine:
     # Confirm that the engine's executable exists
@@ -113,6 +97,16 @@ run_scripts:
           - cd tests/plugin
           #- mpiexec -n 1 python3 plugin_driver.py --plugin_name "lammps" --mdi "-role DRIVER -name driver -method LINK -plugin_path /repo/build/lammps/build" --plugin_command_line "foo -in in.series -log log.series"
           - mpiexec -n 1 python3 plugin_driver.py --plugin_name "lammps" --mdi "-role DRIVER -name driver -method LINK -plugin_path /repo/build/lammps/build" --plugin_command_line "-in in.series -log log.series"
+
+  aimd_tcp:
+    containers:
+      container1:
+        image: 'mdi/lammps'
+        script:
+          - cd tests/plugin
+          - export PATH="$PATH:/repo/build/lammps/build/"
+          - mpiexec -n 1 lmp_mpi -mdi "-name aimd -role DRIVER -method TCP -port 8021" -log log.aimd.driver -in in.aimd.driver
+          - mpiexec -n 1 lmp_mpi -mdi "-name LAMMPS -role ENGINE -method TCP -port 8021 -hostname localhost" -log log.aimd.engine -in in.aimd.engine
 
 
 
