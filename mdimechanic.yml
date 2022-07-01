@@ -103,10 +103,10 @@ run_scripts:
       container1:
         image: 'mdi/lammps'
         script:
-          - cd tests/plugin
+          - cd tests/aimd
           - export PATH="$PATH:/repo/build/lammps/build/"
+          - mpiexec -n 1 lmp_mpi -mdi "-name LAMMPS -role ENGINE -method TCP -port 8021 -hostname localhost" -log log.aimd.engine -in in.aimd.engine &
           - mpiexec -n 1 lmp_mpi -mdi "-name aimd -role DRIVER -method TCP -port 8021" -log log.aimd.driver -in in.aimd.driver
-          - mpiexec -n 1 lmp_mpi -mdi "-name LAMMPS -role ENGINE -method TCP -port 8021 -hostname localhost" -log log.aimd.engine -in in.aimd.engine
 
 
 
