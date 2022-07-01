@@ -109,4 +109,13 @@ run_scripts:
           - mpiexec -n 1 lmp_mpi -mdi "-name aimd -role DRIVER -method TCP -port 8021" -log log.aimd.driver -in in.aimd.driver
 
 
-
+  qe_tcp:
+    containers:
+      container1:
+        image: 'mdi/lammps'
+        script:
+          - cd tests/qe
+          - export PATH="$PATH:/repo/build/lammps/build/"
+          - export LD_LIBRARY_PATH="/repo/build/q-e/mdi/build/mdi_build-prefix/src/mdi_build-build/MDI_Library:/repo/build/q-e/MDI/src"
+          - mpiexec -n 1 lmp_mpi -mdi "-name aimd -role DRIVER -method TCP -port 8021" -log lammps.log -in lammps.in &
+          - /repo/build/q-e/MDI/src/qemdi.x -in qe.in -mdi "-name LAMMPS -role ENGINE -method TCP -port 8021 -hostname localhost"
