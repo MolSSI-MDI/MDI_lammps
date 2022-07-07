@@ -13,7 +13,7 @@ docker:
     # Obtain a clone of LAMMPS
     - |
       if [ ! -d "build/lammps" ]; then
-        git clone https://github.com/lammps/lammps.git build/lammps
+        git clone https://github.com/MolSSI-MDI/lammps.git --branch mdi_fix build/lammps
       fi
     - LAMMPS_INSTALL='mpi'
   
