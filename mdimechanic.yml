@@ -1,10 +1,10 @@
 code_name: 'LAMMPS'
 docker:
-  image_name: 'mdi/lammps'
+  image_name: 'mdi/lammps-dftb'
 
   build_image:
     - apt-get update
-    - apt-get install -y git wget vim
+    - apt-get install -y git wget vim libblas-dev liblapack-dev xz-utils
     - pip install cmake
     - pip install pymdi
     - pip install mpi4py
@@ -13,38 +13,9 @@ docker:
     # Obtain a clone of LAMMPS
     - |
       if [ ! -d "build/lammps" ]; then
-        git clone https://github.com/lammps/lammps.git --branch mdi-expand build/lammps
+        git clone https://github.com/MolSSI-MDI/lammps.git --branch mdi_fix build/lammps
       fi
     - LAMMPS_INSTALL='mpi'
-
-    # Configure LAMMPS
-    #- cd build/lammps/src
-    #- make yes-asphere
-    #- make yes-body
-    #- make yes-class2
-    #- make yes-colloid
-    #- make yes-compress
-    #- make yes-coreshell
-    #- make yes-dipole
-    #- make yes-granular
-    #- make yes-kspace
-    #- make yes-manybody
-    #- make yes-mc
-    #- make yes-misc
-    #- make yes-molecule
-    #- make yes-opt
-    #- make yes-peri
-    #- make yes-qeq
-    #- make yes-replica
-    #- make yes-rigid
-    #- make yes-shock
-    #- make yes-srd
-    #- make yes-mdi
-
-    # Build the MDI Library
-    #- cd ../lib/mdi
-    #- python Install.py -m gcc
-    #- cd ../../src
   
     # Build LAMMPS
     - cd build
@@ -54,9 +25,48 @@ docker:
     - make
     - cp lmp_mpi lmp_mdi
     - cp liblammps_mpi.so liblammps.so
-    #- if test "${LAMMPS_INSTALL}" = 'serial'; then make mpi-stubs; fi
-    #- make -j 4 mode=shared "${LAMMPS_INSTALL}"
-    #- cp lmp_"${LAMMPS_INSTALL}" lmp_mdi
+
+    # Obtain a clone of DFTB+
+    - |
+      if [ ! -d "build/dftbplus" ]; then
+        git clone https://github.com/MolSSI-MDI/dftbplus.git --branch mdi build/dftbplus
+      fi
+
+    # Build DFTB+ as a shared library
+    - |
+      if [ ! -d "/repo/build/dftbplus/build" ]; then
+        cd build/dftbplus
+        mkdir -p build
+        cd build
+        cmake -DWITH_API=true -DBUILD_SHARED_LIBS=true -DCMAKE_INSTALL_PREFIX=/repo/build/dftbplus/build/install ..
+        make
+        make install
+      fi
+
+    # Obtain a clone of the MDI DFTB+ wrapper
+    - |
+      if [ ! -d "/repo/build/dftbplus_mdiwrapper" ]; then
+        git clone https://github.com/janash/dftbplus_mdiwrapper.git --branch mdi-commands /repo/build/dftbplus_mdiwrapper
+      fi
+
+    # Build the MDI DFTB+ wrapper
+    - export LD_LIBRARY_PATH="${LD_LIBRARY_PATH}:/repo/build/dftbplus/build/install/lib/"
+    - cd /repo/build/dftbplus_mdiwrapper
+    - mkdir -p build
+    - cd build
+    - cmake ..
+    - make
+
+    # Download parameterization files
+    - |
+      if [ ! -d "/repo/tests/slakos" ]; then
+        cd /repo/tests
+        mkdir slakos
+        cd slakos
+        wget https://dftb.org/fileadmin/DFTB/public/slako/mio/mio-1-1.tar.xz
+        tar -xf mio-1-1.tar.xz
+        rm mio-1-1.tar.xz
+      fi
 
   validate_engine:
     # Confirm that the engine's executable exists
@@ -76,24 +86,7 @@ docker:
     - echo "Test output:"
     - cat lammps.out
 
-    # Run the MDI example calculations
-    #- cd ../../
-    #- cd build/lammps/examples/USER/mdi
-    #- bash -e Script.sh
 
-#  build_engine:
-#    # Obtain a clone of LAMMPS
-#    - |
-#      if [ ! -d "build/lammps" ]; then
-#        git clone https://github.com/MolSSI-MDI/lammps.git --branch mdi build/lammps
-#      fi
-#    - |
-#      if [ ! -d "build/lammps/build" ]; then
-#        mkdir build/lammps/build
-#      fi
-#    - cd build/lammps/build
-#    - cmake -D PKG_RIGID=yes -D PKG_MOLECULE=yes -D PKG_KSPACE=yes -D PKG_USER-MDI=yes ../cmake
-#    - make -j 4
 
 engine_tests:
   script:
@@ -111,8 +104,30 @@ run_scripts:
         image: 'mdi/lammps'
         script:
           - cd tests/plugin
-          #- mpiexec -n 1 python3 plugin_driver.py --plugin_name "lammps" --mdi "-role DRIVER -name driver -method LINK -plugin_path /repo/build/lammps/build" --plugin_command_line "foo -in in.series -log log.series"
           - mpiexec -n 1 python3 plugin_driver.py --plugin_name "lammps" --mdi "-role DRIVER -name driver -method LINK -plugin_path /repo/build/lammps/build" --plugin_command_line "-in in.series -log log.series"
 
 
 
+  dftb_tcp:
+    containers:
+      container1:
+        image: 'mdi/lammps-dftb'
+        script:
+          - cd tests/dftb
+          - export PATH="$PATH:/repo/build/lammps/build/"
+          - mpiexec -n 1 lmp_mpi -mdi "-name aimd -role DRIVER -method TCP -port 8021" -log lammps.log -in lammps.in &
+
+          - export PATH="${PATH}:/repo/build/dftbplus_mdiwrapper/build/src"
+          - export LD_LIBRARY_PATH="${LD_LIBRARY_PATH}:/repo/build/dftbplus/build/install/lib/"
+          - dftbplus_mdiwrapper -mdi "-name QM -role ENGINE -method TCP -port 8021 -hostname localhost"
+
+
+  dftb_sole:
+    containers:
+      container1:
+        image: 'mdi/lammps-dftb'
+        script:
+          - cd tests/dftb
+          - export PATH="${PATH}:/repo/build/dftbplus_mdiwrapper/build/src"
+          - export LD_LIBRARY_PATH="${LD_LIBRARY_PATH}:/repo/build/dftbplus/build/install/lib/"
+          - dftbplus_mdiwrapper -mdi "-name QM -role ENGINE -method TEST"
