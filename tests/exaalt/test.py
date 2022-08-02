@@ -2,6 +2,9 @@ from mpi4py import MPI
 import numpy as np
 import mdi
 
+def perform_single_point_wrapper(world, mdicomm, object):
+    return object.perform_single_point(world, mdicomm)
+
 class MDIExecutor:
     def __init__(self,comm=None):
         self.coords=None
@@ -21,10 +24,10 @@ class MDIExecutor:
         self.box=box
         self.atypes=atypes
         self.coords=coords
-        mdi.MDI_Launch_plugin(plugin,plugin_args,self.comm,self.perform_single_point,None)
+        mdi.MDI_Launch_plugin(plugin,plugin_args,self.comm,perform_single_point_wrapper,self)
         return self.energy,self.forces
 
-    def perform_single_point(self,world,mdicomm,dummy):
+    def perform_single_point(self,world,mdicomm):
         me = world.Get_rank()
         nprocs = world.Get_size()
         print("ME: ",me," OF ",nprocs,type(world),type(mdicomm),flush=True)
@@ -67,7 +70,7 @@ plugin="lammps"
 
 mdiargs="-role DRIVER -name driver -method LINK -plugin_path /repo/build/lammps/build"
 plugin_args="-in in.sequence -log log.sequence -mdi \"-role ENGINE -name lammps -method LINK\""
-
+mdi.MDI_Init(mdiargs)
 
 
 
@@ -76,7 +79,6 @@ atypes=[1]
 coords=[1,1,1]
 
 
-mdi.MDI_Init(mdiargs)
 world=MPI.COMM_WORLD
 me = world.Get_rank()
 
