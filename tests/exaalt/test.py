@@ -14,10 +14,10 @@ class MDIExecutor:
         self.comm=comm
 
     def single_point(self,mdiargs,plugin,plugin_args,box,atypes,coords):
-        try:
-            mdi.MDI_Init(mdiargs)
-        except:
-            pass
+        #try:
+        #    mdi.MDI_Init(mdiargs)
+        #except:
+        #    pass
         self.box=box
         self.atypes=atypes
         self.coords=coords
@@ -61,9 +61,13 @@ class MDIExecutor:
         return 0
 
 
-mdiargs="-role DRIVER -name sequence -method LINK -plugin_path /users/d_perez/chicoma-local/src/lammps/build/install/Lammps-Chicoma_CPU/lib64/"
+#mdiargs="-role DRIVER -name sequence -method LINK -plugin_path /users/d_perez/chicoma-local/src/lammps/build/install/Lammps-Chicoma_CPU/lib64/"
 plugin="lammps"
-plugin_args="-log log.sequence -in /users/d_perez/chicoma-local/src/parsplice/sample-input/mdi/modules/in.sequence -mdi \"-role ENGINE -name lammps -method LINK\""
+#plugin_args="-log log.sequence -in /users/d_perez/chicoma-local/src/parsplice/sample-input/mdi/modules/in.sequence -mdi \"-role ENGINE -name lammps -method LINK\""
+
+mdiargs="-role DRIVER -name driver -method LINK -plugin_path /repo/build/lammps/build"
+plugin_args="-in in.sequence -log log.sequence -mdi \"-role ENGINE -name lammps -method LINK\""
+
 
 
 
@@ -72,6 +76,7 @@ atypes=[1]
 coords=[1,1,1]
 
 
+mdi.MDI_Init(mdiargs)
 world=MPI.COMM_WORLD
 me = world.Get_rank()
 
@@ -81,7 +86,8 @@ comm=world.Split(color=me)
 ########mdi.MDI_Init(mdiargs)
 #if me==0:  <- HANGS in LAMMPS Initialization!
 #if True: <- WORKS!
-if me==0:
-    executor=MDIExecutor(comm=comm)
-    executor.single_point(mdiargs,plugin,plugin_args,box,atypes,coords)
+for i in range(100):
+    if me==0:
+       executor=MDIExecutor(comm=comm)
+       executor.single_point(mdiargs,plugin,plugin_args,box,atypes,coords)
 

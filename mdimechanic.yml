@@ -8,12 +8,13 @@ docker:
     - pip install cmake
     - pip install pymdi
     - pip install mpi4py
+    - pip install numpy
 
   build_engine:
     # Obtain a clone of LAMMPS
     - |
       if [ ! -d "build/lammps" ]; then
-        git clone https://github.com/lammps/lammps.git --branch mdi-expand build/lammps
+        git clone https://github.com/lammps/lammps.git build/lammps
       fi
     - LAMMPS_INSTALL='mpi'
 
@@ -51,7 +52,7 @@ docker:
     - mkdir -p lammps/build
     - cd lammps/build
     - cmake -D PKG_RIGID=yes -D PKG_MOLECULE=yes -D PKG_KSPACE=yes -D PKG_MDI=yes -D BUILD_SHARED_LIBS=yes -D LAMMPS_MACHINE=mpi ../cmake
-    - make
+    - make -j 4
     - cp lmp_mpi lmp_mdi
     - cp liblammps_mpi.so liblammps.so
     #- if test "${LAMMPS_INSTALL}" = 'serial'; then make mpi-stubs; fi
@@ -114,5 +115,11 @@ run_scripts:
           #- mpiexec -n 1 python3 plugin_driver.py --plugin_name "lammps" --mdi "-role DRIVER -name driver -method LINK -plugin_path /repo/build/lammps/build" --plugin_command_line "foo -in in.series -log log.series"
           - mpiexec -n 1 python3 plugin_driver.py --plugin_name "lammps" --mdi "-role DRIVER -name driver -method LINK -plugin_path /repo/build/lammps/build" --plugin_command_line "-in in.series -log log.series"
 
-
-
+  exaalt:
+    containers:
+      container1:
+        image: 'mdi/lammps'
+        script:
+          - cd tests/exaalt
+          #- mpiexec -n 1 python3 plugin_driver.py --plugin_name "lammps" --mdi "-role DRIVER -name driver -method LINK -plugin_path /repo/build/lammps/build" --plugin_command_line "foo -in in.series -log log.series"
+          - mpiexec -n 4 python3 test.py --plugin_name "lammps" --mdi "-role DRIVER -name driver -method LINK -plugin_path /repo/build/lammps/build" --plugin_command_line "-in in.sequence -log log.sequence"
