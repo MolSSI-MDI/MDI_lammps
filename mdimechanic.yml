@@ -130,20 +130,14 @@ run_scripts:
       container1:
         image: 'mdi/lammps'
         script:
-          - echo "---------- MPI4Py ----------"
-          - echo "mpicc location"
-          - python3 -c "import mpi4py; print(mpi4py.get_config()['mpicc'])"
-          - echo ""
-          - echo ""
-          - export MPILOC=$(python3 -c "import mpi4py; print(mpi4py.get_config()['mpicc'])")
-          - ${MPILOC} --version
-          - echo ""
-          - echo ""
           - echo "----------  MPI  ----------"
+          - ldd -r /repo/build/lammps/build/lmp_mdi
+          - echo ""
+          - echo ""
+          - echo "--------- MPI4Py ----------"
           - python3 -c "import mpi4py; print(mpi4py.__path__[0])"
           - echo ""
           - echo ""
           - export MPI4PYLOC=$(python3 -c "import mpi4py; print(mpi4py.__path__[0])")
-          - ls ${MPI4PYLOC}
           - ldd -r ${MPI4PYLOC}/*.so
 
