@@ -123,3 +123,27 @@ run_scripts:
           - cd tests/exaalt
           #- mpiexec -n 1 python3 plugin_driver.py --plugin_name "lammps" --mdi "-role DRIVER -name driver -method LINK -plugin_path /repo/build/lammps/build" --plugin_command_line "foo -in in.series -log log.series"
           - mpiexec -n 4 python3 test.py --plugin_name "lammps" --mdi "-role DRIVER -name driver -method LINK -plugin_path /repo/build/lammps/build" --plugin_command_line "-in in.sequence -log log.sequence"
+
+
+  mpifind:
+    containers:
+      container1:
+        image: 'mdi/lammps'
+        script:
+          - echo "---------- MPI4Py ----------"
+          - echo "mpicc location"
+          - python3 -c "import mpi4py; print(mpi4py.get_config()['mpicc'])"
+          - echo ""
+          - echo ""
+          - export MPILOC=$(python3 -c "import mpi4py; print(mpi4py.get_config()['mpicc'])")
+          - ${MPILOC} --version
+          - echo ""
+          - echo ""
+          - echo "----------  MPI  ----------"
+          - python3 -c "import mpi4py; print(mpi4py.__path__[0])"
+          - echo ""
+          - echo ""
+          - export MPI4PYLOC=$(python3 -c "import mpi4py; print(mpi4py.__path__[0])")
+          - ls ${MPI4PYLOC}
+          - ldd -r ${MPI4PYLOC}/*.so
+
