@@ -13,51 +13,37 @@ docker:
   build_engine:
     # Obtain a clone of LAMMPS
     - |
-      if [ ! -d "build/lammps" ]; then
+      if [ ! -d "/repo/build/lammps" ]; then
         git clone https://github.com/lammps/lammps.git build/lammps
       fi
     - LAMMPS_INSTALL='mpi'
 
     # Configure LAMMPS
-    #- cd build/lammps/src
-    #- make yes-asphere
-    #- make yes-body
-    #- make yes-class2
-    #- make yes-colloid
-    #- make yes-compress
-    #- make yes-coreshell
-    #- make yes-dipole
-    #- make yes-granular
-    #- make yes-kspace
-    #- make yes-manybody
-    #- make yes-mc
-    #- make yes-misc
-    #- make yes-molecule
-    #- make yes-opt
-    #- make yes-peri
-    #- make yes-qeq
-    #- make yes-replica
-    #- make yes-rigid
-    #- make yes-shock
-    #- make yes-srd
-    #- make yes-mdi
-
-    # Build the MDI Library
-    #- cd ../lib/mdi
-    #- python Install.py -m gcc
-    #- cd ../../src
-  
-    # Build LAMMPS
     - cd build
-    - mkdir -p lammps/build
-    - cd lammps/build
-    - cmake -D PKG_RIGID=yes -D PKG_MOLECULE=yes -D PKG_KSPACE=yes -D PKG_MDI=yes -D BUILD_SHARED_LIBS=yes -D LAMMPS_MACHINE=mpi ../cmake
+    - |
+      if [ ! -d "/repo/build/lammps/build" ]; then
+        mkdir -p /repo/build/lammps/build
+        cd /repo/build/lammps/build
+        cmake -D PKG_RIGID=yes -D PKG_MOLECULE=yes -D PKG_KSPACE=yes -D PKG_MDI=yes -D BUILD_SHARED_LIBS=yes -D LAMMPS_MACHINE=mpi ../cmake
+      fi
+
+    # Compile LAMMPS
+    - cd /repo/build/lammps/build
     - make -j 4
     - cp lmp_mpi lmp_mdi
     - cp liblammps_mpi.so liblammps.so
-    #- if test "${LAMMPS_INSTALL}" = 'serial'; then make mpi-stubs; fi
-    #- make -j 4 mode=shared "${LAMMPS_INSTALL}"
-    #- cp lmp_"${LAMMPS_INSTALL}" lmp_mdi
+
+    # Obtain a clone of the MDI Library
+    - cd /repo
+    - |
+      if [ ! -d "build/MDI_Library" ]; then
+        git clone https://github.com/MolSSI-MDI/MDI_Library.git build/MDI_Library
+      fi
+    - rm -rf build/MDI_Library/build
+    - mkdir -p build/MDI_Library/build
+    - cd build/MDI_Library/build
+    - cmake -Dpython_package=ON ..
+    - make -j 1
 
   validate_engine:
     # Confirm that the engine's executable exists
@@ -122,6 +108,18 @@ run_scripts:
         script:
           - cd tests/exaalt
           #- mpiexec -n 1 python3 plugin_driver.py --plugin_name "lammps" --mdi "-role DRIVER -name driver -method LINK -plugin_path /repo/build/lammps/build" --plugin_command_line "foo -in in.series -log log.series"
+          - mpiexec -n 4 python3 test.py --plugin_name "lammps" --mdi "-role DRIVER -name driver -method LINK -plugin_path /repo/build/lammps/build" --plugin_command_line "-in in.sequence -log log.sequence"
+
+
+  exaalt2:
+    containers:
+      container1:
+        image: 'mdi/lammps'
+        script:
+          - pip uninstall pymdi -y
+          - cd /repo/build/MDI_Library/build
+          - make install
+          - cd /repo/tests/exaalt
           - mpiexec -n 4 python3 test.py --plugin_name "lammps" --mdi "-role DRIVER -name driver -method LINK -plugin_path /repo/build/lammps/build" --plugin_command_line "-in in.sequence -log log.sequence"
 
 
