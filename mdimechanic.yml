@@ -4,7 +4,7 @@ docker:
 
   build_image:
     - apt-get update
-    - apt-get install -y git wget vim
+    - apt-get install -y git wget vim libblas-dev liblapack-dev nvidia-cuda-toolkit
     - pip install cmake
     - pip install pymdi
     - pip install mpi4py
@@ -40,10 +40,29 @@ docker:
         git clone https://github.com/MolSSI-MDI/MDI_Library.git build/MDI_Library
       fi
     - rm -rf build/MDI_Library/build
+    - rm -rf build/MDI_Library/install
     - mkdir -p build/MDI_Library/build
     - cd build/MDI_Library/build
-    - cmake -Dpython_package=ON ..
+    #- cmake -Dpython_package=ON -D CMAKE_INSTALL_PREFIX=/repo/build/MDI_Library/install ..
+    - cmake -D CMAKE_INSTALL_PREFIX=/repo/build/MDI_Library/install ..
     - make -j 1
+    - make install
+
+    # Build LATTE
+    - |
+      if [ ! -d "/repo/build/latte" ]; then
+        git clone https://github.com/lanl/LATTE.git --branch skimLATTE-progress /repo/build/latte
+      fi
+    - cd /repo/build/latte
+    - cp /repo/makefile.CHOICES.mdi makefile.CHOICES
+    - make clean || true
+    - make
+
+    # Copy the executables into the example directory
+    - cp -r /repo/build/lammps/examples /repo/build/lammps/build/examples
+    - cd /repo/build/lammps/build/examples/QM/LATTE
+    - cp /repo/build/lammps/build/lmp_mpi .
+    - cp /repo/build/latte/LATTE_DOUBLE .
 
   validate_engine:
     # Confirm that the engine's executable exists
@@ -139,3 +158,48 @@ run_scripts:
           - export MPI4PYLOC=$(python3 -c "import mpi4py; print(mpi4py.__path__[0])")
           - ldd -r ${MPI4PYLOC}/*.so
 
+
+  latte:
+    containers:
+      container1:
+        image: 'mdi/lammps'
+        script:
+          - export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/repo/build/MDI_Library/build/MDI_Library
+          - cd /repo/build/lammps/build/examples/QM/LATTE
+          - mpirun -np 1 ./lmp_mpi -mdi "-name LMP -role DRIVER -method MPI" -in in.aimd.mdi -log log.aimd.mdi.lammps.1 ":" -np 1 ./LATTE_DOUBLE -mdi "-name LATTE -role ENGINE -method MPI"
+
+  latte_plugin:
+    containers:
+      container1:
+        image: 'mdi/lammps'
+        script:
+          - export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/repo/build/MDI_Library/build/MDI_Library
+          - cd /repo/build/lammps/build/examples/QM/LATTE
+          - ./lmp_mpi -mdi "-name LMP -role DRIVER -method LINK -plugin_path /repo/build/latte" -in in.aimd.mdi.plugin -log log.aimd.mdi.plugin.lammps.1
+
+  sequence:
+    containers:
+      container1:
+        image: 'mdi/lammps'
+        script:
+          - export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/repo/build/MDI_Library/build/MDI_Library
+          - cd /repo/build/lammps/build/examples/QM/LATTE
+          - mpirun -np 1 ./lmp_mpi -mdi "-name LMP -role DRIVER -method MPI" -in in.series.mdi -log log.series.mdi.lammps.1 ":" -np 1 ./LATTE_DOUBLE -mdi "-name LATTE -role ENGINE -method MPI"
+
+  sequence2:
+    containers:
+      container1:
+        image: 'mdi/lammps'
+        script:
+          - export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/repo/build/MDI_Library/build/MDI_Library
+          - cd /repo/build/lammps/build/examples/QM/LATTE
+          - mpirun -np 2 ./lmp_mpi -mdi "-name LMP -role DRIVER -method MPI" -in in.series.mdi -log log.series.mdi.lammps.2 ":" -np 1 ./LATTE_DOUBLE -mdi "-name LATTE -role ENGINE -method MPI"
+
+  sequence_plugin:
+    containers:
+      container1:
+        image: 'mdi/lammps'
+        script:
+          - export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/repo/build/MDI_Library/build/MDI_Library
+          - cd /repo/build/lammps/build/examples/QM/LATTE
+          - ./lmp_mpi -mdi "-name LMP -role DRIVER -method LINK -plugin_path /repo/build/latte" -in in.series.mdi.plugin -log log.series.mdi.plugin.1
