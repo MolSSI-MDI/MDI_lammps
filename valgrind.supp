@@ -1,0 +1,72 @@
+{
+   Uninitialized Condition
+   Memcheck:Cond
+   ...
+   fun:getmdf_
+   fun:setuptbmd_
+   ...
+}
+
+
+{
+   Uninitialized Condition 2
+   Memcheck:Cond
+   ...
+   fun:__latte_lib_MOD_latte
+   fun:__latte_mdi_MOD_execute_command
+   fun:__latte_mdi_MOD_mdi_engine_invoke
+   fun:MAIN__
+   fun:main
+}
+
+
+{
+   Uninitialized Value
+   Memcheck:Value8
+   ...
+   fun:getmdf_
+}
+
+
+{
+   Uninitialized Write
+   Memcheck:Param
+   write(buf)
+   ...
+   fun:getmdf_
+   fun:setuptbmd_
+   ...
+}
+
+
+{
+   Uninitialized Write 2
+   Memcheck:Param
+   write(buf)
+   ...
+   fun:__latte_lib_MOD_latte
+   fun:__latte_mdi_MOD_execute_command
+   fun:__latte_mdi_MOD_mdi_engine_invoke
+   fun:MAIN__
+   fun:main
+}
+
+
+{
+   Possible Leak
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:calloc
+   fun:allocate_dtv
+   fun:_dl_allocate_tls
+   fun:allocate_stack
+   fun:pthread_create@@GLIBC_2.2.5
+   obj:/usr/lib/x86_64-linux-gnu/libgomp.so.1.0.0
+   fun:GOMP_parallel
+   fun:build_integral_map_
+   fun:__latte_lib_MOD_latte
+   fun:__latte_mdi_MOD_execute_command
+   fun:__latte_mdi_MOD_mdi_engine_invoke
+   fun:MAIN__
+   fun:main
+}
