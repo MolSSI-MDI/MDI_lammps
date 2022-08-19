@@ -4,7 +4,7 @@ docker:
 
   build_image:
     - apt-get update
-    - apt-get install -y git wget vim libblas-dev liblapack-dev nvidia-cuda-toolkit
+    - apt-get install -y git wget vim libblas-dev liblapack-dev nvidia-cuda-toolkit valgrind
     - pip install cmake
     - pip install pymdi
     - pip install mpi4py
@@ -19,12 +19,12 @@ docker:
     - LAMMPS_INSTALL='mpi'
 
     # Configure LAMMPS
-    - cd build
+    - cd /repo/build
     - |
       if [ ! -d "/repo/build/lammps/build" ]; then
         mkdir -p /repo/build/lammps/build
         cd /repo/build/lammps/build
-        cmake -D PKG_RIGID=yes -D PKG_MOLECULE=yes -D PKG_KSPACE=yes -D PKG_MDI=yes -D BUILD_SHARED_LIBS=yes -D LAMMPS_MACHINE=mpi ../cmake
+        cmake -D PKG_RIGID=yes -D PKG_MOLECULE=yes -D PKG_KSPACE=yes -D PKG_MDI=yes -D BUILD_SHARED_LIBS=yes -D LAMMPS_MACHINE=mpi -DCMAKE_BUILD_TYPE=Debug ../cmake
       fi
 
     # Compile LAMMPS
@@ -36,13 +36,13 @@ docker:
     # Obtain a clone of the MDI Library
     - cd /repo
     - |
-      if [ ! -d "build/MDI_Library" ]; then
-        git clone https://github.com/MolSSI-MDI/MDI_Library.git build/MDI_Library
+      if [ ! -d "/repo/build/MDI_Library" ]; then
+        git clone https://github.com/MolSSI-MDI/MDI_Library.git /repo/build/MDI_Library
       fi
-    - rm -rf build/MDI_Library/build
-    - rm -rf build/MDI_Library/install
-    - mkdir -p build/MDI_Library/build
-    - cd build/MDI_Library/build
+    - rm -rf /repo/build/MDI_Library/build
+    - rm -rf /repo/build/MDI_Library/install
+    - mkdir -p /repo/build/MDI_Library/build
+    - cd /repo/build/MDI_Library/build
     #- cmake -Dpython_package=ON -D CMAKE_INSTALL_PREFIX=/repo/build/MDI_Library/install ..
     - cmake -D CMAKE_INSTALL_PREFIX=/repo/build/MDI_Library/install ..
     - make -j 1
@@ -55,7 +55,7 @@ docker:
       fi
     - cd /repo/build/latte
     - cp /repo/makefile.CHOICES.mdi makefile.CHOICES
-    - make clean || true
+    #- make clean || true
     - make
 
     # Copy the executables into the example directory
@@ -175,7 +175,8 @@ run_scripts:
         script:
           - export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/repo/build/MDI_Library/build/MDI_Library
           - cd /repo/build/lammps/build/examples/QM/LATTE
-          - ./lmp_mpi -mdi "-name LMP -role DRIVER -method LINK -plugin_path /repo/build/latte" -in in.aimd.mdi.plugin -log log.aimd.mdi.plugin.lammps.1
+          - valgrind --leak-check=yes --trace-children=yes --track-origins=yes --keep-debuginfo=yes --gen-suppressions=all --suppressions=/repo/valgrind.supp ./lmp_mpi -mdi "-name LMP -role DRIVER -method LINK -plugin_path /repo/build/latte" -in in.aimd.mdi.plugin -log log.aimd.mdi.plugin.lammps.1 2>errors
+          #- valgrind --leak-check=yes --gen-suppressions=all ./lmp_mpi -mdi "-name LMP -role DRIVER -method LINK -plugin_path /repo/build/latte" -in in.aimd.mdi.plugin -log log.aimd.mdi.plugin.lammps.1 2>errors
 
   sequence:
     containers:
@@ -202,4 +203,4 @@ run_scripts:
         script:
           - export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/repo/build/MDI_Library/build/MDI_Library
           - cd /repo/build/lammps/build/examples/QM/LATTE
-          - ./lmp_mpi -mdi "-name LMP -role DRIVER -method LINK -plugin_path /repo/build/latte" -in in.series.mdi.plugin -log log.series.mdi.plugin.1
+          - valgrind --leak-check=yes --trace-children=yes --track-origins=yes --keep-debuginfo=yes --gen-suppressions=all --suppressions=/repo/valgrind.supp ./lmp_mpi -mdi "-name LMP -role DRIVER -method LINK -plugin_path /repo/build/latte" -in in.series.mdi.plugin -log log.series.mdi.plugin.1 2>errors

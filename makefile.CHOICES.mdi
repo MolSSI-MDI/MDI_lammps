@@ -45,7 +45,7 @@ MPIOPT = OFF
 FC = mpif90
 #FC = gfortran
 FCL = $(FC)
-FFLAGS = -O3 -fopenmp -cpp #-I$(MAGMA_PATH)/include  -I${CUDA_INCLUDE_DIRS}
+FFLAGS = -O0 -fopenmp -fno-omit-frame-pointer -cpp -g #-I$(MAGMA_PATH)/include  -I${CUDA_INCLUDE_DIRS}
 LINKFLAG = -fopenmp --enable-mpi-thread-multiple
 
 #BLAS/LAPACK libraries:
