@@ -13,9 +13,11 @@ docker:
   build_engine:
     # Obtain a clone of LAMMPS
     - |
-      if [ ! -d "/repo/build/lammps" ]; then
-        git clone https://github.com/lammps/lammps.git build/lammps
+      if [ ! -d "/repo/build/lammps_source" ]; then
+        git clone https://github.com/taylor-a-barnes/lammps.git --branch mdi_update build/lammps_source
       fi
+    - rm -rf /repo/build/lammps
+    - cp -r /repo/build/lammps_source /repo/build/lammps
     - LAMMPS_INSTALL='mpi'
 
     # Obtain a clone of the MDI Library
@@ -39,25 +41,15 @@ docker:
     - cmake -Dplugins=ON -Dpython_plugins=OFF -DCMAKE_POSITION_INDEPENDENT_CODE=ON -Dlanguage=C -Dlibtype=STATIC -D CMAKE_INSTALL_PREFIX=/repo/build/MDI_Library/install2 ..
     - make -j 1
     - make install
-    
-
-    # Configure LAMMPS
-    - cd /repo/build
-    - cp /repo/MDI.cmake /repo/build/lammps/cmake/Modules/Packages
-    - |
-      if [ ! -d "/repo/build/lammps/build" ]; then
-        mkdir -p /repo/build/lammps/build
-        cd /repo/build/lammps/build
-        #cmake -D DOWNLOAD_MDI=off -D mdi_LIBRARY=/repo/build/MDI_Library/install/lib/mdi/libmdi.so -D mdi_INCLUDE_DIR=/repo/build/MDI_Library/install/include/mdi -D PKG_RIGID=yes -D PKG_MOLECULE=yes -D PKG_KSPACE=yes -D PKG_MDI=yes -D BUILD_SHARED_LIBS=yes -D LAMMPS_MACHINE=mpi -DCMAKE_BUILD_TYPE=Debug ../cmake
-        #cmake -D DOWNLOAD_MDI=off -D mdi_LIBRARY=/repo/build/MDI_Library/install2/lib/mdi/libmdi.a -D mdi_INCLUDE_DIR=/repo/build/MDI_Library/install2/include/mdi -D PKG_RIGID=yes -D PKG_MOLECULE=yes -D PKG_KSPACE=yes -D PKG_MDI=yes -D BUILD_SHARED_LIBS=yes -D LAMMPS_MACHINE=mpi -DCMAKE_BUILD_TYPE=Debug ../cmake
-        cmake -D PKG_RIGID=yes -D PKG_MOLECULE=yes -D PKG_KSPACE=yes -D PKG_MDI=yes -D BUILD_SHARED_LIBS=yes -D LAMMPS_MACHINE=mpi -DCMAKE_BUILD_TYPE=Debug ../cmake
-      fi
 
     # Compile LAMMPS
-    - cd /repo/build/lammps/build
-    - make -j 4
+    - cd /repo/build/lammps/lib/mdi
+    - python Install.py -m mpi
+    - cd /repo/build/lammps/src
+    - make yes-mdi yes-molecule
+    - make mpi -j 4
     - cp lmp_mpi lmp_mdi
-    - cp liblammps_mpi.so liblammps.so
+    #- cp liblammps_mpi.so liblammps.so
 
     # Build LATTE
     - |
@@ -70,14 +62,14 @@ docker:
     - make
 
     # Copy the executables into the example directory
-    - cp -r /repo/build/lammps/examples /repo/build/lammps/build/examples
-    - cd /repo/build/lammps/build/examples/QM/LATTE
-    - cp /repo/build/lammps/build/lmp_mpi .
+    #- cp -r /repo/build/lammps/examples /repo/build/lammps/build/examples
+    - cd /repo/build/lammps/examples/QM/LATTE
+    - cp /repo/build/lammps/src/lmp_mpi .
     - cp /repo/build/latte/LATTE_DOUBLE .
 
   validate_engine:
     # Confirm that the engine's executable exists
-    - ENGINE_EXECUTABLE="build/lammps/build/lmp_mdi"
+    - ENGINE_EXECUTABLE="build/lammps/lmp_mdi"
     - |
       if test -f "$ENGINE_EXECUTABLE"; then
         echo "$ENGINE_EXECUTABLE exists"
@@ -129,7 +121,7 @@ run_scripts:
         script:
           - cd tests/plugin
           #- mpiexec -n 1 python3 plugin_driver.py --plugin_name "lammps" --mdi "-role DRIVER -name driver -method LINK -plugin_path /repo/build/lammps/build" --plugin_command_line "foo -in in.series -log log.series"
-          - mpiexec -n 1 python3 plugin_driver.py --plugin_name "lammps" --mdi "-role DRIVER -name driver -method LINK -plugin_path /repo/build/lammps/build" --plugin_command_line "-in in.series -log log.series"
+          - mpiexec -n 1 python3 plugin_driver.py --plugin_name "lammps" --mdi "-role DRIVER -name driver -method LINK -plugin_path /repo/build/lammps" --plugin_command_line "-in in.series -log log.series"
 
   exaalt:
     containers:
@@ -138,7 +130,7 @@ run_scripts:
         script:
           - cd tests/exaalt
           #- mpiexec -n 1 python3 plugin_driver.py --plugin_name "lammps" --mdi "-role DRIVER -name driver -method LINK -plugin_path /repo/build/lammps/build" --plugin_command_line "foo -in in.series -log log.series"
-          - mpiexec -n 4 python3 test.py --plugin_name "lammps" --mdi "-role DRIVER -name driver -method LINK -plugin_path /repo/build/lammps/build" --plugin_command_line "-in in.sequence -log log.sequence"
+          - mpiexec -n 4 python3 test.py --plugin_name "lammps" --mdi "-role DRIVER -name driver -method LINK -plugin_path /repo/build/lammps" --plugin_command_line "-in in.sequence -log log.sequence"
 
 
   exaalt2:
@@ -150,7 +142,7 @@ run_scripts:
           - cd /repo/build/MDI_Library/build
           - make install
           - cd /repo/tests/exaalt
-          - mpiexec -n 4 python3 test.py --plugin_name "lammps" --mdi "-role DRIVER -name driver -method LINK -plugin_path /repo/build/lammps/build" --plugin_command_line "-in in.sequence -log log.sequence"
+          - mpiexec -n 4 python3 test.py --plugin_name "lammps" --mdi "-role DRIVER -name driver -method LINK -plugin_path /repo/build/lammps" --plugin_command_line "-in in.sequence -log log.sequence"
 
 
   mpifind:
@@ -159,7 +151,7 @@ run_scripts:
         image: 'mdi/lammps'
         script:
           - echo "----------  MPI  ----------"
-          - ldd -r /repo/build/lammps/build/lmp_mdi
+          - ldd -r /repo/build/lammps/lmp_mdi
           - echo ""
           - echo ""
           - echo "--------- MPI4Py ----------"
@@ -176,7 +168,7 @@ run_scripts:
         image: 'mdi/lammps'
         script:
           - export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/repo/build/MDI_Library/build/MDI_Library
-          - cd /repo/build/lammps/build/examples/QM/LATTE
+          - cd /repo/build/lammps/examples/QM/LATTE
           - mpirun -np 1 ./lmp_mpi -mdi "-name LMP -role DRIVER -method MPI" -in in.aimd.mdi -log log.aimd.mdi.lammps.1 ":" -np 1 ./LATTE_DOUBLE -mdi "-name LATTE -role ENGINE -method MPI"
 
   latte_plugin:
@@ -185,7 +177,7 @@ run_scripts:
         image: 'mdi/lammps'
         script:
           - export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/repo/build/MDI_Library/build/MDI_Library
-          - cd /repo/build/lammps/build/examples/QM/LATTE
+          - cd /repo/build/lammps/examples/QM/LATTE
           #- valgrind --leak-check=yes --trace-children=yes --track-origins=yes --keep-debuginfo=yes --gen-suppressions=all --suppressions=/repo/valgrind.supp ./lmp_mpi -mdi "-name LMP -role DRIVER -method LINK -plugin_path /repo/build/latte" -in in.aimd.mdi.plugin -log log.aimd.mdi.plugin.lammps.1 2>errors
           - valgrind --leak-check=yes --trace-children=yes --track-origins=yes --keep-debuginfo=yes --gen-suppressions=all ./lmp_mpi -mdi "-name LMP -role DRIVER -method LINK -plugin_path /repo/build/latte" -in in.aimd.mdi.plugin -log log.aimd.mdi.plugin.lammps.1 2>errors
 
@@ -195,7 +187,7 @@ run_scripts:
         image: 'mdi/lammps'
         script:
           - export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/repo/build/MDI_Library/build/MDI_Library
-          - cd /repo/build/lammps/build/examples/QM/LATTE
+          - cd /repo/build/lammps/examples/QM/LATTE
           - mpirun -np 1 ./lmp_mpi -mdi "-name LMP -role DRIVER -method MPI" -in in.series.mdi -log log.series.mdi.lammps.1 ":" -np 1 ./LATTE_DOUBLE -mdi "-name LATTE -role ENGINE -method MPI"
 
   sequence2:
@@ -204,7 +196,7 @@ run_scripts:
         image: 'mdi/lammps'
         script:
           - export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/repo/build/MDI_Library/build/MDI_Library
-          - cd /repo/build/lammps/build/examples/QM/LATTE
+          - cd /repo/build/lammps/examples/QM/LATTE
           - mpirun -np 2 ./lmp_mpi -mdi "-name LMP -role DRIVER -method MPI" -in in.series.mdi -log log.series.mdi.lammps.2 ":" -np 1 ./LATTE_DOUBLE -mdi "-name LATTE -role ENGINE -method MPI"
 
   sequence_plugin:
@@ -213,6 +205,6 @@ run_scripts:
         image: 'mdi/lammps'
         script:
           - export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/repo/build/MDI_Library/build/MDI_Library
-          - cd /repo/build/lammps/build/examples/QM/LATTE
+          - cd /repo/build/lammps/examples/QM/LATTE
           #- valgrind --leak-check=yes --trace-children=yes --track-origins=yes --keep-debuginfo=yes --gen-suppressions=all --suppressions=/repo/valgrind.supp ./lmp_mpi -mdi "-name LMP -role DRIVER -method LINK -plugin_path /repo/build/latte" -in in.series.mdi.plugin -log log.series.mdi.plugin.1 2>errors
           - valgrind --leak-check=yes --trace-children=yes --track-origins=yes --keep-debuginfo=yes --gen-suppressions=all ./lmp_mpi -mdi "-name LMP -role DRIVER -method LINK -plugin_path /repo/build/latte" -in in.series.mdi.plugin -log log.series.mdi.plugin.1 2>errors
