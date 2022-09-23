@@ -43,7 +43,7 @@ docker:
 
     # Configure LAMMPS
     - cd /repo/build
-    - cp /repo/MDI.cmake /repo/build/lammps/cmake/Modules/Packages
+    #- cp /repo/MDI.cmake /repo/build/lammps/cmake/Modules/Packages
     - |
       if [ ! -d "/repo/build/lammps/build" ]; then
         mkdir -p /repo/build/lammps/build

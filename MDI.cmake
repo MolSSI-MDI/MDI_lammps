@@ -6,10 +6,13 @@ else()
 endif()
 option(DOWNLOAD_MDI "Download and compile the MDI library instead of using an already installed one" ${DOWNLOAD_MDI_DEFAULT})
 
+
+
+
 if(DOWNLOAD_MDI)
   message(STATUS "MDI download requested - we will build our own")
-  set(MDI_URL "https://github.com/MolSSI-MDI/MDI_Library/archive/v1.4.9.tar.gz" CACHE STRING "URL for MDI tarball")
-  set(MDI_MD5 "705ddb6b0018a542d39f17cc45c67bd9" CACHE STRING "MD5 checksum for MDI tarball")
+  set(MDI_URL "https://github.com/MolSSI-MDI/MDI_Library/archive/v1.4.10.tar.gz" CACHE STRING "URL for MDI tarball")
+  set(MDI_MD5 "1c203b7fd462d9934834f643f09f3c06" CACHE STRING "MD5 checksum for MDI tarball")
   mark_as_advanced(MDI_URL)
   mark_as_advanced(MDI_MD5)
   enable_language(C)
@@ -113,12 +116,12 @@ if(DOWNLOAD_MDI)
 
 else()
 
-  #find_package(mdi)
-  #if(NOT mdi_FOUND)
-  #  message(FATAL_ERROR "MDI library not found. Help CMake to find it "
-  #    "by setting mdi_LIBRARY and mdi_INCLUDE_DIR, or set DOWNLOAD_MDI=ON "
-  #    "to download and compile it")
-  #endif()
+  find_package(mdi)
+  if(NOT mdi_FOUND)
+    message(FATAL_ERROR "MDI library not found. Help CMake to find it "
+      "by setting mdi_LIBRARY and mdi_INCLUDE_DIR, or set DOWNLOAD_MDI=ON "
+      "to download and compile it")
+  endif()
 
   # Link the lammps library against MDI
   target_include_directories(lammps PRIVATE ${mdi_INCLUDE_DIR})

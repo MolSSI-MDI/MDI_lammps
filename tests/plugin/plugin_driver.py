@@ -75,8 +75,9 @@ class PluginInstance:
         if elem_supported:
 
             # Send the number of elements to the plugin
-            mdi.MDI_Send_Command(">ELEMENTS", mdi_comm)
-            mdi.MDI_Send(self.elements, self.natoms, mdi.MDI_INT, mdi_comm)
+            #mdi.MDI_Send_Command(">ELEMENTS", mdi_comm)
+            #mdi.MDI_Send(self.elements, self.natoms, mdi.MDI_INT, mdi_comm)
+            pass
 
         else:
 
