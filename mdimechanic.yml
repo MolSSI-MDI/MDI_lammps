@@ -3,7 +3,7 @@ docker:
   image_name: 'mdi/lammps-qe'
 
   build_image:
-    - apt-get update
+    - apt-get update --fix-missing
     - apt-get install -y git wget vim valgrind
     - pip install cmake
     - pip install pymdi
@@ -38,7 +38,8 @@ docker:
     # Configuring requires a full rebuild, so only do it once
     - |
       if [ ! -f "PW/src/pw.x" ]; then
-        ./configure --enable-parallel --enable-openmp --enable-shared FFLAGS="-fPIC -g -O0" FCFLAGS="-fPIC -g -O0" CFLAGS="-fPIC -g -O0" foxflags="-fPIC -g -O0" try_foxflags="-fPIC -cpp -g -O0"
+        #./configure --enable-parallel --enable-openmp --enable-shared FFLAGS="-fPIC -g -O0" FCFLAGS="-fPIC -g -O0" CFLAGS="-fPIC -g -O0" foxflags="-fPIC -g -O0" try_foxflags="-fPIC -cpp -g -O0"
+        ./configure --enable-parallel --enable-openmp --enable-shared FFLAGS="-fPIC" FCFLAGS="-fPIC" CFLAGS="-fPIC" foxflags="-fPIC" try_foxflags="-fPIC -cpp"
       fi
     - make -j 1 mdi
 
@@ -118,7 +119,18 @@ run_scripts:
           - export PATH="$PATH:/repo/build/lammps/build/"
           - export LD_LIBRARY_PATH="/repo/build/q-e/mdi/build/mdi_build-prefix/src/mdi_build-build/MDI_Library:/repo/build/q-e/MDI/src"
           - mpiexec -n 1 lmp_mpi -mdi "-name aimd -role DRIVER -method TCP -port 8021" -log lammps.log -in lammps.in &
-          - /repo/build/q-e/MDI/src/qemdi.x -in qe.in -mdi "-name LAMMPS -role ENGINE -method TCP -port 8021 -hostname localhost"
+          - mpiexec -n 2 /repo/build/q-e/MDI/src/qemdi.x -in qe.in -mdi "-name LAMMPS -role ENGINE -method TCP -port 8021 -hostname localhost"
+
+  qe_tcp_small:
+    containers:
+      container1:
+        image: 'mdi/lammps-qe'
+        script:
+          - cd tests/qe_small
+          - export PATH="$PATH:/repo/build/lammps/build/"
+          - export LD_LIBRARY_PATH="/repo/build/q-e/mdi/build/mdi_build-prefix/src/mdi_build-build/MDI_Library:/repo/build/q-e/MDI/src"
+          - mpiexec -n 1 lmp_mpi -mdi "-name aimd -role DRIVER -method TCP -port 8021" -log lammps.log -in lammps.in &
+          - mpiexec -n 2 /repo/build/q-e/MDI/src/qemdi.x -in qe.in -mdi "-name LAMMPS -role ENGINE -method TCP -port 8021 -hostname localhost"
 
   qe_tcp_valgrind:
     containers:
