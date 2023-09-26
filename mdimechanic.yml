@@ -3,7 +3,8 @@ docker:
   image_name: 'mdi/lammps'
 
   build_image:
-    - apt-get update
+    - apt-get clean
+    - apt-get update --fix-missing
     - apt-get install -y git wget vim
     - pip install cmake
     - pip install pymdi
@@ -108,7 +109,7 @@ run_scripts:
   plugin:
     containers:
       container1:
-        image: 'mdi/lammps'
+        image: 'mdi/lammps:dev'
         script:
           - cd tests/plugin
           #- mpiexec -n 1 python3 plugin_driver.py --plugin_name "lammps" --mdi "-role DRIVER -name driver -method LINK -plugin_path /repo/build/lammps/build" --plugin_command_line "foo -in in.series -log log.series"
