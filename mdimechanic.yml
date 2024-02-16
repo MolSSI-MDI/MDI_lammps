@@ -10,7 +10,9 @@ docker:
     - pip install pymdi
     - pip install mpi4py
 
-  build_engine:
+    - echo "export PATH=$PATH:/repo/build/lammps/build" >> ~/.profile
+
+  build_code:
     # Obtain a clone of LAMMPS
     - |
       if [ ! -d "build/lammps" ]; then
@@ -112,8 +114,7 @@ run_scripts:
         image: 'mdi/lammps:dev'
         script:
           - cd tests/plugin
-          #- mpiexec -n 1 python3 plugin_driver.py --plugin_name "lammps" --mdi "-role DRIVER -name driver -method LINK -plugin_path /repo/build/lammps/build" --plugin_command_line "foo -in in.series -log log.series"
-          - mpiexec -n 1 python3 plugin_driver.py --plugin_name "lammps" --mdi "-role DRIVER -name driver -method LINK -plugin_path /repo/build/lammps/build" --plugin_command_line "-in in.series -log log.series"
+          - mpiexec -n 1 python3 plugin_driver.py --plugin_name "lammps" --mdi "-role DRIVER -name driver -method LINK -plugin_path /repo/build/lammps/build" --plugin_command_line "-in water.in"
 
 
 
