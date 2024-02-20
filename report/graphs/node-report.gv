@@ -4,12 +4,10 @@ digraph {
 	"@INIT_MD" [label="@INIT_MD" margin=0.1 shape=box]
 	"@INIT_MD_" [label="@FORCES
 @COORDS
-@ENDSTEP
-@DEFAULT" margin=0.1 shape=box]
+@ENDSTEP" margin=0.1 shape=box]
 	"@INIT_OPTG" [label="@INIT_OPTG" margin=0.1 shape=box]
 	"@INIT_OPTG_" [label="@COORDS
-@FORCES
-@DEFAULT" margin=0.1 shape=box]
+@FORCES" margin=0.1 shape=box]
 	"@DEFAULT" -> "@INIT_MD"
 	"@DEFAULT" -> "@INIT_OPTG"
 	"@INIT_MD" -> "@INIT_MD_"
