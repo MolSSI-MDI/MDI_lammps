@@ -108,6 +108,15 @@ engine_tests:
 
 
 run_scripts:
+  min_driver:
+    containers:
+      container1:
+        image: 'mdi/lammps:dev'
+        script:
+          - cd tests/driver_test
+          - ../../build/lammps/build/lmp_mdi -mdi "-method TCP -role ENGINE -name LAMMPS -port 8021 -hostname localhost" -in water.in > water.out &
+          - python min_driver.py -mdi "-method TCP -role DRIVER -name driver -port 8021"
+
   plugin:
     containers:
       container1:
