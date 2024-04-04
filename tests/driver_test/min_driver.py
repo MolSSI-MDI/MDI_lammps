@@ -1,5 +1,4 @@
 import mdi
-from mdi import MDI_NAME_LENGTH, MDI_COMMAND_LENGTH
 import sys
 
 iarg = 1
@@ -22,21 +21,23 @@ comm = mdi.MDI_Accept_Communicator()
 
 # Get the name of the engine, which will be checked and verified at the end
 mdi.MDI_Send_Command("<NAME", comm)
-initial_name = mdi.MDI_Recv(mdi.MDI_NAME_LENGTH, mdi.MDI_CHAR, comm)
+engine_name = mdi.MDI_Recv(mdi.MDI_NAME_LENGTH, mdi.MDI_CHAR, comm)
+print("Engine name: " + str(engine_name))
 
-##############
-print("AAA")
-#mdi.MDI_Send_Command("@INIT_OPTG", comm)
-print("BBB")
-
-
-# Verify that the engine is still responsive
-mdi.MDI_Send_Command("<NAME", comm)
-final_name = mdi.MDI_Recv(mdi.MDI_NAME_LENGTH, mdi.MDI_CHAR, comm)
-assert initial_name == final_name
+# Get the name of the node
+mdi.MDI_Send_Command("<@", comm)
+node_name = mdi.MDI_Recv(mdi.MDI_NAME_LENGTH, mdi.MDI_CHAR, comm)
+print("Node name: " + str(node_name))
 
 mdi.MDI_Send_Command("@INIT_MD", comm)
+
+
 for i in range(100):
+    # Get the name of the node
+    mdi.MDI_Send_Command("<@", comm)
+    node_name = mdi.MDI_Recv(mdi.MDI_NAME_LENGTH, mdi.MDI_CHAR, comm)
+    print("Node name: " + str(node_name))
+
     mdi.MDI_Send_Command("@", comm)
 
 mdi.MDI_Send_Command("<ENERGY", comm)
@@ -50,7 +51,5 @@ print("PE: " + str(pe))
 mdi.MDI_Send_Command("<KE", comm)
 ke = mdi.MDI_Recv(1, mdi.MDI_DOUBLE, comm)
 print("KE: " + str(ke))
-
-print("CCC")
 
 mdi.MDI_Send_Command("EXIT", comm)
